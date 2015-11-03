@@ -1,0 +1,3 @@
+- name: apt_package_pinning
+  src: https://github.com/os-cloud/openstack-ansible-apt_package_pinning
+  version: master
