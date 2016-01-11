@@ -26,6 +26,7 @@ openstack_host_required_kernel: 3.13.0-34-generic
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
   - 8021q
+  - br_netfilter
   - dm_multipath
   - dm_snapshot
   - ip6table_filter
