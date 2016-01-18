@@ -17,6 +17,7 @@
 - include: openstack_host_packages.yml
 - include: openstack_sysstat.yml
 - include: openstack_update_hosts_file.yml
+  when: openstack_host_manage_hosts_file | bool
 - include: openstack_lvm_config.yml
 - include: openstack_kernel_check.yml
 - include: openstack_kernel_modules.yml
