@@ -25,7 +25,7 @@ openstack_host_sysstat_statistics_hour: 23
 ## of OSA containers and hosts if disabling this
 openstack_host_manage_hosts_file: true
 
-## Defined required kernel. presently 3.13.0-32-generic
+## Defined required kernel
 openstack_host_required_kernel: 3.13.0-34-generic
 
 ## Kernel modules loaded on hosts
