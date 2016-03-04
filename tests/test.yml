@@ -16,6 +16,10 @@
 - name: Playbook for role testing
   hosts: localhost
   connection: local
+  pre_tasks:
+    - name: First ensure apt cache is always refreshed
+      apt:
+        update_cache: yes
   roles:
     - role: "{{ rolename | basename }}"
       openstack_host_kernel_modules:
