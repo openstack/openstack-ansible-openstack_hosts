@@ -88,6 +88,14 @@ openstack_host_apt_packages:
   - vlan
   - wget
 
+## kernel modules for specific group hosts
+# to include it in your play, an example is given below:
+#openstack_host_specific_kernel_modules:
+#  - { name: "ebtables", pattern: "CONFIG_BRIDGE_NF_EBTABLES", group: "network_hosts" }
+## :param name: name of the kernel module
+## :param pattern: pattern to grep for in /boot/config-$kernel_version to check how module is configured inside kernel
+## :param group: group of hosts where the module will be loaded
+
 # The following garbage collection values are set to better support lots of neutron networks/routers.
 #  Used for setting the net.ipv4/6.neigh.default.gc_thresh* values. This assumes that facts were
 #  gathered to obtain the total amount of memory available on a given host. If no facts are gathered
