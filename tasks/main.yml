@@ -13,8 +13,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Gather variables for each operating system
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yml"
+    - "{{ ansible_distribution | lower }}.yml"
+    - "{{ ansible_os_family | lower }}-{{ ansible_distribution_version.split('.')[0] }}.yml"
+    - "{{ ansible_os_family | lower }}.yml"
+  tags:
+    - always
+
 - include: openstack_proxy_settings.yml
-- include: openstack_host_packages.yml
+- include: openstack_host_install.yml
 - include: openstack_sysstat.yml
 - include: openstack_update_hosts_file.yml
   when: openstack_host_manage_hosts_file | bool

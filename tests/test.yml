@@ -16,19 +16,17 @@
 - name: Playbook for role testing
   hosts: localhost
   connection: local
+  gather_facts: true
   pre_tasks:
     - name: First ensure apt cache is always refreshed
       apt:
         update_cache: yes
+      when:
+        - ansible_pkg_mgr == 'apt'
   roles:
     - role: "{{ rolename | basename }}"
-      openstack_host_kernel_modules:
-        - dm_multipath
-      openstack_kernel_options:
-        - { key: 'vm.swappiness', value: 5 }
       global_environment_variables:
-        http_proxy: "http://someproxy.example.com"
-        https_proxy: "https://someproxy.example.com"
+        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
   post_tasks:
     - name: Open modules file
       slurp:
@@ -73,7 +71,5 @@
           - "'127.111.111.102 test2' in hosts_content"
           - "release_file.stat.exists"
           - "systat_file.stat.exists"
-          - "'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games' in environment_content"
-          - "'http_proxy=http://someproxy.example.com' in environment_content"
-          - "'https_proxy=https://someproxy.example.com' in environment_content"
+          - "'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' in environment_content"
           - "ssh_dir.stat.isdir"

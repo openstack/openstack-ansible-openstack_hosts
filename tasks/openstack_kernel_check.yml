@@ -13,16 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Check Kernel Variant
-  fail:
-    msg: >
-      Wrong kernel Variant found
-      [ {{ ansible_kernel.split('-')[2] }} != generic ]
-      Resolve this issue before continuing.
-  when: ansible_kernel.split('-')[2] != 'generic'
-  tags:
-    - openstack-host-kernel-check
-
 - name: Check Kernel Version
   fail:
     msg: >

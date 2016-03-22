@@ -13,15 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Enable sysstat
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode|default('0644')}}"
-  with_items:
-    - { src: "sysstat.default.j2", dest: "/etc/default/sysstat" }
-    - { src: "sysstat.cron.j2", dest: "/etc/cron.d/sysstat", mode: "0755" }
-  when: openstack_host_sysstat_enabled | bool
-  notify: Restart sysstat
+- include: openstack_host_install_apt.yml
+  when:
+    - ansible_pkg_mgr == 'apt'
   tags:
-    - openstack-host-sysstat
+    - install-apt
+
+- include: openstack_host_install_yum.yml
+  when:
+    - ansible_pkg_mgr == 'yum'
+  tags:
+    - install-yum

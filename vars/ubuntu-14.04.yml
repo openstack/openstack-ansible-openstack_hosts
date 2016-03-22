@@ -1,0 +1,77 @@
+---
+# Copyright 2016, Rackspace US, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+## APT Cache Options
+cache_timeout: 600
+
+## Defined required kernel
+openstack_host_required_kernel: 3.13.0-34-generic
+
+## Kernel modules loaded on hosts
+openstack_host_kernel_modules:
+  - 8021q
+  # TODO (odyssey4me): revise the minimum kernel version once this kernel version is commonplace
+  #  If we end up with more requirements like this, then we should change the approach.
+  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('3.18.0-0-generic', '>') %}br_netfilter{% endif %}"
+  - dm_multipath
+  - dm_snapshot
+  - ebtables
+  - ip6table_filter
+  - ip6_tables
+  - ip_tables
+  - ipt_MASQUERADE
+  - ipt_REJECT
+  - iptable_filter
+  - iptable_mangle
+  - iptable_nat
+  - iscsi_tcp
+  - nbd
+  - nf_conntrack
+  - nf_conntrack_ipv4
+  - nf_defrag_ipv4
+  - nf_nat
+  - nf_nat_ipv4
+  # TODO (odyssey4me): revise the minimum kernel version once this kernel version is commonplace
+  #  If we end up with more requirements like this, then we should change the approach.
+  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4.0-0-generic', '<') %}scsi_dh{% endif %}"
+  - vhost_net
+  - x_tables
+
+## Base packages
+openstack_host_apt_packages:
+  - apparmor-utils
+  - apt-transport-https
+  - bridge-utils
+  - build-essential
+  - cgroup-lite
+  - curl
+  - dmeventd
+  - dstat
+  - ebtables
+  - htop
+  - iptables
+  - irqbalance
+  - libkmod-dev
+  - libkmod2
+  - lvm2
+  - python-software-properties
+  - python-dev
+  - rsync
+  - rsyslog
+  - sshpass
+  - sysstat
+  - time
+  - vlan
+  - wget
