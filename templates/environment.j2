@@ -1,0 +1,10 @@
+# {{ ansible_managed }}
+
+PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+{% if global_environment_variables %}
+{% for key, value in global_environment_variables.iteritems() %}
+{% if value %}
+{{ key }}={{ value }}
+{% endif %}
+{% endfor %}
+{% endif %}
