@@ -17,7 +17,7 @@
   modprobe:
     name: "{{ item }}"
   with_items: openstack_host_kernel_modules
-  when: openstack_host_kernel_modules is defined
+  when: openstack_host_kernel_modules is defined and item != ''
   tags:
     - openstack-host-kernel-modules
 
@@ -26,7 +26,7 @@
     dest: /etc/modules
     line: "{{ item }}"
   with_items: openstack_host_kernel_modules
-  when: openstack_host_kernel_modules is defined
+  when: openstack_host_kernel_modules is defined and item != ''
   tags:
     - openstack-host-kernel-modules
 
