@@ -27,7 +27,8 @@
       openstack_kernel_options:
         - { key: 'vm.swappiness', value: 5 }
       global_environment_variables:
-        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+        http_proxy: "http://someproxy.example.com"
+        https_proxy: "https://someproxy.example.com"
   post_tasks:
     - name: Open modules file
       slurp:
@@ -41,11 +42,16 @@
       slurp:
         src: /etc/hosts
       register: hosts_file
+    - name: Open /etc/environment file
+      slurp:
+        src: /etc/environment
+      register: environment_file
     - name: Read files
       set_fact:
         modules_content: "{{ modules_file.content | b64decode }}"
         sysctl_content: "{{ sysctl_file.content | b64decode }}"
         hosts_content: "{{ hosts_file.content | b64decode }}"
+        environment_content: "{{ environment_file.content | b64decode }}"
     - name: Check for release file
       stat:
         path: /etc/openstack-release
@@ -54,10 +60,6 @@
       stat:
         path: /etc/default/sysstat
       register: systat_file
-    - name: Check for environment file
-      stat:
-        path: /etc/environment
-      register: environment_file
     - name: Check for ssh dir
       stat:
         path: "{{ ansible_env.HOME}}/.ssh"
@@ -71,5 +73,7 @@
           - "'127.111.111.102 test2' in hosts_content"
           - "release_file.stat.exists"
           - "systat_file.stat.exists"
-          - "environment_file.stat.exists"
+          - "'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games' in environment_content"
+          - "'http_proxy=http://someproxy.example.com' in environment_content"
+          - "'https_proxy=https://someproxy.example.com' in environment_content"
           - "ssh_dir.stat.isdir"
