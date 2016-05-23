@@ -22,6 +22,7 @@ openstack_host_required_kernel: 4.2.0-18-generic
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
   - 8021q
+  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4', '>=') %}br_netfilter{% endif %}"
   - dm_multipath
   - dm_snapshot
   - ebtables
