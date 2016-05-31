@@ -3,7 +3,52 @@
 
 set -x
 
+function insert_host_entry {
+    ENTRY=$1
+    ADDR=$2
+    if ! grep -q -o "^${ENTRY}$" /etc/hosts; then
+      echo "${ENTRY}" | tee -a /etc/hosts
+    elif ! grep -q -o "^${ADDR}\b" /etc/hosts; then
+      sed -i "s|^${ADDR}\b\ .*|${ENTRY}|" /etc/hosts
+    elif [[ "$(grep -o "^${ADDR}\b" /etc/hosts | wc -l)" -ge "2" ]]; then
+      sed -i "/^${IPADDR}\b/d" /etc/hosts
+      echo "${ENTRY}" | tee -a /etc/hosts
+    fi
+}
+
+function host_update {
+    ANSHOSTNAME=$1
+    RFCHOSTNAME=$2
+    INVHOSTNAME=$3
+    IPADDR=$4
+    DOMAINNAME=$5
+
+    if [[ "${ANSHOSTNAME}" != "${RFCHOSTNAME}" ]] && [[ "${RFCHOSTNAME}" != "${INVHOSTNAME}" ]]; then
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME} ${INVHOSTNAME} ${ANSHOSTNAME}" "${IPADDR}"
+    elif [[ "${ANSHOSTNAME}" != "${RFCHOSTNAME}" ]] && [[ "${RFCHOSTNAME}" == "${INVHOSTNAME}" ]]; then
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME} ${ANSHOSTNAME}" "${IPADDR}"
+    elif [[ "${ANSHOSTNAME}" == "${RFCHOSTNAME}" ]] && [[ "${RFCHOSTNAME}" == "${INVHOSTNAME}" ]]; then
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME}" "${IPADDR}"
+    else
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME} ${INVHOSTNAME}" "${IPADDR}"
+    fi
+}
+
+{% set host_rfc_1034_1035_name = inventory_hostname|replace('_', '-') %}
+host_update "{{ ansible_hostname|default(host_rfc_1034_1035_name) }}" \
+            "{{ host_rfc_1034_1035_name }}" \
+            "{{ inventory_hostname }}" \
+            "127.0.1.1" \
+            "{{ openstack_domain }}"
+
 {% for item in groups['all'] %}
-sed -i '/^{{ hostvars[item]["ansible_ssh_host"] }} .*/d' /etc/hosts
-echo '{{ hostvars[item]["ansible_ssh_host"] }} {{ item }}' | tee -a /etc/hosts
+{% set target_rfc_1034_1035_name = item|replace('_', '-') %}
+host_update "{{ hostvars[item]['ansible_hostname']|default(target_rfc_1034_1035_name) }}" \
+            "{{ target_rfc_1034_1035_name }}" \
+            "{{ item }}" \
+            "{{ hostvars[item]['ansible_ssh_host'] }}" \
+            "{{ openstack_domain }}"
+
 {% endfor %}
+
+md5sum /etc/hosts|awk '{print $1}'
