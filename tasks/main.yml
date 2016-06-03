@@ -24,13 +24,13 @@
   tags:
     - always
 
+- include: openstack_kernel_check.yml
 - include: openstack_proxy_settings.yml
 - include: openstack_host_install.yml
 - include: openstack_sysstat.yml
 - include: openstack_update_hosts_file.yml
   when: openstack_host_manage_hosts_file | bool
 - include: openstack_lvm_config.yml
-- include: openstack_kernel_check.yml
 - include: openstack_kernel_modules.yml
 - include: openstack_kernel_tuning.yml
 - include: openstack_authorized_keys.yml
