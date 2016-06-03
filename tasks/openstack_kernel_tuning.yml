@@ -22,5 +22,3 @@
     reload: "{{ item.reload|default('yes') }}"
   with_items: openstack_kernel_options
   ignore_errors: true
-  tags:
-    - openstack-host-kernel-tuning

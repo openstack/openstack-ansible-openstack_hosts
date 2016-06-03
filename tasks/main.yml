@@ -25,13 +25,46 @@
     - always
 
 - include: openstack_kernel_check.yml
+  tags:
+    - openstack_hosts-install
+
 - include: openstack_proxy_settings.yml
+  tags:
+    - openstack_hosts-install
+    - openstack_hosts-config
+
 - include: openstack_host_install.yml
+  tags:
+    - openstack_hosts-install
+
 - include: openstack_sysstat.yml
+  tags:
+    - openstack_hosts-install
+    - openstack_hosts-config
+
 - include: openstack_update_hosts_file.yml
   when: openstack_host_manage_hosts_file | bool
+  tags:
+    - openstack_hosts-install
+    - openstack_hosts-config
+
 - include: openstack_lvm_config.yml
+  tags:
+    - openstack_hosts-install
+    - openstack_hosts-config
+
 - include: openstack_kernel_modules.yml
+  tags:
+    - openstack_hosts-config
+
 - include: openstack_kernel_tuning.yml
+  tags:
+    - openstack_hosts-config
+
 - include: openstack_authorized_keys.yml
+  tags:
+    - openstack_hosts-config
+
 - include: openstack_release.yml
+  tags:
+    - openstack_hosts-install

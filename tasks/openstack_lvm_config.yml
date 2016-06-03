@@ -19,16 +19,12 @@
   register: lvm_devices
   changed_when: lvm_devices.rc != 0
   failed_when: false
-  tags:
-    - openstack-host-lvm-config
 
 - name: Ensure "/etc/lvm" directory
   file:
     state: "directory"
     path: "/etc/lvm"
   when: lvm_devices.rc == 0
-  tags:
-    - openstack-host-lvm-config
 
 - name: Drop lvm Config
   template:
@@ -38,5 +34,3 @@
     group: "root"
     backup: "yes"
   when: lvm_devices.rc == 0
-  tags:
-    - openstack-host-lvm-config

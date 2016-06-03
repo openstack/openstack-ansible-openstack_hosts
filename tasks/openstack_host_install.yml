@@ -16,11 +16,7 @@
 - include: openstack_host_install_apt.yml
   when:
     - ansible_pkg_mgr == 'apt'
-  tags:
-    - install-apt
 
 - include: openstack_host_install_yum.yml
   when:
     - ansible_pkg_mgr == 'yum'
-  tags:
-    - install-yum
