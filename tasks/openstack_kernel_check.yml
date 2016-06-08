@@ -20,5 +20,3 @@
       [ {{ ansible_kernel }} < {{ openstack_host_required_kernel }} ]
       Resolve this issue before continuing.
   when: ansible_kernel | version_compare(openstack_host_required_kernel, '<')
-  tags:
-    - openstack-host-kernel-check

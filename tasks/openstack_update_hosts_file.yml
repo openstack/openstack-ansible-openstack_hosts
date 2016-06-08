@@ -18,10 +18,6 @@
     src: "openstack-host-hostfile-setup.sh.j2"
     dest: "/usr/local/bin/openstack-host-hostfile-setup.sh"
     mode: "0755"
-  tags:
-    - openstack-host-hostfile
 
 - name: Update hosts file
   command: "/usr/local/bin/openstack-host-hostfile-setup.sh"
-  tags:
-    - openstack-host-hostfile

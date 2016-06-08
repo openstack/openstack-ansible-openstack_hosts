@@ -18,5 +18,3 @@
     dest: "/etc/environment"
     src: "environment.j2"
     mode: "0644"
-  tags:
-    - openstack-host-proxies

@@ -18,8 +18,6 @@
     name: "{{ item }}"
   with_items: openstack_host_kernel_modules
   when: openstack_host_kernel_modules is defined and item != ''
-  tags:
-    - openstack-host-kernel-modules
 
 - name: "Ensure kernel module(s) loaded at boot"
   lineinfile:
@@ -27,14 +25,10 @@
     line: "{{ item }}"
   with_items: openstack_host_kernel_modules
   when: openstack_host_kernel_modules is defined and item != ''
-  tags:
-    - openstack-host-kernel-modules
 
 - name: get kernel release
   command: "uname -r"
   register: uname
-  tags:
-    - openstack-host-specific-kernel-modules
 
 - name: check how kernel modules are implemented (statically builtin, dynamic, not set)
   shell: grep {{ item.pattern }} /boot/config-{{ uname.stdout}}
@@ -44,8 +38,6 @@
     - openstack_host_specific_kernel_modules is defined
     - inventory_hostname in groups["{{ item.group }}"]
   ignore_errors: yes
-  tags:
-    - openstack-host-specific-kernel-modules
 
 - name: fail if a specific kernel module is not set
   fail:
@@ -54,8 +46,6 @@
     - modules['changed'] | bool
     - "'is not set' in item['stdout']"
   with_items: modules["results"]
-  tags:
-    - openstack-host-specific-kernel-modules
 
 - name: fail if a specific pattern is not valid
   fail:
@@ -65,8 +55,6 @@
     - "'=y' not in item['stdout']"
     - "'=m' not in item['stdout']"
   with_items: modules["results"]
-  tags:
-    - openstack-host-specific-kernel-modules
 
 - name: "Ensure dynamic specific kernel module(s) are loaded"
   modprobe:
@@ -76,8 +64,6 @@
     - modules['changed'] | bool
     - inventory_hostname in groups[item["item"]["group"]]
     - "'=m' in item['stdout']"
-  tags:
-    - openstack-host-specific-kernel-modules
 
 - name: "Ensure dynamic specific kernel module(s) loaded at boot"
   lineinfile:
@@ -88,5 +74,3 @@
     - modules['changed'] | bool
     - inventory_hostname in groups[item["item"]["group"]]
     - "'=m' in item['stdout']"
-  tags:
-    - openstack-host-specific-kernel-modules

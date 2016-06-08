@@ -20,8 +20,6 @@
     group: "{{ ansible_user_id }}"
     owner: "{{ ansible_user_id }}"
     mode: "0755"
-  tags:
-    - openstack-host-keys
 
 - name: Update SSH keys
   get_url:
@@ -29,8 +27,6 @@
     dest: "{{ ansible_env.HOME }}/.ssh/remotekeys"
     mode: "0640"
   when: ssh_key_url is defined
-  tags:
-    - openstack-host-keys
 
 - name: Ensure all keys in authorized_keys
   shell: |
@@ -40,5 +36,3 @@
       fi
     done < /root/.ssh/remotekeys
   when: ssh_key_url is defined
-  tags:
-    - openstack-host-keys

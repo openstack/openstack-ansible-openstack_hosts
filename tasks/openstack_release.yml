@@ -19,5 +19,3 @@
     dest: "/etc/openstack-release"
     owner: "root"
     group: "root"
-  tags:
-    - openstack-release
