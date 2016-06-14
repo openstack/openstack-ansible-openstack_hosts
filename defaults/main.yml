@@ -26,6 +26,7 @@ openstack_host_sysstat_statistics_hour: 23
 openstack_host_manage_hosts_file: true
 
 ## kernel modules for specific group hosts
+openstack_host_specific_kernel_modules: []
 # to include it in your play, an example is given below:
 #openstack_host_specific_kernel_modules:
 #  - { name: "ebtables", pattern: "CONFIG_BRIDGE_NF_EBTABLES", group: "network_hosts" }

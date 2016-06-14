@@ -45,7 +45,7 @@ openstack_host_kernel_modules:
   - x_tables
 
 ## Base packages
-openstack_host_apt_packages:
+openstack_host_packages:
   - apparmor-utils
   - apt-transport-https
   - bridge-utils

@@ -16,15 +16,19 @@
 - name: "Ensure kernel module(s)"
   modprobe:
     name: "{{ item }}"
-  with_items: openstack_host_kernel_modules
-  when: openstack_host_kernel_modules is defined and item != ''
+  with_items: "{{ openstack_host_kernel_modules }}"
+  when:
+    - openstack_host_kernel_modules | length > 0
+    - item != ''
 
 - name: "Ensure kernel module(s) loaded at boot"
   lineinfile:
     dest: /etc/modules
     line: "{{ item }}"
-  with_items: openstack_host_kernel_modules
-  when: openstack_host_kernel_modules is defined and item != ''
+  with_items: "{{ openstack_host_kernel_modules }}"
+  when:
+    - openstack_host_kernel_modules | length > 0
+    - item != ''
 
 - name: get kernel release
   command: "uname -r"
@@ -33,33 +37,33 @@
 - name: check how kernel modules are implemented (statically builtin, dynamic, not set)
   shell: grep {{ item.pattern }} /boot/config-{{ uname.stdout}}
   register: modules
-  with_items: openstack_host_specific_kernel_modules
+  with_items: "{{ openstack_host_specific_kernel_modules }}"
   when:
-    - openstack_host_specific_kernel_modules is defined
+    - openstack_host_specific_kernel_modules | length > 0
     - inventory_hostname in groups["{{ item.group }}"]
   ignore_errors: yes
 
 - name: fail if a specific kernel module is not set
   fail:
     msg: "{{ item['stdout'] }}"
+  with_items: "{{ modules['results'] | default([]) }}"
   when:
     - modules['changed'] | bool
     - "'is not set' in item['stdout']"
-  with_items: modules["results"]
 
 - name: fail if a specific pattern is not valid
   fail:
     msg: "'pattern:' {{ item['item']['pattern'] }} 'is not valid. Search results for pattern lead to:' {{ item['stdout'] }}"
+  with_items: "{{ modules['results'] | default([]) }}"
   when:
     - modules['changed'] | bool
     - "'=y' not in item['stdout']"
     - "'=m' not in item['stdout']"
-  with_items: modules["results"]
 
 - name: "Ensure dynamic specific kernel module(s) are loaded"
   modprobe:
     name: "{{ item['item']['name'] }}"
-  with_items: modules["results"]
+  with_items: "{{ modules['results'] | default([]) }}"
   when:
     - modules['changed'] | bool
     - inventory_hostname in groups[item["item"]["group"]]
@@ -69,7 +73,7 @@
   lineinfile:
     dest: /etc/modules
     line: "{{ item['item']['name'] }}"
-  with_items: modules["results"]
+  with_items: "{{ modules['results'] | default([]) }}"
   when:
     - modules['changed'] | bool
     - inventory_hostname in groups[item["item"]["group"]]
