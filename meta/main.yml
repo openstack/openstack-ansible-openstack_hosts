@@ -23,6 +23,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - trusty
+        - xenial
   categories:
     - cloud
     - host
