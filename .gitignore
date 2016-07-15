@@ -59,8 +59,5 @@ ChangeLog
 # Files created by releasenotes build
 releasenotes/build
 
-# Files created by releasenotes build
-releasenotes/build
-
 # Vagrant testing artifacts
 .vagrant
