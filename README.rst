@@ -29,3 +29,4 @@ Example Playbook
       user: root
       roles:
         - { role: "openstack_hosts" }
+
