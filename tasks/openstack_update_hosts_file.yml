@@ -16,14 +16,14 @@
 - name: Drop hosts file entries script locally
   template:
     src: "openstack-host-hostfile-setup.sh.j2"
-    dest: "/usr/local/bin/openstack-host-hostfile-setup.sh"
+    dest: "/var/tmp/openstack-host-hostfile-setup.sh"
     mode: "0755"
   delegate_to: localhost
   run_once: true
 
 - name: Copy templated hosts file entries script
   copy:
-    src: "/usr/local/bin/openstack-host-hostfile-setup.sh"
+    src: "/var/tmp/openstack-host-hostfile-setup.sh"
     dest: "/usr/local/bin/openstack-host-hostfile-setup.sh"
     mode: "0755"
 
