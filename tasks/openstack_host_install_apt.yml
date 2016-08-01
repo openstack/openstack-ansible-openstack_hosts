@@ -34,7 +34,7 @@
 - name: Install host packages
   apt:
     pkg: "{{ item }}"
-    state: present
+    state: "{{ openstack_hosts_package_state }}"
   register: install_packages
   until: install_packages|success
   retries: 5

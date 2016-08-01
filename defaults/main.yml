@@ -20,6 +20,10 @@ openstack_host_sysstat_enabled: true
 openstack_host_sysstat_interval: 1
 openstack_host_sysstat_statistics_hour: 23
 
+# Set the package install state for distribution packages
+# Options are 'present' and 'latest'
+openstack_hosts_package_state: "latest"
+
 ## Enable/disable /etc/hosts file management
 ## You should make other arrangements for name resolution
 ## of OSA containers and hosts if disabling this
