@@ -48,11 +48,6 @@
     - openstack_hosts-install
     - openstack_hosts-config
 
-- include: openstack_lvm_config.yml
-  tags:
-    - openstack_hosts-install
-    - openstack_hosts-config
-
 - include: openstack_kernel_modules.yml
   tags:
     - openstack_hosts-config
