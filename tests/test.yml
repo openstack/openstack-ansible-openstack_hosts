@@ -13,21 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- include: "playbooks/test-install-openstack-hosts.yml"
+
 - name: Playbook for role testing
   hosts: localhost
   connection: local
   gather_facts: true
-  pre_tasks:
-    - name: First ensure apt cache is always refreshed
-      apt:
-        update_cache: yes
-      when:
-        - ansible_pkg_mgr == 'apt'
-  roles:
-    - role: "{{ rolename | basename }}"
-      global_environment_variables:
-        PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-  post_tasks:
+  tasks:
     - name: Open modules file
       slurp:
         src: /etc/modules
