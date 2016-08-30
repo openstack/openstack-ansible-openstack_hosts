@@ -23,8 +23,9 @@
 
 - name: "Ensure kernel module(s) loaded at boot"
   lineinfile:
-    dest: /etc/modules
+    dest: "{{ openstask_host_module_file }}"
     line: "{{ item }}"
+    create: yes
   with_items: "{{ openstack_host_kernel_modules }}"
   when:
     - openstack_host_kernel_modules | length > 0
@@ -71,7 +72,7 @@
 
 - name: "Ensure dynamic specific kernel module(s) loaded at boot"
   lineinfile:
-    dest: /etc/modules
+    dest: "{{ openstask_host_module_file }}"
     line: "{{ item['item']['name'] }}"
   with_items: "{{ modules['results'] | default([]) }}"
   when:

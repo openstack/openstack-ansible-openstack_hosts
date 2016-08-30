@@ -30,7 +30,7 @@
   post_tasks:
     - name: Open modules file
       slurp:
-        src: /etc/modules
+        src: "{{ openstask_host_module_file }}"
       register: modules_file
     - name: Open sysctl file
       slurp:
