@@ -39,6 +39,6 @@
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: "{{ openstack_host_packages | deprecated(openstack_host_apt_packages, 'openstack_host_apt_packages', 'openstack_host_packages', 'Ocata') }}"
+  with_items: "{{ openstack_host_distro_packages }}"
   tags:
     - openstack-apt-packages
