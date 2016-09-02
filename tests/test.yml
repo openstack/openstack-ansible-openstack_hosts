@@ -56,7 +56,7 @@
       register: release_file
     - name: Check for systat file
       stat:
-        path: /etc/default/sysstat
+        path: "{{ openstack_host_sysstat_file }}"
       register: systat_file
     - name: Check for ssh dir
       stat:

@@ -13,13 +13,20 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Enable sysstat
+- name: Enable sysstat config
   template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-    mode: "{{ item.mode|default('0644')}}"
-  with_items:
-    - { src: "sysstat.default.j2", dest: "/etc/default/sysstat" }
-    - { src: "sysstat.cron.j2", dest: "/etc/cron.d/sysstat", mode: "0755" }
-  when: openstack_host_sysstat_enabled | bool
+    src: "sysstat.default.j2"
+    dest: "{{ openstack_host_sysstat_file }}"
+    mode: "0644"
+  when:
+    - openstack_host_sysstat_enabled | bool
+    - ansible_os_family == "Debian"
   notify: Restart sysstat
+
+- name: Enable sysstat cron
+  template:
+    src: "{{ openstack_host_cron_template }}"
+    dest: "/etc/cron.d/sysstat"
+    mode: "0755"
+  when:
+    - openstack_host_sysstat_enabled | bool
