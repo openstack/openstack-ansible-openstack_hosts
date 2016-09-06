@@ -61,3 +61,6 @@ releasenotes/build
 
 # Vagrant testing artifacts
 .vagrant
+
+# Test playbooks brought in by tox
+tests/playbooks
