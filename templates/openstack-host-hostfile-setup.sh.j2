@@ -46,7 +46,7 @@ host_update "{{ ansible_hostname|default(host_rfc_1034_1035_name) }}" \
 host_update "{{ hostvars[item]['ansible_hostname']|default(target_rfc_1034_1035_name) }}" \
             "{{ target_rfc_1034_1035_name }}" \
             "{{ item }}" \
-            "{{ hostvars[item]['ansible_ssh_host'] }}" \
+            "{{ hostvars[item]['ansible_host'] | default("127.0.0.1") }}" \
             "{{ openstack_domain }}"
 
 {% endfor %}

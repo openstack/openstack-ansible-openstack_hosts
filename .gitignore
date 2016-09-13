@@ -29,6 +29,7 @@ doc/build/
 *.log
 *.sql
 *.sqlite
+logs/
 
 # OS generated files #
 ######################
@@ -63,4 +64,6 @@ releasenotes/build
 .vagrant
 
 # Test playbooks brought in by tox
+tests/plugins
 tests/playbooks
+tests/test.retry

@@ -1,7 +1,7 @@
 [all]
-localhost ansible_ssh_host=127.0.0.1 ansible_connection=local ansible_become=True
-test1 ansible_ssh_host=127.111.111.101 ansible_become=True
-test2 ansible_ssh_host=127.111.111.102 ansible_become=True
+localhost ansible_host=127.0.0.1 ansible_become=True
+test1 ansible_host=127.111.111.101 ansible_become=True
+test2 ansible_host=127.111.111.102 ansible_become=True
 
 [all_containers]
 test1
