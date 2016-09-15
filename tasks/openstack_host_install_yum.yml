@@ -25,3 +25,13 @@
   tags:
     - openstack-yum-packages
     - openstack-packages
+
+- name: Disable requiretty for root sudo on centos
+  template:
+    dest: /etc/sudoers.d/openstack-ansible
+    owner: root
+    group: root
+    mode: "0440"
+    src: sudoers.j2
+  when:
+    - ansible_pkg_mgr == 'yum'
