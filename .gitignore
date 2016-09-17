@@ -29,7 +29,7 @@ doc/build/
 *.log
 *.sql
 *.sqlite
-logs/
+logs/*
 
 # OS generated files #
 ######################
@@ -60,10 +60,12 @@ ChangeLog
 # Files created by releasenotes build
 releasenotes/build
 
-# Vagrant testing artifacts
-.vagrant
-
-# Test playbooks brought in by tox
+# Test temp files
 tests/plugins
 tests/playbooks
 tests/test.retry
+
+# Vagrant artifacts
+.vagrant
+
+
