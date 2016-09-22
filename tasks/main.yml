@@ -43,6 +43,7 @@
     - openstack_hosts-config
 
 - include: openstack_update_hosts_file.yml
+  static: no
   when: openstack_host_manage_hosts_file | bool
   tags:
     - openstack_hosts-install

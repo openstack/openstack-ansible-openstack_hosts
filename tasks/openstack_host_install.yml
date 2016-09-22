@@ -14,9 +14,11 @@
 # limitations under the License.
 
 - include: openstack_host_install_apt.yml
+  static: no
   when:
     - ansible_pkg_mgr == 'apt'
 
 - include: openstack_host_install_yum.yml
+  static: no
   when:
     - ansible_pkg_mgr == 'yum'
