@@ -6,12 +6,12 @@ set -x
 function insert_host_entry {
     ENTRY=$1
     ADDR=$2
-    if ! grep -q -o "^${ENTRY}$" /etc/hosts; then
+    if [[ "$(grep "^${ADDR}\b" /etc/hosts | wc -l)" -ge "2" ]]; then
+      sed -i "/^${ADDR}\b/d" /etc/hosts
       echo "${ENTRY}" | tee -a /etc/hosts
-    elif ! grep -q -o "^${ADDR}\b" /etc/hosts; then
+    elif grep -q "^${ADDR}\b" /etc/hosts; then
       sed -i "s|^${ADDR}\b\ .*|${ENTRY}|" /etc/hosts
-    elif [[ "$(grep -o "^${ADDR}\b" /etc/hosts | wc -l)" -ge "2" ]]; then
-      sed -i "/^${IPADDR}\b/d" /etc/hosts
+    elif ! grep -q "^${ENTRY}$" /etc/hosts; then
       echo "${ENTRY}" | tee -a /etc/hosts
     fi
 }
