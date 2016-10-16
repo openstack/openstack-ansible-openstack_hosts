@@ -1,6 +1,6 @@
 # {{ ansible_managed }}
 
-PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games"
+PATH="{{ openstack_host_environment_path | join(':') }}"
 {% if global_environment_variables is defined %}
 {% for key, value in global_environment_variables.iteritems() %}
 {% if value %}
