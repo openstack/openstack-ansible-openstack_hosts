@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-openstack_code_name: Newton
+openstack_code_name: Ocata
 openstack_release: master
 
 openstack_host_sysstat_enabled: true
@@ -75,4 +75,3 @@ openstack_kernel_options:
 
 # Set the openstack domain name
 openstack_domain: openstack.local
-
