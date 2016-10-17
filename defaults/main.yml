@@ -46,6 +46,18 @@ gc_val: "{{ ansible_memtotal_mb | default(1024) | bit_length_power_of_2 }}"
 # The ste value has a Max allowable value of 8192 unless set by the user.
 set_gc_val: "{{ gc_val if (gc_val | int <= 8192) else 8192 }}"
 
+# Controls the shell search PATH environment variable dropped in
+# /etc/environment
+openstack_host_environment_path:
+  - /usr/local/sbin
+  - /usr/local/bin
+  - /usr/sbin
+  - /usr/bin
+  - /sbin
+  - /bin
+  - /usr/games
+  - /usr/local/games
+
 # System control kernel tuning
 openstack_kernel_options:
   - { key: 'fs.inotify.max_user_watches', value: 36864 }
