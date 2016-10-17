@@ -42,7 +42,7 @@
   when:
     - openstack_host_specific_kernel_modules | length > 0
     - inventory_hostname in groups["{{ item.group }}"]
-  ignore_errors: yes
+  failed_when: false
 
 - name: fail if a specific kernel module is not set
   fail:
