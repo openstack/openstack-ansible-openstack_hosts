@@ -21,4 +21,4 @@
     state: "{{ item.state|default('present') }}"
     reload: "{{ item.reload|default('yes') }}"
   with_items: "{{ openstack_kernel_options }}"
-  ignore_errors: true
+  failed_when: false
