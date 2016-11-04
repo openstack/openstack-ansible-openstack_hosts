@@ -34,9 +34,10 @@
 - name: get kernel release
   command: "uname -r"
   register: uname
+  changed_when: false
 
 - name: check how kernel modules are implemented (statically builtin, dynamic, not set)
-  shell: grep {{ item.pattern }} /boot/config-{{ uname.stdout}}
+  command: grep {{ item.pattern }} /boot/config-{{ uname.stdout}}
   register: modules
   with_items: "{{ openstack_host_specific_kernel_modules }}"
   when:
@@ -51,6 +52,9 @@
   when:
     - modules['changed'] | bool
     - "'is not set' in item['stdout']"
+  tags:
+    # Do not hit ANSIBLE0016
+    - skip_ansible_lint
 
 - name: fail if a specific pattern is not valid
   fail:
@@ -60,6 +64,9 @@
     - modules['changed'] | bool
     - "'=y' not in item['stdout']"
     - "'=m' not in item['stdout']"
+  tags:
+    # Do not hit ANSIBLE0016
+    - skip_ansible_lint
 
 - name: "Ensure dynamic specific kernel module(s) are loaded"
   modprobe:
@@ -69,6 +76,9 @@
     - modules['changed'] | bool
     - inventory_hostname in groups[item["item"]["group"]]
     - "'=m' in item['stdout']"
+  tags:
+    # Do not hit ANSIBLE0016
+    - skip_ansible_lint
 
 - name: "Ensure dynamic specific kernel module(s) loaded at boot"
   lineinfile:
@@ -79,3 +89,6 @@
     - modules['changed'] | bool
     - inventory_hostname in groups[item["item"]["group"]]
     - "'=m' in item['stdout']"
+  tags:
+    # Do not hit ANSIBLE0016
+    - skip_ansible_lint
