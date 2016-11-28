@@ -42,6 +42,7 @@
   with_items: "{{ openstack_host_specific_kernel_modules }}"
   when:
     - openstack_host_specific_kernel_modules | length > 0
+    - groups["{{ item.group }}"] is defined
     - inventory_hostname in groups["{{ item.group }}"]
   failed_when: false
 
