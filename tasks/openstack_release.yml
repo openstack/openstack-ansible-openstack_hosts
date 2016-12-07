@@ -16,6 +16,13 @@
 - name: Drop openstack release file
   template:
     src: "openstack-release.j2"
-    dest: "/etc/openstack-release"
+    dest: "{{ openstack_distrib_file_path }}"
     owner: "root"
     group: "root"
+  when: openstack_distrib_file | bool
+
+- name: Remove legacy openstack release file
+  file:
+    path: "{{ openstack_distrib_file_path }}"
+    state: absent
+  when: not openstack_distrib_file | bool
