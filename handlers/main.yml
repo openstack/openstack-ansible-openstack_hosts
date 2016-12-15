@@ -17,5 +17,4 @@
   service:
     name: "sysstat"
     state: "restarted"
-    pattern: "sysstat"
     enabled: "yes"

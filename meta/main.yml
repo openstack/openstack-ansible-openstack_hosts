@@ -22,7 +22,6 @@ galaxy_info:
   platforms:
     - name: Ubuntu
       versions:
-        - trusty
         - xenial
   categories:
     - cloud
