@@ -13,6 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Ensure epel-release is installed prior to installing host packages
+  yum:
+    pkg: epel-release
+    state: present
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
 - name: Install host packages
   yum:
     pkg: "{{ item }}"
