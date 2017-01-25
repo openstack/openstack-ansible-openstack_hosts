@@ -22,7 +22,7 @@
   run_once: true
 
 - name: Copy templated hosts file entries script
-  copy:
+  template:
     src: "/var/tmp/openstack-host-hostfile-setup.sh"
     dest: "/usr/local/bin/openstack-host-hostfile-setup.sh"
     mode: "0755"
