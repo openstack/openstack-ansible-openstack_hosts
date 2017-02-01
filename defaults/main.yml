@@ -63,13 +63,16 @@ openstack_host_environment_path:
   - /usr/games
   - /usr/local/games
 
+# Set the maximum size of the connection tracking table.
+openstack_host_nf_conntrack_max: 262144
+
 # System control kernel tuning
 openstack_kernel_options:
   - { key: 'fs.inotify.max_user_watches', value: 36864 }
   - { key: 'net.ipv4.conf.all.rp_filter', value: 0 }
   - { key: 'net.ipv4.conf.default.rp_filter', value: 0 }
   - { key: 'net.ipv4.ip_forward', value: 1 }
-  - { key: 'net.netfilter.nf_conntrack_max', value: 262144 }
+  - { key: 'net.netfilter.nf_conntrack_max', value: "{{ openstack_host_nf_conntrack_max }}" }
   - { key: 'vm.dirty_background_ratio', value: 5 }
   - { key: 'vm.dirty_ratio', value: 10 }
   - { key: 'vm.swappiness', value: 5 }
