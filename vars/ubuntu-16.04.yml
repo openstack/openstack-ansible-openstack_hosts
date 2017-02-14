@@ -18,7 +18,7 @@ cache_timeout: 600
 
 ## Defined required kernel
 openstack_host_required_kernel: 4.2.0-18-generic
-openstack_host_sysstat_file: /etc/default/systat
+openstack_host_sysstat_file: /etc/default/sysstat
 openstack_host_cron_template: sysstat.cron.debian.j2
 openstask_host_module_file: /etc/modules
 
