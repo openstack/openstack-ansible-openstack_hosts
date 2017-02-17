@@ -90,5 +90,9 @@ openstack_kernel_options:
   - { key: 'net.ipv6.neigh.default.gc_stale_time', value: 120 }
   - { key: 'fs.aio-max-nr', value: 131072 }
 
+# Optional user defined list of sysctl options in the same dict item format as
+# above.
+openstack_user_kernel_options: []
+
 # Set the openstack domain name
 openstack_domain: openstack.local
