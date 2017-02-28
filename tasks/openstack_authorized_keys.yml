@@ -22,17 +22,9 @@
     mode: "0755"
 
 - name: Update SSH keys
-  get_url:
-    url: "{{ ssh_key_url }}"
-    dest: "{{ ansible_env.HOME }}/.ssh/remotekeys"
-    mode: "0640"
-  when: ssh_key_url is defined
-
-- name: Ensure all keys in authorized_keys
-  shell: |
-    while read key; do
-      if [[ ! "$(grep "$key" {{ ansible_env.HOME }}/.ssh/authorized_keys)" ]];then
-        echo "$key" | tee -a {{ ansible_env.HOME }}/.ssh/authorized_keys
-      fi
-    done < /root/.ssh/remotekeys
+  authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "{{ item }}"
+  with_url: "{{ ssh_key_url }}"
   when: ssh_key_url is defined
