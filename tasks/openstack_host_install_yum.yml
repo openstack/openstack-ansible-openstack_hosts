@@ -23,14 +23,6 @@
     - openstack-yum-packages
     - openstack-packages
 
-- name: Ensure epel-release is installed prior to installing host packages
-  yum:
-    pkg: epel-release
-    state: present
-  tags:
-    - openstack-yum-packages
-    - openstack-packages
-
 - name: Download RDO repository RPM
   get_url:
     url: https://rdoproject.org/repos/openstack-ocata/rdo-release-ocata.rpm

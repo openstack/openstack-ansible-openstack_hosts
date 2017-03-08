@@ -55,7 +55,6 @@ openstack_host_distro_packages:
   - device-mapper-event
   - dstat
   - ebtables
-  - htop
   - iptables
   - irqbalance
   - kmod-devel
@@ -69,5 +68,4 @@ openstack_host_distro_packages:
   - sysstat
   - sudo
   - time
-  - vconfig
   - wget
