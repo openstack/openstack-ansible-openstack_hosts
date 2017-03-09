@@ -31,6 +31,37 @@
     - openstack-yum-packages
     - openstack-packages
 
+- name: Download RDO repository RPM
+  get_url:
+    url: https://rdoproject.org/repos/openstack-ocata/rdo-release-ocata.rpm
+    dest: /tmp/rdo-release-ocata.rpm
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- name: Install EPEL, RDO, and yum priorities plugin
+  yum:
+    name: "{{ item }}"
+    state: "{{ openstack_hosts_package_state }}"
+  with_items:
+    - epel-release
+    - yum-plugin-priorities
+    - /tmp/rdo-release-ocata.rpm
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- name: Increase RDO priority to 50
+  command: >
+    yum-config-manager
+      --enable openstack-ocata
+      --setopt="openstack-ocata.priority=50"
+      --enable rdo-qemu-ev
+      --setopt="rdo-qemu-ev.priority=50"
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
 - name: Install host packages
   yum:
     pkg: "{{ item }}"
