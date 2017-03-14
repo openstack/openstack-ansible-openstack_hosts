@@ -57,6 +57,12 @@
       --setopt="openstack-ocata.priority=50"
       --enable rdo-qemu-ev
       --setopt="rdo-qemu-ev.priority=50"
+      --enable base
+      --setopt="base.priority=50"
+      --enable updates
+      --setopt="updates.priority=50"
+      --enable extras
+      --setopt="extras.priority=50"
   tags:
     - openstack-yum-packages
     - openstack-packages
