@@ -31,14 +31,21 @@
     - openstack-yum-packages
     - openstack-packages
 
-- name: Install EPEL, RDO, and yum priorities plugin
+- name: Install RDO repository and key
+  yum:
+    name: /tmp/rdo-release-ocata.rpm
+    state: present
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- name: Install EPEL, and yum priorities plugin
   yum:
     name: "{{ item }}"
     state: "{{ openstack_hosts_package_state }}"
   with_items:
     - epel-release
     - yum-plugin-priorities
-    - /tmp/rdo-release-ocata.rpm
   tags:
     - openstack-yum-packages
     - openstack-packages
