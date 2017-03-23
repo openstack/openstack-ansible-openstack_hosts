@@ -46,6 +46,7 @@
   with_items:
     - epel-release
     - yum-plugin-priorities
+    - yum-utils
   tags:
     - openstack-yum-packages
     - openstack-packages
