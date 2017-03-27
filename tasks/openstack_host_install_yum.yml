@@ -31,10 +31,15 @@
     - openstack-yum-packages
     - openstack-packages
 
+# NOTE(mhayden): GPG checking for local package installs is normally disabled
+# by default in CentOS, but the openstack-ansible-security role enables GPG
+# checking for local packages. The RDO repository package isn't signed, but the
+# repos it installs have GPG checking enabled.
 - name: Install RDO repository and key
   yum:
     name: /tmp/rdo-release-ocata.rpm
     state: present
+    disable_gpg_check: yes
   tags:
     - openstack-yum-packages
     - openstack-packages
@@ -51,7 +56,7 @@
     - openstack-yum-packages
     - openstack-packages
 
-- name: Increase RDO priority to 50
+- name: Increase priority of all repos to 50 except EPEL
   command: >
     yum-config-manager
       --enable openstack-ocata
