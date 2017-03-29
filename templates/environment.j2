@@ -1,10 +1,8 @@
-# {{ ansible_managed }}
-
 PATH="{{ openstack_host_environment_path | join(':') }}"
 {% if global_environment_variables is defined %}
-{% for key, value in global_environment_variables.iteritems() %}
-{% if value %}
+{%   for key, value in global_environment_variables.iteritems() %}
+{%     if value %}
 {{ key }}={{ value }}
-{% endif %}
-{% endfor %}
+{%     endif %}
+{%   endfor %}
 {% endif %}
