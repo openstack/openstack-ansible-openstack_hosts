@@ -37,6 +37,13 @@
   tags:
     - openstack_hosts-install
 
+- name: Allow the usage of local facts
+  file:
+    path: /etc/ansible/facts.d/
+    state: directory
+  tags:
+    - openstack_hosts-install
+
 - include: openstack_sysstat.yml
   tags:
     - openstack_hosts-install
