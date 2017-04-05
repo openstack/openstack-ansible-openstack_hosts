@@ -1,5 +1,5 @@
 ---
-# Copyright 2014, Rackspace US, Inc.
+# Copyright 2017, SUSE LINUX GmbH.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,28 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-galaxy_info:
-  author: rcbops
-  description: Base host setup for a OpenStack Private Cloud host
-  company: Rackspace
-  license: Apache2
-  min_ansible_version: 1.6.6
-  platforms:
-    - name: Ubuntu
-      versions:
-        - xenial
-    - name: EL
-      versions:
-        - 7
-    - name: opensuse
-      versions:
-        - all
-  categories:
-    - cloud
-    - host
-    - development
-    - openstack
-dependencies:
-  - role: apt_package_pinning
-    when:
-      - ansible_pkg_mgr == 'apt'
+- name: Install host packages
+  zypper:
+    name: "{{ item }}"
+    state: present
+  register: install_packages
+  until: install_packages|success
+  retries: 5
+  delay: 2
+  with_items: "{{ openstack_host_distro_packages }}"
+  tags:
+    - openstack-zypper-packages
+    - openstack-packages

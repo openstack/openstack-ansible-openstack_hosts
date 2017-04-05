@@ -1,0 +1,76 @@
+---
+# Copyright 2016, Rackspace US, Inc.
+# Copyright 2017, SUSE LINUX GmbH.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+# We support Leap 42.1 onwards so we pick a rather old 4.1 kernel
+openstack_host_required_kernel: 4.1.15
+openstack_host_sysstat_file: /etc/sysstat/sysstat
+openstack_host_cron_template: sysstat.cron.suse.j2
+openstask_host_module_file: /etc/modules-load.d/openstack-ansible.conf
+
+## Kernel modules loaded on hosts
+openstack_host_kernel_modules:
+  - 8021q
+  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4', '>=') %}br_netfilter{% endif %}"
+  - dm_multipath
+  - dm_snapshot
+  - ebtables
+  - ip6table_filter
+  - ip6_tables
+  - ip_tables
+  - ipt_MASQUERADE
+  - ipt_REJECT
+  - iptable_filter
+  - iptable_mangle
+  - iptable_nat
+  - ip_vs
+  - iscsi_tcp
+  - nf_conntrack
+  - nf_conntrack_ipv4
+  - nf_defrag_ipv4
+  - nf_nat
+  - nf_nat_ipv4
+  # TODO (odyssey4me): revise the minimum kernel version once this kernel version is commonplace
+  #  If we end up with more requirements like this, then we should change the approach.
+  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4.0-0', '<') %}scsi_dh{% endif %}"
+  - vhost_net
+  - x_tables
+
+## Base packages
+openstack_host_distro_packages:
+  - bridge-utils
+  - patterns-openSUSE-devel_basis
+  - curl
+  - device-mapper
+  - dstat
+  - ebtables
+  - iptables
+  - irqbalance
+  - libkmod-devel
+  - libkmod2
+  - kmod
+  - lvm2
+  - python-devel
+  - rsync
+  - rsyslog
+  - sshpass
+  - sysstat
+  - sudo
+  - time
+  - wget
+
+## Packages to remove
+openstack_host_distro_packages_remove:
+  - systemd-logger # conflicts with rsyslog
