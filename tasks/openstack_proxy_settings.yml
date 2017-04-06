@@ -13,8 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Install host proxy settings
-  template:
+- name: Add global_environment_variables to environment file
+  blockinfile:
     dest: "/etc/environment"
-    src: "environment.j2"
-    mode: "0644"
+    state: present
+    marker: "# {mark} Managed by OpenStack-Ansible"
+    insertbefore: EOF
+    block: "{{ lookup('template', 'environment.j2') }}"
