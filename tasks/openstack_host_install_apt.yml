@@ -13,6 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Disable cache for apt update if behind proxy
+  copy:
+    content: |
+      Acquire::http::No-Cache true;
+    dest: "/etc/apt/apt.conf.d/00apt-no-cache"
+  when: >
+    global_environment_variables.http_proxy is defined or
+    global_environment_variables.HTTP_PROXY is defined or
+    global_environment_variables.https_proxy is defined or
+    global_environment_variables.HTTPS_PROXY is defined
+
 #TODO(evrardjp): Replace the next 2 tasks by a standard apt with cache
 #when https://github.com/ansible/ansible-modules-core/pull/1517 is merged
 #in 1.9.x or we move to 2.0 (if tested working)
