@@ -72,6 +72,7 @@
       assert:
         that:
           - "'dm_multipath' in modules_content"
+          - "'ebtables' in modules_content"
           - "'vm.swappiness' in sysctl_content"
           - "'127.111.111.101 test1.openstack.local test1' in hosts_content"
           - "'127.111.111.102 test2.openstack.local test2' in hosts_content"
