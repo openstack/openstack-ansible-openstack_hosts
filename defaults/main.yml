@@ -100,3 +100,6 @@ openstack_user_kernel_options: []
 
 # Set the openstack domain name
 openstack_domain: openstack.local
+
+# Global environment variables should be empty by default
+global_environment_variables: {}
