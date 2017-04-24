@@ -64,6 +64,7 @@
       --setopt="updates.priority=50"
       --enable extras
       --setopt="extras.priority=50"
+      --enable epel
   tags:
     - openstack-yum-packages
     - openstack-packages
