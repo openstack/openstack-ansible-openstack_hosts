@@ -56,20 +56,25 @@
     - openstack-yum-packages
     - openstack-packages
 
-- name: Increase priority of all repos to 50 except EPEL
-  command: >
+- name: Enable and set repo priorities
+  command: |
     yum-config-manager
-      --enable openstack-ocata
-      --setopt="openstack-ocata.priority=50"
-      --enable rdo-qemu-ev
-      --setopt="rdo-qemu-ev.priority=50"
-      --enable base
-      --setopt="base.priority=50"
-      --enable updates
-      --setopt="updates.priority=50"
-      --enable extras
-      --setopt="extras.priority=50"
-      --enable epel
+      --enable {{ item.name }}
+      --setopt="{{ item.name }}.priority={{ item.priority }}"
+  changed_when: false
+  with_items:
+    - name: base
+      priority: 50
+    - name: epel
+      priority: 99
+    - name: extras
+      priority: 50
+    - name: openstack-ocata
+      priority: 50
+    - name: rdo-qemu-ev
+      priority: 50
+    - name: updates
+      priority: 50
   tags:
     - openstack-yum-packages
     - openstack-packages
