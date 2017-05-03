@@ -13,11 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Add some data to use for verification later
 - name: Playbook for test setup
   hosts: localhost
   connection: local
+  become: true
   gather_facts: false
-  tasks:
+  pre_tasks:
     - name: Add entries to hosts file
       blockinfile:
         dest: /etc/hosts
@@ -27,11 +29,15 @@
           127.111.111.103 test3.additional
         marker: ""
 
-- include: "common/test-install-openstack-hosts.yml"
+# Prepare the user ssh keys
+- include: common/test-prepare-keys.yml
+
+# Execute the role
+- include: common/test-install-openstack-hosts.yml
 
 - name: Playbook for role testing
   hosts: localhost
-  connection: local
+  become: true
   gather_facts: true
   tasks:
     - name: Open modules file
