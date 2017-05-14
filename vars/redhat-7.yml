@@ -60,6 +60,7 @@ openstack_host_distro_packages:
   - kmod-devel
   - kmod-libs
   - kmod
+  - libselinux-python
   - lvm2
   - python-devel
   - rsync
