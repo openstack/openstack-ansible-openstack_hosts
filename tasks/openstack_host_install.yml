@@ -15,9 +15,7 @@
 
 - name: Remove conflicting distro packages
   package:
-    name: "{{ item }}"
+    name: "{{ openstack_host_distro_packages_remove | default([]) }}"
     state: absent
-  with_items:
-    - "{{ openstack_host_distro_packages_remove | default([]) }}"
 
 - include: "openstack_host_install_{{ ansible_pkg_mgr }}.yml"

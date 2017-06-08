@@ -15,13 +15,12 @@
 
 - name: Install host packages
   zypper:
-    name: "{{ item }}"
-    state: present
+    name: "{{ openstack_host_distro_packages }}"
+    state: "{{ openstack_hosts_package_state }}"
   register: install_packages
   until: install_packages|success
   retries: 5
   delay: 2
-  with_items: "{{ openstack_host_distro_packages }}"
   tags:
     - openstack-zypper-packages
     - openstack-packages
