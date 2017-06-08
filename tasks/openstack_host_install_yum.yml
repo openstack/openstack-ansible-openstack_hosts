@@ -81,13 +81,12 @@
 
 - name: Install host packages
   yum:
-    pkg: "{{ item }}"
-    state: present
+    pkg: "{{ openstack_host_distro_packages }}"
+    state: "{{ openstack_hosts_package_state }}"
   register: install_packages
-  until: install_packages|success
+  until: install_packages | success
   retries: 5
   delay: 2
-  with_items: "{{ openstack_host_distro_packages }}"
   tags:
     - openstack-yum-packages
     - openstack-packages
