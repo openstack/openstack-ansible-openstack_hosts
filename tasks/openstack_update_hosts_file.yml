@@ -20,6 +20,8 @@
     mode: "0755"
   delegate_to: localhost
   run_once: true
+  vars:
+    ansible_python_interpreter: "/usr/bin/python"
 
 - name: Copy templated hosts file entries script
   template:
