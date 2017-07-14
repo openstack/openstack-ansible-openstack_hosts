@@ -17,7 +17,7 @@ basic operations within the role install, set up, and tune specific
 kernel options that all OpenStack hosts need to perform nominally.
 
 Documentation for the project can be found at:
-  http://docs.openstack.org/developer/openstack-ansible-openstack_hosts/
+  https://docs.openstack.org/openstack-ansible-openstack_hosts/latest/
 
 The project home is at:
   http://launchpad.net/openstack-ansible
