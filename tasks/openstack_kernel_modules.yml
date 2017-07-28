@@ -13,24 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: "Ensure kernel module(s)"
-  modprobe:
-    name: "{{ item }}"
-  with_items: "{{ openstack_host_kernel_modules }}"
-  when:
-    - openstack_host_kernel_modules | length > 0
-    - item != ''
-
-- name: "Ensure kernel module(s) loaded at boot"
-  lineinfile:
-    dest: "{{ openstask_host_module_file }}"
-    line: "{{ item }}"
-    create: yes
-  with_items: "{{ openstack_host_kernel_modules }}"
-  when:
-    - openstack_host_kernel_modules | length > 0
-    - item != ''
-
 - name: check how kernel modules are implemented (statically builtin, dynamic, not set)
   slurp:
     src: "/boot/config-{{ ansible_kernel }}"
@@ -56,6 +38,14 @@
     - (modules.content | b64decode).find(item.pattern + '=y') == -1
     - (modules.content | b64decode).find(item.pattern + '=m') == -1
 
+- name: "Ensure kernel module(s)"
+  modprobe:
+    name: "{{ item }}"
+  with_items: "{{ openstack_host_kernel_modules }}"
+  when:
+    - openstack_host_kernel_modules | length > 0
+    - item != ''
+
 - name: "Ensure dynamic specific kernel module(s) are loaded"
   modprobe:
     name: "{{ item.name }}"
@@ -65,12 +55,7 @@
     - inventory_hostname in groups[item.group]
     - (modules.content | b64decode).find(item.pattern + '=m') != -1
 
-- name: "Ensure dynamic specific kernel module(s) loaded at boot"
-  lineinfile:
+- name: Write list of modules to load at boot
+  template:
+    src: modprobe.conf.j2
     dest: "{{ openstask_host_module_file }}"
-    line: "{{ item.name }}"
-  with_items: "{{ openstack_host_specific_kernel_modules }}"
-  when:
-    - groups[item.group] is defined
-    - inventory_hostname in groups[item.group]
-    - (modules.content | b64decode).find(item.pattern + '=m') != -1
