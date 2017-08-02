@@ -13,16 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Disable yum fastestmirror plugin
-  lineinfile:
-    dest: /etc/yum/pluginconf.d/fastestmirror.conf
-    regexp: '^enabled='
-    line: 'enabled=0'
-    state: present
-  tags:
-    - openstack-yum-packages
-    - openstack-packages
-
 - name: Download RDO repository RPM
   get_url:
     url: https://rdoproject.org/repos/openstack-ocata/rdo-release-ocata.rpm
@@ -36,7 +26,7 @@
 # checking for local packages. The RDO repository package isn't signed, but the
 # repos it installs have GPG checking enabled.
 - name: Install RDO repository and key
-  yum:
+  package:
     name: /tmp/rdo-release-ocata.rpm
     state: present
     disable_gpg_check: yes
@@ -45,7 +35,7 @@
     - openstack-packages
 
 - name: Install EPEL, and yum priorities plugin
-  yum:
+  package:
     name: "{{ item }}"
     state: "{{ openstack_hosts_package_state }}"
   with_items:
@@ -79,8 +69,13 @@
     - openstack-yum-packages
     - openstack-packages
 
+- name: Remove conflicting distro packages
+  package:
+    name: "{{ openstack_host_distro_packages_remove | default([]) }}"
+    state: absent
+
 - name: Install host packages
-  yum:
+  package:
     pkg: "{{ openstack_host_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
   register: install_packages
@@ -98,5 +93,3 @@
     group: root
     mode: "0440"
     src: sudoers.j2
-  when:
-    - ansible_pkg_mgr == 'yum'
