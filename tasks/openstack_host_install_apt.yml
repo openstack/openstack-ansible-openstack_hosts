@@ -13,6 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Remove conflicting distro packages
+  apt:
+    name: "{{ openstack_host_distro_packages_remove | default([]) }}"
+    state: absent
+
 - name: Disable cache for apt update if behind proxy
   copy:
     content: |

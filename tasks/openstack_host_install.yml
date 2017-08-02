@@ -13,9 +13,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Remove conflicting distro packages
-  package:
-    name: "{{ openstack_host_distro_packages_remove | default([]) }}"
-    state: absent
-
 - include: "openstack_host_install_{{ ansible_pkg_mgr }}.yml"

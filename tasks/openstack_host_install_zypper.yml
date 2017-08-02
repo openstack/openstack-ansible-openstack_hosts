@@ -13,6 +13,11 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Remove conflicting distro packages
+  zypper:
+    name: "{{ openstack_host_distro_packages_remove | default([]) }}"
+    state: absent
+
 - name: Install host packages
   zypper:
     name: "{{ openstack_host_distro_packages }}"
