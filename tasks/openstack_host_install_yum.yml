@@ -74,7 +74,7 @@
     name: "{{ openstack_host_distro_packages_remove | default([]) }}"
     state: absent
 
-- name: Install host packages
+- name: Install distro packages
   package:
     pkg: "{{ openstack_host_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"

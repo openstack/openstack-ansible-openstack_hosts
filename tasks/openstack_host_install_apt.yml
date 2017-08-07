@@ -29,7 +29,7 @@
     global_environment_variables.https_proxy is defined or
     global_environment_variables.HTTPS_PROXY is defined
 
-- name: Install host packages
+- name: Install distro packages
   apt:
     pkg: "{{ openstack_host_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
