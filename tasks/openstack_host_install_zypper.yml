@@ -13,10 +13,35 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# NOTE(hwoarang) snapper make take significant amount of CPU time
+# when executing zypper over and over so it's best to disable the
+# background comparison process. Snapper may need further tuning
+# for example reducing the number of snapshots to keep, disable daily
+# cleanup job etc but these may come later in the future if needed.
+- name: Check if Snapper root configuration file exists
+  stat:
+    path: "/etc/snapper/configs/root"
+  register: snapper_root_config
+  tags:
+    - openstack_hosts-config
+
+- name: Disable background snapshot comparisons on Snapper
+  lineinfile:
+    path: "/etc/snapper/configs/root"
+    regexp: '^BACKGROUND_COMPARISON=.*'
+    line: 'BACKGROUND_COMPARISON="no"'
+    state: present
+  when: snapper_root_config.stat.exists
+  tags:
+    - openstack_hosts-config
+
 - name: Remove conflicting distro packages
   zypper:
     name: "{{ openstack_host_distro_packages_remove | default([]) }}"
     state: absent
+  tags:
+    - openstack-zypper-packages
+    - openstack-packages
 
 - name: Install distro packages
   zypper:
