@@ -50,11 +50,12 @@ openstack_host_kernel_modules:
 ## Base packages
 openstack_host_distro_packages:
   - bridge-utils
-  - '@Development Tools'
   - curl
   - device-mapper-event
   - dstat
   - ebtables
+  - gcc
+  - git
   - iptables
   - irqbalance
   - kmod-devel
