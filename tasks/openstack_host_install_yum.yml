@@ -34,6 +34,24 @@
     - openstack-yum-packages
     - openstack-packages
 
+- name: Ensure RDO repositories are using the correct CentOS mirror
+  command: |
+    yum-config-manager
+      --save
+      --setopt="{{ item.repo_name }}.baseurl={{ item.baseurl }}"
+  changed_when: false
+  with_items:
+    - repo_name: rdo-qemu-ev
+      baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/virt/$basearch/kvm-common/"
+    - repo_name: openstack-ocata
+      baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-ocata/"
+  when:
+    - user_external_repo_key is not defined
+    - openstack_hosts_centos_mirror_url is defined
+  tags:
+    - add-repo-keys
+
+
 - name: Install EPEL, and yum priorities plugin
   package:
     name: "{{ item }}"
