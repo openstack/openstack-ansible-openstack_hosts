@@ -15,8 +15,8 @@
 
 - name: Download RDO repository RPM
   get_url:
-    url: https://rdoproject.org/repos/openstack-ocata/rdo-release-ocata.rpm
-    dest: /tmp/rdo-release-ocata.rpm
+    url: https://repos.fedorapeople.org/repos/openstack/openstack-pike/rdo-release-pike-1.noarch.rpm
+    dest: /tmp/rdo-release-pike.rpm
   tags:
     - openstack-yum-packages
     - openstack-packages
@@ -27,7 +27,7 @@
 # repos it installs have GPG checking enabled.
 - name: Install RDO repository and key
   package:
-    name: /tmp/rdo-release-ocata.rpm
+    name: /tmp/rdo-release-pike.rpm
     state: present
     disable_gpg_check: yes
   tags:
@@ -43,14 +43,13 @@
   with_items:
     - repo_name: rdo-qemu-ev
       baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/virt/$basearch/kvm-common/"
-    - repo_name: openstack-ocata
-      baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-ocata/"
+    - repo_name: openstack-pike
+      baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-pike/"
   when:
     - user_external_repo_key is not defined
     - openstack_hosts_centos_mirror_url is defined
   tags:
     - add-repo-keys
-
 
 - name: Install EPEL, and yum priorities plugin
   package:
@@ -77,7 +76,7 @@
       priority: 99
     - name: extras
       priority: 50
-    - name: openstack-ocata
+    - name: openstack-pike
       priority: 50
     - name: rdo-qemu-ev
       priority: 50
