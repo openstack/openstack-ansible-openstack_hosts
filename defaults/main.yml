@@ -102,3 +102,6 @@ openstack_domain: openstack.local
 
 # Global environment variables should be empty by default
 global_environment_variables: {}
+
+# Set the default mode for the /etc/cron.d/sysstat file
+openstack_host_sysstat_cron_mode: '0755'
