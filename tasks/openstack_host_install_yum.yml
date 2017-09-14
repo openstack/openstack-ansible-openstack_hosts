@@ -68,20 +68,27 @@
     yum-config-manager
       --enable {{ item.name }}
       --setopt="{{ item.name }}.priority={{ item.priority }}"
+      --setopt="{{ item.name }}.keepcache={{ item.keepcache }}"
   changed_when: false
   with_items:
     - name: base
       priority: 50
+      keepcache: 1
     - name: epel
       priority: 99
+      keepcache: 1
     - name: extras
       priority: 50
+      keepcache: 1
     - name: openstack-pike
       priority: 50
+      keepcache: 1
     - name: rdo-qemu-ev
       priority: 50
+      keepcache: 1
     - name: updates
       priority: 50
+      keepcache: 1
   tags:
     - openstack-yum-packages
     - openstack-packages
