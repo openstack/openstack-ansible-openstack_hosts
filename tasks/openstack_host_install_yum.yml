@@ -13,58 +13,98 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Download RDO repository RPM
-  get_url:
-    url: https://rdoproject.org/repos/openstack-ocata/rdo-release-ocata.rpm
-    dest: /tmp/rdo-release-ocata.rpm
-  tags:
-    - openstack-yum-packages
-    - openstack-packages
-
-# NOTE(mhayden): GPG checking for local package installs is normally disabled
-# by default in CentOS, but the openstack-ansible-security role enables GPG
-# checking for local packages. The RDO repository package isn't signed, but the
-# repos it installs have GPG checking enabled.
-- name: Install RDO repository and key
-  package:
-    name: /tmp/rdo-release-ocata.rpm
-    state: present
-    disable_gpg_check: yes
-  tags:
-    - openstack-yum-packages
-    - openstack-packages
-
 - name: Install EPEL, and yum priorities plugin
   package:
-    name: "{{ item }}"
+    name: "{{ openstack_host_required_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- name: Get a list of RPM GPG keys
+  shell: "rpm -vv -q centos-release 2>&1 | grep 'to keyring'"
+  args:
+    warn: no
+  changed_when: False
+  register: current_rpm_keys
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- block:
+    - name: Import GPG keys for repositories if needed
+      shell: "rpm --import 0x{{ item.keyid  }}"
+      args:
+        warn: no
+      with_items:
+        - "{{ openstack_host_rdo_repos_keys }}"
+      when:
+        - item.keyid | lower not in current_rpm_keys.stdout
+        - user_external_repo_key is not defined
+      tags:
+        - openstack-yum-packages
+        - openstack-packages
+
+  rescue:
+    - name: Import GPG keys for repositories if needed
+      shell: "rpm --define '%_hkp_keyserver http://pool.sks-keyservers.net' --import 0x{{ item.keyid  }}"
+      args:
+        warn: no
+      with_items:
+        - "{{ openstack_host_rdo_repos_keys }}"
+      when:
+        - item.keyid | lower not in current_rpm_keys.stdout
+        - user_external_repo_key is not defined
+      tags:
+        - openstack-yum-packages
+        - openstack-packages
+
+- name: Check for existing yum repositories
+  shell: "yum-config-manager | grep 'repo:'"
+  register: existing_yum_repos
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- name: Add yum repositories if they do not exist
+  yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    file: "{{ item.file }}"
+    gpgcheck: "{{ item.gpgcheck }}"
+    enabled: "{{ item.enabled }}"
   with_items:
-    - epel-release
-    - yum-plugin-priorities
-    - yum-utils
+    - "{{ openstack_host_rdo_repos }}"
+  when:
+    - item.name not in existing_yum_repos.stdout
+  tags:
+    - openstack-yum-packages
+    - openstack-packages
+
+- name: Update yum repositories if they already exist
+  command: >
+    yum-config-manager
+    --enable {{ item.name }}
+    {% for key in item.keys() if key != 'file' %}
+    --setopt="{{ item.name }}.{{ key }}={{ item[key] }}"
+    {% endfor %}
+  with_items:
+    - "{{ openstack_host_rdo_repos }}"
+  when:
+    - item.name in existing_yum_repos.stdout
   tags:
     - openstack-yum-packages
     - openstack-packages
 
 - name: Enable and set repo priorities
-  command: |
+  command: >
     yum-config-manager
-      --enable {{ item.name }}
-      --setopt="{{ item.name }}.priority={{ item.priority }}"
+    {% for repo_priority in openstack_host_repo_priorities %}
+    --enable {{ repo_priority['name'] }} \
+    --setopt="{{ repo_priority['name'] }}.priority={{ repo_priority['priority'] }}"
+    {% endfor %}
   changed_when: false
-  with_items:
-    - name: base
-      priority: 50
-    - name: epel
-      priority: 99
-    - name: extras
-      priority: 50
-    - name: openstack-ocata
-      priority: 50
-    - name: rdo-qemu-ev
-      priority: 50
-    - name: updates
-      priority: 50
   tags:
     - openstack-yum-packages
     - openstack-packages

@@ -71,3 +71,42 @@ openstack_host_distro_packages:
   - sudo
   - time
   - wget
+
+openstack_host_required_distro_packages:
+  - epel-release
+  - yum-plugin-priorities
+  - yum-utils
+
+openstack_host_rdo_repos_keys:
+  - repo: openstack-pike
+    keyid: 764429E6
+  - repo: rdo-qemu-ev
+    keyid: 61E8806C
+
+openstack_host_rdo_repos:
+  - file: rdo-qemu-ev
+    name: rdo-qemu-ev
+    description: "RDO CentOS-7 - QEMU EV"
+    baseurl: "{{ openstack_hosts_centos_mirror_url | default('http://mirror.centos.org') }}/centos/7/virt/x86_64/kvm-common/"
+    gpgcheck: yes
+    enabled: yes
+  - file: rdo-release
+    name: openstack-ocata
+    description: "OpenStack Pike Repository"
+    baseurl: "{{ openstack_hosts_centos_mirror_url | default('http://mirror.centos.org') }}/centos/7/cloud/$basearch/openstack-pike/"
+    gpgcheck: yes
+    enabled: yes
+
+openstack_host_repo_priorities:
+  - name: base
+    priority: 50
+  - name: epel
+    priority: 99
+  - name: extras
+    priority: 50
+  - name: openstack-pike
+    priority: 50
+  - name: rdo-qemu-ev
+    priority: 50
+  - name: updates
+    priority: 50
