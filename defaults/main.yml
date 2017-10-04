@@ -104,6 +104,9 @@ openstack_domain: openstack.local
 # Global environment variables should be empty by default
 global_environment_variables: {}
 
+# Set the default mode for the /etc/cron.d/sysstat file
+openstack_host_sysstat_cron_mode: '0755'
+
 # Set default mirror for CentOS repositories
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
 #openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
