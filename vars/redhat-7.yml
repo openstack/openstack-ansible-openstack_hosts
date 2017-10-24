@@ -93,7 +93,7 @@ openstack_host_rdo_repos:
     gpgcheck: yes
     enabled: yes
   - file: rdo-release
-    name: openstack-ocata
+    name: openstack-pike
     description: "OpenStack Pike Repository"
     baseurl: "{{ openstack_hosts_centos_mirror_url | default('http://mirror.centos.org') }}/centos/7/cloud/$basearch/openstack-pike/"
     gpgcheck: yes
