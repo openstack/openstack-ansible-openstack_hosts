@@ -21,43 +21,33 @@
     - openstack-yum-packages
     - openstack-packages
 
-- name: Get a list of RPM GPG keys
-  shell: "rpm -vv -q centos-release 2>&1 | grep 'to keyring'"
-  args:
-    warn: no
-  changed_when: False
-  register: current_rpm_keys
-  tags:
-    - openstack-yum-packages
-    - openstack-packages
+# Copy all factored-in GPG keys.
+# KeyID 764429E6 from https://raw.githubusercontent.com/rdo-infra/centos-release-openstack/ocata-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
+# KeyID 61E8806C from keyserver for rdo-qemu-ev
+- name: Copy validated GPG keys
+  copy:
+    src: "gpg/{{ item | basename }}"
+    dest: /etc/pki/rpm-gpg/
+    mode: '0644'
+  with_fileglob:
+    - "gpg/*"
 
-- block:
-    - name: Import GPG keys for repositories if needed
-      shell: "rpm --define '%_hkp_keyserver http://pool.sks-keyservers.net' --import 0x{{ item.keyid  }}"
-      args:
-        warn: no
-      with_items:
-        - "{{ openstack_host_rdo_repos_keys }}"
-      when:
-        - item.keyid | lower not in current_rpm_keys.stdout
-        - user_external_repo_key is not defined
-      tags:
-        - openstack-yum-packages
-        - openstack-packages
+- name: Ensure GPG keys have the correct SELinux contexts applied
+  command: restorecon -Rv /etc/pki/rpm-gpg/
 
-  rescue:
-    - name: Import GPG keys for repositories if needed
-      shell: "rpm --import 0x{{ item.keyid  }}"
-      args:
-        warn: no
-      with_items:
-        - "{{ openstack_host_rdo_repos_keys }}"
-      when:
-        - item.keyid | lower not in current_rpm_keys.stdout
-        - user_external_repo_key is not defined
-      tags:
-        - openstack-yum-packages
-        - openstack-packages
+# Handle gpg keys manually
+- name: Install gpg keys
+  rpm_key:
+    key: "{{ key.keyfile | default(key.key) }}"
+    validate_certs: "{{ key.validate_certs | default(omit) }}"
+    state: "{{ key.state | default('present') }}"
+  with_items: "{{ openstack_host_rdo_repos_keys }}"
+  loop_control:
+    loop_var: key
+  register: _add_yum_keys
+  until: _add_yum_keys | success
+  retries: 5
+  delay: 2
 
 - name: Check for existing yum repositories
   shell: "yum-config-manager | grep 'repo:'"

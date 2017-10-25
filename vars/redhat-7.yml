@@ -81,9 +81,9 @@ openstack_host_required_distro_packages:
 
 openstack_host_rdo_repos_keys:
   - repo: openstack-pike
-    keyid: 764429E6
+    keyfile: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
   - repo: rdo-qemu-ev
-    keyid: 61E8806C
+    keyfile: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO
 
 openstack_host_rdo_repos:
   - file: rdo-qemu-ev
