@@ -27,9 +27,13 @@
 - name: Copy validated GPG keys
   copy:
     src: "gpg/{{ item | basename }}"
-    dest: /tmp/
+    dest: /etc/pki/rpm-gpg/
+    mode: '0644'
   with_fileglob:
     - "gpg/*"
+
+- name: Ensure GPG keys have the correct SELinux contexts applied
+  command: restorecon -Rv /etc/pki/rpm-gpg/
 
 # Handle gpg keys manually
 - name: Install gpg keys
