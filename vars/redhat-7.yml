@@ -23,34 +23,34 @@ openstack_host_sysstat_cron_mode: '0600'
 
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
-  - 8021q
-  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('3.10.0-514', '>=') %}br_netfilter{% endif %}"
-  - dm_multipath
-  - dm_snapshot
-  - ebtables
-  - ip6table_filter
-  - ip6_tables
-  - ip_tables
-  - ipt_MASQUERADE
-  - ipt_REJECT
-  - iptable_filter
-  - iptable_mangle
-  - iptable_nat
-  - ip_vs
-  - iscsi_tcp
-  - nf_conntrack
-  - nf_conntrack_ipv4
-  - nf_defrag_ipv4
-  - nf_nat
-  - nf_nat_ipv4
+  - name: 8021q
+  - name: "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('3.10.0-514', '>=') %}br_netfilter{% endif %}"
+  - name: dm_multipath
+  - name: dm_snapshot
+  - name: ebtables
+  - name: ip6table_filter
+  - name: ip6_tables
+  - name: ip_tables
+  - name: ipt_MASQUERADE
+  - name: ipt_REJECT
+  - name: iptable_filter
+  - name: iptable_mangle
+  - name: iptable_nat
+  - name: ip_vs
+  - name: iscsi_tcp
+  - name: nf_conntrack
+  - name: nf_conntrack_ipv4
+  - name: nf_defrag_ipv4
+  - name: nf_nat
+  - name: nf_nat_ipv4
   # TODO (odyssey4me): revise the minimum kernel version once this kernel version is commonplace
   #  If we end up with more requirements like this, then we should change the approach.
-  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4.0-0', '<') %}scsi_dh{% endif %}"
-  - vhost_net
-  - x_tables
+  - name: "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4.0-0', '<') %}scsi_dh{% endif %}"
+  - name: vhost_net
+  - name: x_tables
 
-## Base packages
-openstack_host_distro_packages:
+## Bare metal base packages
+_openstack_host_metal_distro_packages:
   - bridge-utils
   - curl
   - device-mapper-event
@@ -74,18 +74,23 @@ openstack_host_distro_packages:
   - time
   - wget
 
-openstack_host_required_distro_packages:
-  - epel-release
-  - yum-plugin-priorities
-  - yum-utils
+_package_repos_keys:
+  - name: openstack-pike
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
+    keyfile: "gpg/764429E6"
+  - name: rdo-qemu-ev
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO
+    keyfile: "gpg/61E8806C"
 
-openstack_host_rdo_repos_keys:
-  - repo: openstack-pike
-    keyfile: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
-  - repo: rdo-qemu-ev
-    keyfile: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO
+_package_list:
+  - name: epel-release
+    state: present
+  - name: yum-plugin-priorities
+    state: present
+  - name: yum-utils
+    state: present
 
-openstack_host_rdo_repos:
+_package_repos:
   - file: rdo-qemu-ev
     name: rdo-qemu-ev
     description: "RDO CentOS-7 - QEMU EV"
@@ -99,7 +104,7 @@ openstack_host_rdo_repos:
     gpgcheck: yes
     enabled: yes
 
-openstack_host_repo_priorities:
+_package_repos_priorities:
   - name: base
     priority: 50
   - name: epel

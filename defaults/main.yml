@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# Package cache
+cache_timeout: 600
+
 # /etc/openstack-release settings
 openstack_distrib_id: "OSA"
 openstack_distrib_release: "{{ openstack_release | default('master') }}"
@@ -20,6 +23,8 @@ openstack_distrib_code_name: "Queens"
 openstack_distrib_description: "OpenStack-Ansible"
 openstack_distrib_file: yes
 openstack_distrib_file_path: "/etc/openstack-release"
+
+is_container: "{{ ansible_virtualization_type == 'lxc' }}"
 
 openstack_host_sysstat_enabled: true
 openstack_host_sysstat_interval: 1
@@ -36,12 +41,28 @@ openstack_host_manage_hosts_file: true
 
 ## kernel modules for specific group hosts
 openstack_host_specific_kernel_modules: []
-# to include it in your play, an example is given below:
+# If you want to include some specific modules per group
+# of hosts, override this with a group/host var, like below:
 #openstack_host_specific_kernel_modules:
-#  - { name: "ebtables", pattern: "CONFIG_BRIDGE_NF_EBTABLES", group: "network_hosts" }
+#  - name: "ebtables"
+#    pattern: "CONFIG_BRIDGE_NF_EBTABLES"
+## Where:
 ## :param name: name of the kernel module
 ## :param pattern: pattern to grep for in /boot/config-$kernel_version to check how module is configured inside kernel
-## :param group: group of hosts where the module will be loaded
+## Our default overrides will be combined with your overrides.
+
+# Overridable package list is composed of the old override
+# named user_package_list and the standard defaults _package_list
+openstack_hosts_package_list: "{{ _package_list + (user_package_list | default([])) }}"
+
+# Overridable package repo is composed of the old override
+# named user_external_repo_lists and the standard defaults _package_repos
+openstack_hosts_package_repos: "{{ _package_repos + (user_external_repos_list | default([])) }}"
+
+# Overridable package repo gpg is composed of the old override
+# named user_external_repo_keys_list and the standard defaults _package_repos_keys
+openstack_hosts_package_repos_keys: "{{ _package_repos_keys + (user_external_repo_keys_list | default([])) }}"
+openstack_hosts_package_repos_priorities: "{{ _package_repos_priorities }}"
 
 # The following garbage collection values are set to better support lots of neutron networks/routers.
 #  Used for setting the net.ipv4/6.neigh.default.gc_thresh* values. This assumes that facts were
@@ -97,6 +118,9 @@ openstack_kernel_options:
 # Optional user defined list of sysctl options in the same dict item format as
 # above.
 openstack_user_kernel_options: []
+
+# Overridable set of packages to install on the host.
+openstack_host_metal_distro_packages: "{{ _openstack_host_metal_distro_packages }}"
 
 # Set the openstack domain name
 openstack_domain: openstack.local
