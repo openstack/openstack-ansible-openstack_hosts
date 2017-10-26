@@ -46,7 +46,7 @@
     repo: "{{ repo.repo }}"
     state: "{{ repo.state | default('present') }}"
     filename: "{{ repo.filename | default(omit) }}"
-    update_cache: "{{ repo == package_repos[-1] }}"
+    update_cache: "{{ repo == openstack_hosts_package_repos[-1] }}"
   with_items: "{{ openstack_hosts_package_repos }}"
   loop_control:
     loop_var: repo
