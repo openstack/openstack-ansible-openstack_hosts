@@ -22,34 +22,34 @@ openstask_host_module_file: /etc/modules-load.d/openstack-ansible.conf
 
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
-  - 8021q
-  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4', '>=') %}br_netfilter{% endif %}"
-  - dm_multipath
-  - dm_snapshot
-  - ebtables
-  - ip6table_filter
-  - ip6_tables
-  - ip_tables
-  - ipt_MASQUERADE
-  - ipt_REJECT
-  - iptable_filter
-  - iptable_mangle
-  - iptable_nat
-  - ip_vs
-  - iscsi_tcp
-  - nf_conntrack
-  - nf_conntrack_ipv4
-  - nf_defrag_ipv4
-  - nf_nat
-  - nf_nat_ipv4
+  - name: 8021q
+  - name: "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4', '>=') %}br_netfilter{% endif %}"
+  - name: dm_multipath
+  - name: dm_snapshot
+  - name: ebtables
+  - name: ip6table_filter
+  - name: ip6_tables
+  - name: ip_tables
+  - name: ipt_MASQUERADE
+  - name: ipt_REJECT
+  - name: iptable_filter
+  - name: iptable_mangle
+  - name: iptable_nat
+  - name: ip_vs
+  - name: iscsi_tcp
+  - name: nf_conntrack
+  - name: nf_conntrack_ipv4
+  - name: nf_defrag_ipv4
+  - name: nf_nat
+  - name: nf_nat_ipv4
   # TODO (odyssey4me): revise the minimum kernel version once this kernel version is commonplace
   #  If we end up with more requirements like this, then we should change the approach.
-  - "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4.0-0', '<') %}scsi_dh{% endif %}"
-  - vhost_net
-  - x_tables
+  - name: "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.4.0-0', '<') %}scsi_dh{% endif %}"
+  - name: vhost_net
+  - name: x_tables
 
 ## Base packages
-openstack_host_distro_packages:
+_openstack_host_metal_distro_packages:
   - bridge-utils
   - patterns-openSUSE-devel_basis
   - curl
@@ -71,6 +71,27 @@ openstack_host_distro_packages:
   - time
   - wget
 
-## Packages to remove
-openstack_host_distro_packages_remove:
-  - systemd-logger # conflicts with rsyslog
+_package_repos_keys: []
+## example:
+# - key: "http://url_to_gpg_key"
+#   validate_certs:
+#   state:
+# - key: "/tmp/file1"
+#   keyfile: "gpg/file1"
+#   validate_certs:
+#   state:
+
+_package_list:
+  - name: systemd-logger
+    state: absent # conflicts with rsyslog
+
+_package_repos: []
+## example:
+# - repo:
+#   state:
+#   name:
+#   enabled:
+#   disable_gpg_check:
+#   description:
+#   autorefresh:
+#   auto_import_keys:

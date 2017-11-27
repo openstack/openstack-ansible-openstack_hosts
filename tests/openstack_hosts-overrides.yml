@@ -1,3 +1,4 @@
 ---
 openstack_host_specific_kernel_modules:
-  - { name: "ebtables", pattern: "CONFIG_BRIDGE_NF_EBTABLES", group: "hosts" }
+  - name: "ebtables"
+    pattern: "CONFIG_BRIDGE_NF_EBTABLES"

@@ -19,7 +19,6 @@
     dest: "{{ openstack_host_sysstat_file }}"
     mode: "0644"
   when:
-    - openstack_host_sysstat_enabled | bool
     - ansible_pkg_mgr == 'apt'
   notify: Restart sysstat
 
@@ -28,13 +27,10 @@
     src: "{{ openstack_host_cron_template }}"
     dest: "/etc/cron.d/sysstat"
     mode: "{{ openstack_host_sysstat_cron_mode }}"
-  when:
-    - openstack_host_sysstat_enabled | bool
 
 - name: Restore SELinux contexts on sysstat cron file
   command: restorecon -v /etc/cron.d/sysstat
   when:
-    - openstack_host_sysstat_enabled | bool
     - ansible_pkg_mgr in ['yum', 'dnf']
 
 - name: Start and enable the sysstat service
@@ -43,5 +39,4 @@
     state: started
     enabled: yes
   when:
-    - openstack_host_sysstat_enabled | bool
     - ansible_pkg_mgr in ['yum', 'dnf', 'zypper']
