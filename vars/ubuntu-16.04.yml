@@ -84,5 +84,11 @@ _package_repos_keys: []
 #   url:
 #   state:
 
-_package_list: []
-_package_repos: []
+_package_list:
+  - name: ubuntu-cloud-keyring
+    state: "{{ openstack_hosts_package_state }}"
+
+_package_repos:
+  - repo: "{{ uca_repo }}"
+    state: present
+    filename: "{{ uca_apt_source_list_filename | default(omit) }}"

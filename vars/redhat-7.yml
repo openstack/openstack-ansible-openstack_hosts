@@ -89,18 +89,26 @@ _package_list:
     state: present
   - name: yum-utils
     state: present
+  - name: "centos-openstack-release-*"
+    state: absent
+  - name: centos-release-ceph-jewel
+    state: absent
+  - name: centos-release-qemu-ev
+    state: absent
+  - name: centos-release-storage-common
+    state: absent
 
 _package_repos:
   - file: rdo-qemu-ev
     name: rdo-qemu-ev
     description: "RDO CentOS-7 - QEMU EV"
-    baseurl: "{{ openstack_hosts_centos_mirror_url | default('http://mirror.centos.org') }}/centos/7/virt/x86_64/kvm-common/"
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/virt/x86_64/kvm-common/"
     gpgcheck: yes
     enabled: yes
   - file: rdo-release
     name: openstack-pike
     description: "OpenStack Pike Repository"
-    baseurl: "{{ openstack_hosts_centos_mirror_url | default('http://mirror.centos.org') }}/centos/7/cloud/$basearch/openstack-pike/"
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-pike/"
     gpgcheck: yes
     enabled: yes
 

@@ -131,6 +131,16 @@ global_environment_variables: {}
 # Set the default mode for the /etc/cron.d/sysstat file
 openstack_host_sysstat_cron_mode: '0755'
 
+## Default repositories data
 # Set default mirror for CentOS repositories
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
-#openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
+openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
+# Ubuntu cloud archive data
+uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/pike main"
+# Default opensuse mirrors URLs
+opensuse_mirror: "http://download.opensuse.org"
+opensuse_mirror_obs: "{{ opensuse_mirror }}"
+# If mirrored to a different folder, we need to keep this as overridable.
+opensuse_repo_oss_url: "{{ opensuse_mirror }}/distribution/leap/{{ ansible_distribution_version }}/repo/oss/"
+opensuse_repo_update_url: "{{ opensuse_mirror }}/update/leap/{{ ansible_distribution_version }}/oss/"
+opensuse_obs_cloud_repo_url: "{{ opensuse_mirror_obs }}/repositories/Cloud:/OpenStack:/Pike/openSUSE_Leap_{{ ansible_distribution_version }}"
