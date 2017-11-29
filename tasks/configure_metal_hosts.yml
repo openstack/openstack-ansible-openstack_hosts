@@ -56,6 +56,7 @@
     msg: "{{ item.pattern }} is not set"
   with_items: "{{ openstack_host_specific_kernel_modules  }}"
   when:
+    - item.pattern is defined
     - (modules.content | b64decode).find(item.pattern + ' is not set') != -1
 
 - name: "Load kernel module(s)"
