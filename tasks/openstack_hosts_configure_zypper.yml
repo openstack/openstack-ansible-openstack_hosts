@@ -59,7 +59,7 @@
   zypper:
     name: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list }}"
     state: "{{ openstack_hosts_package_state }}"
-  when: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list | length > 0}}"  
+  when: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list | length > 0}}"
 
 - name: Add/Remove/Update standard and user defined repositories
   zypper_repository:
@@ -71,6 +71,7 @@
     description: "{{ repo.description | default(omit) }}"
     autorefresh: "{{ repo.autorefresh | default(omit) }}"
     auto_import_keys: "{{ repo.auto_import_keys | default(omit) }}"
+    priority: "{{ repo.priority | default(omit) }}"
   with_items: "{{ openstack_hosts_package_repos }}"
   loop_control:
     loop_var: repo
