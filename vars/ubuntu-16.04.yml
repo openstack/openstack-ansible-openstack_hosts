@@ -89,6 +89,16 @@ _package_list:
     state: "{{ openstack_hosts_package_state }}"
 
 _package_repos:
+  # For convention over configuration, this removes any UCA configuration with
+  # default filename, or user defined filename.
+  # Deployers can/should use this facility to remove any previously user defined
+  # repositories.
+  # TODO(evrardjp): Add a similar 3 liner when we bump the uca_repo to Queens,
+  # to have both queens and Pike removed.
+  - repo: "{{ uca_repo }}"
+    state: absent
+    filename: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
+  # Always use UCA filename
   - repo: "{{ uca_repo }}"
     state: present
-    filename: "{{ uca_apt_source_list_filename | default(omit) }}"
+    filename: "uca"
