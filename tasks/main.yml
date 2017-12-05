@@ -68,10 +68,15 @@
   tags:
     - openstack_hosts-install
 
+# Host should be ready for any openstack role after this step
+- name: Run the pip install role
+  include_role:
+    name: pip_install
+  when:
+    - "host_need_pip | default(True) | bool"
+  tags:
+    - openstack_hosts-install
+
 - include: openstack_authorized_keys.yml
   tags:
     - openstack_hosts-config
-
-# Now run the pip install role and your host should be ready!
-#- include_role: pip_install
-#  when: host_need_pip | default(True) | bool
