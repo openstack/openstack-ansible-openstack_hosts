@@ -79,3 +79,9 @@
   until: _adding_repo | success
   retries: 5
   delay: 2
+
+- name: Refresh repositories if necessary
+  zypper_repository:
+    repo: '*'
+    runrefresh: yes
+  when: _adding_repo | changed

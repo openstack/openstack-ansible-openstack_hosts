@@ -99,9 +99,12 @@ _package_repos:
   - name: "repo-oss"
     repo: "{{ opensuse_repo_oss_url }}"
     auto_import_keys: yes
+    autorefresh: no
   - name: "repo-update"
     repo: "{{ opensuse_repo_update_url }}"
     auto_import_keys: yes
+    autorefresh: yes
   - name: "OBS:Cloud:OpenStack:Pike"
     repo: "{{ opensuse_obs_cloud_repo_url }}"
     auto_import_keys: yes
+    autorefresh: yes
