@@ -10,7 +10,7 @@ function insert_host_entry {
       sed -i "/^${ADDR}\b/d" /etc/hosts
       echo "${ENTRY}" | tee -a /etc/hosts
     elif grep -q "^${ADDR}\b" /etc/hosts; then
-      sed -i "s|^${ADDR}\b\ .*|${ENTRY}|" /etc/hosts
+      sed -i "s|^${ADDR}\b.*|${ENTRY}|" /etc/hosts
     elif ! grep -q "^${ENTRY}$" /etc/hosts; then
       echo "${ENTRY}" | tee -a /etc/hosts
     fi
