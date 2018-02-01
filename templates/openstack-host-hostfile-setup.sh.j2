@@ -24,13 +24,13 @@ function host_update {
     DOMAINNAME=$5
 
     if [[ "${ANSHOSTNAME}" != "${RFCHOSTNAME}" ]] && [[ "${RFCHOSTNAME}" != "${INVHOSTNAME}" ]]; then
-        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME} ${INVHOSTNAME} ${ANSHOSTNAME}" "${IPADDR}"
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}${DOMAINNAME} ${RFCHOSTNAME} ${INVHOSTNAME} ${ANSHOSTNAME}" "${IPADDR}"
     elif [[ "${ANSHOSTNAME}" != "${RFCHOSTNAME}" ]] && [[ "${RFCHOSTNAME}" == "${INVHOSTNAME}" ]]; then
-        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME} ${ANSHOSTNAME}" "${IPADDR}"
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}${DOMAINNAME} ${RFCHOSTNAME} ${ANSHOSTNAME}" "${IPADDR}"
     elif [[ "${ANSHOSTNAME}" == "${RFCHOSTNAME}" ]] && [[ "${RFCHOSTNAME}" == "${INVHOSTNAME}" ]]; then
-        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME}" "${IPADDR}"
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}${DOMAINNAME} ${RFCHOSTNAME}" "${IPADDR}"
     else
-        insert_host_entry "${IPADDR} ${RFCHOSTNAME}.${DOMAINNAME} ${RFCHOSTNAME} ${INVHOSTNAME}" "${IPADDR}"
+        insert_host_entry "${IPADDR} ${RFCHOSTNAME}${DOMAINNAME} ${RFCHOSTNAME} ${INVHOSTNAME}" "${IPADDR}"
     fi
 }
 
