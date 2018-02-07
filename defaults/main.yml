@@ -136,7 +136,7 @@ openstack_host_sysstat_cron_mode: '0755'
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
 openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
 # Ubuntu cloud archive data
-uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/pike main"
+uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/queens main"
 # Default opensuse mirrors URLs
 opensuse_mirror: "http://download.opensuse.org"
 opensuse_mirror_obs: "{{ opensuse_mirror }}"

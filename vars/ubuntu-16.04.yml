@@ -93,12 +93,15 @@ _package_repos:
   # default filename, or user defined filename.
   # Deployers can/should use this facility to remove any previously user defined
   # repositories.
-  # TODO(evrardjp): Add a similar 3 liner when we bump the uca_repo to Queens,
-  # to have both queens and Pike removed.
+  # Remove the pike UCA repo configuration
+  - repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/pike main"
+    state: absent
+    filename: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
+  # Remove any previously done queens UCA repo configuration (without the 'uca' file name)
   - repo: "{{ uca_repo }}"
     state: absent
     filename: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
-  # Always use UCA filename
+  # Implement the current UCA repo configuration
   - repo: "{{ uca_repo }}"
     state: present
     filename: "uca"
