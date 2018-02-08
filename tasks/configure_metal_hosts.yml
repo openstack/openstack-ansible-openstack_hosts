@@ -85,3 +85,24 @@
 - name: Configure sysstat
   include: openstack_sysstat.yml
   when: openstack_host_sysstat_enabled | bool
+
+- name: Create a directory to hold systemd journals on disk
+  file:
+    path: /var/log/journal
+    state: directory
+  register: journald_directory
+  when:
+    - openstack_host_keep_journals | bool
+
+# NOTE(mhayden): The linter is skipped here since the command does not create
+# any files. The command ensures that proper permissions and SELinux contests
+# are set.
+- name: Create tmpfiles structure in journald directory
+  command: systemd-tmpfiles --create --prefix /var/log/journal
+  when:
+    - journald_directory | changed
+    - openstack_host_keep_journals | bool
+  notify:
+    - Restart systemd-journald
+  tags:
+    - skip_ansible_lint
