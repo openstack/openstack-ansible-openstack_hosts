@@ -32,6 +32,9 @@
 # Prepare the user ssh keys
 - include: common/test-prepare-keys.yml
 
+# Set nodepool variables when running in the OpenStack CI environment
+- include: common/setting-nodepool-variables.yml
+
 # Execute the role
 - include: common/test-install-openstack-hosts.yml
 
