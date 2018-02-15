@@ -32,7 +32,7 @@
     - openstack_hosts-install
 
 # Drop the release file everywhere
-- include: openstack_release.yml
+- include_tasks: openstack_release.yml
   tags:
     - openstack_hosts-install
 
@@ -49,7 +49,7 @@
 
 # Configure host files should apply to all nodes
 - name: Configure etc hosts files
-  include: openstack_update_hosts_file.yml
+  include_tasks: openstack_update_hosts_file.yml
   when: openstack_host_manage_hosts_file | bool
   tags:
     - openstack_hosts-config
@@ -59,10 +59,10 @@
 # It is also used for installing common packages to
 # all nodes
 - name: Apply package management distro specific configuration
-  include: "openstack_hosts_configure_{{ ansible_pkg_mgr | lower }}.yml"
+  include_tasks: "openstack_hosts_configure_{{ ansible_pkg_mgr | lower }}.yml"
 
 # Configure bare metal nodes: Kernel, sysctl, sysstat, hosts files, metal packages
-- include: configure_metal_hosts.yml
+- include_tasks: configure_metal_hosts.yml
   when:
     - not is_container
   tags:
@@ -77,6 +77,6 @@
   tags:
     - openstack_hosts-install
 
-- include: openstack_authorized_keys.yml
+- include_tasks: openstack_authorized_keys.yml
   tags:
     - openstack_hosts-config
