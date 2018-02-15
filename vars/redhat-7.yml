@@ -73,6 +73,9 @@ _openstack_host_metal_distro_packages:
   - sudo
   - time
   - wget
+  - yum-plugin-priorities
+  - yum-plugin-rpm-warm-cache
+  - yum-utils
 
 _package_repos_keys:
   - name: openstack-pike
