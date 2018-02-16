@@ -83,7 +83,7 @@
   failed_when: false
 
 - name: Configure sysstat
-  include: openstack_sysstat.yml
+  include_tasks: openstack_sysstat.yml
   when: openstack_host_sysstat_enabled | bool
 
 - name: Create a directory to hold systemd journals on disk
