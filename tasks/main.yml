@@ -72,8 +72,6 @@
 - name: Run the pip install role
   include_role:
     name: pip_install
-  when:
-    - "host_need_pip | default(True) | bool"
   tags:
     - openstack_hosts-install
 
