@@ -147,3 +147,6 @@ opensuse_obs_cloud_repo_url: "{{ opensuse_mirror_obs }}/repositories/Cloud:/Open
 
 # Keep a history of systemd journals on disk after reboots
 openstack_host_keep_journals: yes
+
+# Enable/Disable the yum fastestmirror plugin
+openstack_hosts_enable_yum_fastestmirror: yes

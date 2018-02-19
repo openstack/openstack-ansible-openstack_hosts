@@ -13,6 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Check to see if yum's fastestmirror plugin is present
+  stat:
+    path: /etc/yum/pluginconf.d/fastestmirror.conf
+  register: fastestmirror_plugin_check
+
+- name: Configure yum's fastestmirror plugin
+  ini_file:
+    path: /etc/yum/pluginconf.d/fastestmirror.conf
+    section: main
+    option: enabled
+    value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('1', '0') }}"
+    no_extra_spaces: yes
+  when:
+    - fastestmirror_plugin_check.stat.exists
+
 - name: Disable requiretty for root sudo on centos
   template:
     dest: /etc/sudoers.d/openstack-ansible
