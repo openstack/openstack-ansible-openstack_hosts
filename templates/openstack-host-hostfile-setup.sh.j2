@@ -53,4 +53,4 @@ host_update "{{ hostvars[item]['ansible_hostname']|default(target_rfc_1034_1035_
 
 {% endfor %}
 
-md5sum /etc/hosts|awk '{print $1}'
+sha1sum /etc/hosts|awk '{print $1}'
