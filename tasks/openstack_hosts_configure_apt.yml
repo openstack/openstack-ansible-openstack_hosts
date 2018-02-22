@@ -41,16 +41,29 @@
     update_cache: yes
     cache_valid_time: "{{ cache_timeout }}"
 
+# When updating the cache in the apt_repository
+# task, and the update fails, a retry does not
+# detect a change the second attempt and therefore
+# does not update the cache, resulting in a changed
+# repo config, but no updated cache. To work around
+# this bug we implement the change of repo config
+# and the cache update as two seperate tasks.
 - name: Add/Remove/Update standard and user defined repositories
   apt_repository:
     repo: "{{ repo.repo }}"
     state: "{{ repo.state | default('present') }}"
     filename: "{{ repo.filename | default(omit) }}"
-    update_cache: "{{ repo == openstack_hosts_package_repos[-1] }}"
+    update_cache: no
   with_items: "{{ openstack_hosts_package_repos }}"
   loop_control:
     loop_var: repo
   register: _adding_apt_repo
-  until: _adding_apt_repo | success
+
+- name: Update Apt cache
+  apt:
+    update_cache: yes
+  when: _adding_apt_repo | changed
+  register: _update_apt_cache
+  until: _update_apt_cache | success
   retries: 5
   delay: 2
