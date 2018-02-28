@@ -104,7 +104,7 @@ _package_repos:
     repo: "{{ opensuse_repo_update_url }}"
     auto_import_keys: yes
     autorefresh: yes
-  - name: "OBS:Cloud:OpenStack:Queens"
+  - name: "OBS:Cloud:OpenStack:Pike"
     repo: "{{ opensuse_obs_cloud_repo_url }}"
     auto_import_keys: yes
     autorefresh: yes
