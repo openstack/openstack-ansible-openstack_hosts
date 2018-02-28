@@ -78,7 +78,7 @@ _openstack_host_metal_distro_packages:
   - yum-utils
 
 _package_repos_keys:
-  - name: openstack-pike
+  - name: openstack-queens
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
     keyfile: "gpg/764429E6"
   - name: rdo-qemu-ev
@@ -109,9 +109,9 @@ _package_repos:
     gpgcheck: yes
     enabled: yes
   - file: rdo-release
-    name: openstack-pike
-    description: "OpenStack Pike Repository"
-    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-pike/"
+    name: openstack-queens
+    description: "OpenStack Queens Repository"
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-queens/"
     gpgcheck: yes
     enabled: yes
 
@@ -122,7 +122,7 @@ _package_repos_priorities:
     priority: 99
   - name: extras
     priority: 50
-  - name: openstack-pike
+  - name: openstack-queens
     priority: 50
   - name: rdo-qemu-ev
     priority: 50
