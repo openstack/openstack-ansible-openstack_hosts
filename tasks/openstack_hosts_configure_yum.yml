@@ -71,6 +71,11 @@
   retries: 5
   delay: 2
 
+- name: Remove RDO openstack-pike repository
+  file:
+    path: /etc/yum.repos.d/openstack-pike.repo
+    state: absent
+
 - name: Add requirement packages (repositories gpg keys packages, toolkits...)
   package:
     name: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list }}"
