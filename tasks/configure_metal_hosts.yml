@@ -70,7 +70,7 @@
 - name: Write list of modules to load at boot
   template:
     src: modprobe.conf.j2
-    dest: "{{ openstask_host_module_file }}"
+    dest: "{{ openstack_host_module_file }}"
 
 - name: Adding new system tuning
   sysctl:
