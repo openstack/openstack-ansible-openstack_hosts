@@ -22,7 +22,7 @@ Submitting Code
 ---------------
 
 Changes to the project should be submitted for review via the Gerrit tool, following
-the workflow documented at: "http://docs.openstack.org/infra/manual/developers.html#development-workflow"
+the workflow documented at: "https://docs.openstack.org/infra/manual/developers.html#development-workflow"
 
 Pull requests submitted through GitHub will be ignored and closed without regard.
 
