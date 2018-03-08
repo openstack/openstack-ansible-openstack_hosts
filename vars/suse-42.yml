@@ -17,8 +17,15 @@
 # We support Leap 42.1 onwards so we pick a rather old 4.1 kernel
 openstack_host_required_kernel: 4.1.15
 openstack_host_sysstat_file: /etc/sysstat/sysstat
+# NOTE(mhayden): OpenSUSE automatically symlinks /etc/sysstat/sysstat.cron to
+# /etc/cron.d/sysstat via a systemd unit file. If you write directly to
+# /etc/cron.d/sysstat in this role, OpenSUSE will overwrite the file and break
+# the idempotency check.
+openstack_host_sysstat_cron_file: /etc/sysstat/sysstat.cron
 openstack_host_cron_template: sysstat.cron.suse.j2
 openstack_host_module_file: /etc/modules-load.d/openstack-ansible.conf
+
+openstack_host_sysstat_cron_mode: '0644'
 
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:

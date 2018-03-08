@@ -19,7 +19,7 @@
     state: "directory"
     group: "{{ ansible_user_id }}"
     owner: "{{ ansible_user_id }}"
-    mode: "0755"
+    mode: "0700"
 
 - name: Update SSH keys
   authorized_key:

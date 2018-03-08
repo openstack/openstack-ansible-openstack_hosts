@@ -25,13 +25,9 @@
 - name: Enable sysstat cron
   template:
     src: "{{ openstack_host_cron_template }}"
-    dest: "/etc/cron.d/sysstat"
+    dest: "{{ openstack_host_sysstat_cron_file }}"
     mode: "{{ openstack_host_sysstat_cron_mode }}"
-
-- name: Restore SELinux contexts on sysstat cron file
-  command: restorecon -v /etc/cron.d/sysstat
-  when:
-    - ansible_pkg_mgr in ['yum', 'dnf']
+    setype: "{{ (ansible_selinux.status == 'enabled') | ternary('system_cron_spool_t', omit) }}"
 
 - name: Start and enable the sysstat service
   service:

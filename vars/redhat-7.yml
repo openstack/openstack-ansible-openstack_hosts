@@ -16,6 +16,7 @@
 ## Defined required kernel
 openstack_host_required_kernel: 3.10.0-327.13.1.el7.x86_64
 openstack_host_sysstat_file: /etc/sysconfig/sysstat
+openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.redhat.j2
 openstack_host_module_file: /etc/modules-load.d/openstack-ansible.conf
 

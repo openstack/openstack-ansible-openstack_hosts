@@ -79,6 +79,7 @@
 - name: Check for existing yum repositories
   shell: "yum-config-manager | grep 'repo:'"
   register: existing_yum_repos
+  changed_when: false
 
 - name: Add yum repositories if they do not exist
   yum_repository:

@@ -20,6 +20,9 @@
   become: true
   gather_facts: false
   pre_tasks:
+    # NOTE(mhayden): We skip this task when we're running the final
+    # idempotence check because this task will always mess with the hosts
+    # file and cause related tasks to show as `changed`.
     - name: Add entries to hosts file
       blockinfile:
         dest: /etc/hosts
@@ -28,6 +31,9 @@
           127.111.111.103 test3.openstack.local
           127.111.111.103 test3.additional
         marker: ""
+      changed_when: false
+      when:
+        - "'idempotence' not in lookup('env', 'ANSIBLE_LOG_PATH')"
 
 # Prepare the user ssh keys
 - include: common/test-prepare-keys.yml

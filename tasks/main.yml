@@ -31,7 +31,7 @@
   tags:
     - openstack_hosts-install
 
-# Drop the release file everywhere
+# Deploy the release file everywhere
 - include_tasks: openstack_release.yml
   tags:
     - openstack_hosts-install

@@ -19,6 +19,7 @@ cache_timeout: 600
 ## Defined required kernel
 openstack_host_required_kernel: 4.2.0-18-generic
 openstack_host_sysstat_file: /etc/default/sysstat
+openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.debian.j2
 openstack_host_module_file: /etc/modules
 
@@ -89,18 +90,6 @@ _package_list:
     state: "{{ openstack_hosts_package_state }}"
 
 _package_repos:
-  # For convention over configuration, this removes any UCA configuration with
-  # default filename, or user defined filename.
-  # Deployers can/should use this facility to remove any previously user defined
-  # repositories.
-  # Remove the pike UCA repo configuration
-  - repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/pike main"
-    state: absent
-    filename: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
-  # Remove any previously done queens UCA repo configuration (without the 'uca' file name)
-  - repo: "{{ uca_repo }}"
-    state: absent
-    filename: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
   # Implement the current UCA repo configuration
   - repo: "{{ uca_repo }}"
     state: present

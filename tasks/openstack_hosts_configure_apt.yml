@@ -41,6 +41,11 @@
     update_cache: yes
     cache_valid_time: "{{ cache_timeout }}"
 
+- name: Remove any old UCA repository using the old filename
+  file:
+    path: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
+    state: absent
+
 # When updating the cache in the apt_repository
 # task, and the update fails, a retry does not
 # detect a change the second attempt and therefore
@@ -65,5 +70,6 @@
   when: _adding_apt_repo | changed
   register: _update_apt_cache
   until: _update_apt_cache | success
+  changed_when: false
   retries: 5
   delay: 2
