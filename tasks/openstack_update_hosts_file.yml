@@ -37,4 +37,4 @@
 - name: Update hosts file
   command: "/usr/local/bin/openstack-host-hostfile-setup.sh"
   register: update_hosts
-  changed_when: stat_hosts.stat.md5 | string != update_hosts.stdout | string
+  changed_when: not stat_hosts.stat.exists or stat_hosts.stat.md5 | string != update_hosts.stdout | string
