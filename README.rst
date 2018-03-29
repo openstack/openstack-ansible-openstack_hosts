@@ -20,4 +20,4 @@ Documentation for the project can be found at:
   https://docs.openstack.org/openstack-ansible-openstack_hosts/latest/
 
 The project home is at:
-  http://launchpad.net/openstack-ansible
+  https://launchpad.net/openstack-ansible
