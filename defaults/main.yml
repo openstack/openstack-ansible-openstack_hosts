@@ -131,6 +131,9 @@ global_environment_variables: {}
 # Set the default mode for the /etc/cron.d/sysstat file
 openstack_host_sysstat_cron_mode: '0755'
 
+# Distribution packages required for using pip on the host
+openstack_host_pip_packages: "{{ _openstack_host_pip_packages | default([]) }}"
+
 ## Default repositories data
 # Set default mirror for CentOS repositories
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.

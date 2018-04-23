@@ -22,6 +22,8 @@ openstack_host_module_file: /etc/modules-load.d/openstack-ansible.conf
 
 openstack_host_sysstat_cron_mode: '0600'
 
+openstack_host_use_distro_pip: false
+
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
   - name: 8021q
