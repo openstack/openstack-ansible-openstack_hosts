@@ -81,7 +81,7 @@
   package:
     name: "{{ openstack_host_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
-  when: "{{ openstack_host_distro_packages | length > 0 }}"
+  when: openstack_host_distro_packages | length > 0
   register: install_packages
   until: install_packages | success
   retries: 5
