@@ -16,17 +16,6 @@
 ## APT Cache Options
 cache_timeout: 600
 
-openstack_host_use_distro_pip: true
-_openstack_host_pip_packages:
-  - python-pip
-  - python3-pip
-  - python-setuptools
-  - python3-setuptools
-  - python-virtualenv
-  - python3-virtualenv
-  - python-wheel
-  - python3-wheel
-
 ## Defined required kernel
 openstack_host_required_kernel: 4.4.0-0-generic
 openstack_host_sysstat_file: /etc/default/sysstat
@@ -61,6 +50,17 @@ openstack_host_kernel_modules:
   - name: x_tables
 
 ## Base packages
+_openstack_host_distro_packages:
+  - python-pip
+  - python3-pip
+  - python-setuptools
+  - python3-setuptools
+  - python-virtualenv
+  - python3-virtualenv
+  - python-wheel
+  - python3-wheel
+
+## Bare metal base packages
 _openstack_host_metal_distro_packages:
   - apparmor-utils
   - apt-transport-https

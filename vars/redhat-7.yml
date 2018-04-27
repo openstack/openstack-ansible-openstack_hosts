@@ -48,6 +48,9 @@ openstack_host_kernel_modules:
   - name: nf_nat_ipv4
   - name: vhost_net
 
+## Base packages
+_openstack_host_distro_packages: []
+
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
   - bridge-utils

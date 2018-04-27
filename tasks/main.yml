@@ -72,15 +72,16 @@
 - name: Run the pip install role
   include_role:
     name: pip_install
-  when: not openstack_host_use_distro_pip
+  when:
+    - ansible_pkg_mgr in ['yum', 'dnf']
   tags:
     - openstack_hosts-install
 
-- name: Install PIP distribution packages
+- name: Install distro packages
   package:
-    name: "{{ openstack_host_pip_packages }}"
+    name: "{{ openstack_host_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
-  when: openstack_host_use_distro_pip
+  when: "{{ openstack_host_distro_packages | length > 0 }}"
   register: install_packages
   until: install_packages | success
   retries: 5

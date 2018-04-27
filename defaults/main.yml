@@ -119,6 +119,9 @@ openstack_kernel_options:
 # above.
 openstack_user_kernel_options: []
 
+# Overridable set of packages to install on all hosts and containers.
+openstack_host_distro_packages: "{{ _openstack_host_distro_packages }}"
+
 # Overridable set of packages to install on the host.
 openstack_host_metal_distro_packages: "{{ _openstack_host_metal_distro_packages }}"
 
@@ -130,9 +133,6 @@ global_environment_variables: {}
 
 # Set the default mode for the /etc/cron.d/sysstat file
 openstack_host_sysstat_cron_mode: '0755'
-
-# Distribution packages required for using pip on the host
-openstack_host_pip_packages: "{{ _openstack_host_pip_packages | default([]) }}"
 
 ## Default repositories data
 # Set default mirror for CentOS repositories
