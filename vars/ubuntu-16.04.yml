@@ -59,6 +59,7 @@ _openstack_host_distro_packages:
   - python3-virtualenv
   - python-wheel
   - python3-wheel
+  - virtualenv
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
