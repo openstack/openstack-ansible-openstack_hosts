@@ -24,3 +24,7 @@
     name: systemd-journald
     state: restarted
     enabled: yes
+  register: _restart
+  until: _restart | success
+  retries: 5
+  delay: 2
