@@ -43,6 +43,7 @@ openstack_host_kernel_modules:
   - name: iscsi_tcp
   - name: nf_conntrack
   - name: nf_conntrack_ipv4
+  - name: nf_conntrack_ipv6
   - name: nf_defrag_ipv4
   - name: nf_nat
   - name: nf_nat_ipv4
