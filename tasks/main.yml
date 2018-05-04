@@ -72,8 +72,6 @@
 - name: Run the pip install role
   include_role:
     name: pip_install
-  when:
-    - ansible_pkg_mgr in ['yum', 'dnf']
   tags:
     - openstack_hosts-install
 
