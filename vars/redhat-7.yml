@@ -122,11 +122,11 @@ _package_repos_priorities:
   - name: base
     priority: 50
   - name: epel
-    priority: 99
+    priority: 60
   - name: extras
     priority: 50
   - name: openstack-queens
-    priority: 50
+    priority: 99
   - name: rdo-qemu-ev
     priority: 50
   - name: updates
