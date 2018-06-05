@@ -66,7 +66,7 @@ _openstack_host_distro_packages:
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
   - bridge-utils
-  - patterns-openSUSE-devel_basis
+  - "{{ (ansible_distribution_version is version ('42', '>=')) | ternary('patterns-openSUSE-devel_basis', 'patterns-devel-base-devel_basis') }}"
   - curl
   - device-mapper
   - dstat
