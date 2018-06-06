@@ -93,6 +93,10 @@ _package_repos:
   # default filename, or user defined filename.
   # Deployers can/should use this facility to remove any previously user defined
   # repositories.
+  # Remove the ocata UCA repo configuration
+  - repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/ocata main"
+    state: absent
+    filename: "{{ uca_apt_source_list_filename | default('ubuntu_cloud_archive_canonical_com_ubuntu') }}"
   # Remove the pike UCA repo configuration
   - repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/pike main"
     state: absent
