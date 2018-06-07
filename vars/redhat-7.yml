@@ -89,8 +89,6 @@ _package_repos_keys:
     keyfile: "gpg/61E8806C"
 
 _package_list:
-  - name: epel-release
-    state: present
   - name: yum-plugin-priorities
     state: present
   - name: yum-utils
@@ -121,8 +119,6 @@ _package_repos:
 _package_repos_priorities:
   - name: base
     priority: 50
-  - name: epel
-    priority: 99
   - name: extras
     priority: 50
   - name: openstack-queens
