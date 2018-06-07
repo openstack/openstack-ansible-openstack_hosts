@@ -86,9 +86,11 @@
     name: "{{ repo.name }}"
     description: "{{ repo.description | default(omit) }}"
     baseurl: "{{ repo.baseurl | default(omit) }}"
+    mirrorlist: "{{ repo.mirrorlist | default(omit) }}"
     gpgkey: "{{ repo.gpgkey | default(omit) }}"
     gpgcheck: "{{ repo.gpgcheck | default(omit) }}"
     enabled: "{{ repo.enabled | default('yes') }}"
+    exclude: "{{ repo.exclude | default(omit) }}"
   with_items: "{{ openstack_hosts_package_repos  }}"
   loop_control:
     loop_var: repo
