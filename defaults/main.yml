@@ -24,7 +24,7 @@ openstack_distrib_description: "OpenStack-Ansible"
 openstack_distrib_file: yes
 openstack_distrib_file_path: "/etc/openstack-release"
 
-is_container: "{{ ansible_virtualization_type == 'lxc' }}"
+is_container: "{{ ansible_virtualization_type in ['lxc', 'systemd-nspawn'] }}"
 
 openstack_host_sysstat_enabled: true
 openstack_host_sysstat_interval: 1
