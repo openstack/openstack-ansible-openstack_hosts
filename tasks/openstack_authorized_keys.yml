@@ -27,4 +27,5 @@
     state: present
     key: "{{ item }}"
   with_url: "{{ ssh_key_url }}"
-  when: ssh_key_url is defined
+  when:
+    - ssh_key_url is defined
