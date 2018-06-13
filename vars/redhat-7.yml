@@ -81,9 +81,6 @@ _openstack_host_metal_distro_packages:
   - yum-utils
 
 _package_repos_keys:
-  - name: epel
-    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-    keyfile: "gpg/352C64E5"
   - name: openstack-queens
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
     keyfile: "gpg/764429E6"
@@ -92,6 +89,8 @@ _package_repos_keys:
     keyfile: "gpg/61E8806C"
 
 _package_list:
+  - name: epel-release
+    state: absent
   - name: yum-plugin-priorities
     state: present
   - name: yum-utils
@@ -106,14 +105,6 @@ _package_list:
     state: absent
 
 _package_repos:
-  - file: epel
-    name: epel
-    description: 'Extra Packages for Enterprise Linux 7 - $basearch'
-    mirrorlist: 'https://mirrors.fedoraproject.org/metalink?repo=epel-7&arch=$basearch'
-    gpgcheck: yes
-    enabled: yes
-    exclude:
-      - 'python*'
   - file: rdo-qemu-ev
     name: rdo-qemu-ev
     description: "RDO CentOS-7 - QEMU EV"
