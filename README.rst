@@ -19,5 +19,8 @@ kernel options that all OpenStack hosts need to perform nominally.
 Documentation for the project can be found at:
   https://docs.openstack.org/openstack-ansible-openstack_hosts/latest/
 
+Release notes for the project can be found at:
+  https://docs.openstack.org/releasenotes/openstack-ansible-openstack_hosts/
+
 The project home is at:
   https://launchpad.net/openstack-ansible
