@@ -138,6 +138,7 @@ openstack_host_sysstat_cron_mode: '0755'
 # Set default mirror for CentOS repositories
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
 openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
+openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
 # Ubuntu cloud archive data
 uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/queens main"
 # Default opensuse mirrors URLs

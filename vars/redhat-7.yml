@@ -105,25 +105,25 @@ _package_list:
     state: absent
 
 _package_repos:
-  - file: rdo-qemu-ev
-    name: rdo-qemu-ev
-    description: "RDO CentOS-7 - QEMU EV"
-    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/virt/x86_64/kvm-common/"
+  - name: rdo-qemu-ev
+    description: "RDO CentOS-$releasever - QEMU EV"
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/virt/$basearch/kvm-common/"
     gpgcheck: yes
-    enabled: yes
-  - file: rdo-release
-    name: openstack-queens
-    description: "OpenStack Queens Repository"
-    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/cloud/$basearch/openstack-queens/"
-    gpgcheck: yes
-    enabled: yes
+  - name: rdo-current-passed-ci
+    description: rdo-current-passed-ci
+    baseurl: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/current-passed-ci/"
+    gpgcheck: no
+  - name: rdo-deps
+    description: rdo-deps
+    baseurl: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/deps/latest/"
+    gpgcheck: no
 
 _package_repos_priorities:
   - name: base
     priority: 50
   - name: extras
     priority: 50
-  - name: openstack-queens
+  - name: rdo-current-passed-ci
     priority: 50
   - name: rdo-qemu-ev
     priority: 50
