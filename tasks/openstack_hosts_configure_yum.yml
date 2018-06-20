@@ -91,6 +91,7 @@
     gpgcheck: "{{ repo.gpgcheck | default(omit) }}"
     enabled: "{{ repo.enabled | default('yes') }}"
     exclude: "{{ repo.exclude | default(omit) }}"
+    priority: "{{ repo.priority | default(99) }}"
   with_items: "{{ openstack_hosts_package_repos  }}"
   loop_control:
     loop_var: repo
@@ -113,13 +114,3 @@
   with_items: "{{ openstack_hosts_package_repos }}"
   when:
     - item.name in existing_yum_repos.stdout
-
-- name: Update repo priorities
-  command: >
-    yum-config-manager
-    {% for repo_priority in openstack_hosts_package_repos_priorities %}
-    --enable {{ repo_priority['name'] }} \
-    --setopt="{{ repo_priority['name'] }}.priority={{ repo_priority['priority'] }}"
-    {% endfor %}
-  # TODO(evrardjp): Be more idempotent
-  changed_when: false

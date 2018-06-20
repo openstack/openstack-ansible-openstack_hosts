@@ -116,15 +116,3 @@ _package_repos:
     description: rdo-deps
     baseurl: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/deps/latest/"
     gpgcheck: no
-
-_package_repos_priorities:
-  - name: base
-    priority: 50
-  - name: extras
-    priority: 50
-  - name: rdo-current-passed-ci
-    priority: 50
-  - name: rdo-qemu-ev
-    priority: 50
-  - name: updates
-    priority: 50
