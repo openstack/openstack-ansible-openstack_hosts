@@ -81,7 +81,6 @@ _openstack_host_metal_distro_packages:
   - python-dev
   - rsync
   - rsyslog
-  - sshpass
   - sysstat
   - time
   - vlan
