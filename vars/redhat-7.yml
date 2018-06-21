@@ -104,15 +104,23 @@ _package_list:
     state: absent
 
 _package_repos:
+  - name: extras
+    file: CentOS-Base
+    description: "CentOS-$releasever - Extras"
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/extras/$basearch/"
+    gpgcheck: yes
   - name: rdo-qemu-ev
+    file: rdo
     description: "RDO CentOS-$releasever - QEMU EV"
     baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/virt/$basearch/kvm-common/"
     gpgcheck: yes
   - name: rdo-current-passed-ci
+    file: rdo
     description: rdo-current-passed-ci
     baseurl: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/current-passed-ci/"
     gpgcheck: no
   - name: rdo-deps
+    file: rdo
     description: rdo-deps
     baseurl: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/deps/latest/"
     gpgcheck: no

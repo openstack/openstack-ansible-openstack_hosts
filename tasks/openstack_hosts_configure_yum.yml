@@ -76,14 +76,10 @@
     name: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list }}"
     state: "{{ openstack_hosts_package_state }}"
 
-- name: Check for existing yum repositories
-  shell: "yum-config-manager | grep 'repo:'"
-  register: existing_yum_repos
-  changed_when: false
-
 - name: Add yum repositories if they do not exist
   yum_repository:
     name: "{{ repo.name }}"
+    file: "{{ repo.file | default(omit) }}"
     description: "{{ repo.description | default(omit) }}"
     baseurl: "{{ repo.baseurl | default(omit) }}"
     mirrorlist: "{{ repo.mirrorlist | default(omit) }}"
@@ -95,22 +91,7 @@
   with_items: "{{ openstack_hosts_package_repos  }}"
   loop_control:
     loop_var: repo
-  when:
-    - repo.name not in existing_yum_repos.stdout
   register: _adding_repo
   until: _adding_repo | success
   retries: 5
   delay: 2
-
-- name: Update yum repositories if they already exist
-  command: >
-    yum-config-manager
-    --enable {{ item.name }}
-    {% for key in item.keys() if key != 'file' %}
-    --setopt="{{ item.name }}.{{ key }}={{ item[key] }}"
-    {% endfor %}
-  # TODO(evrardjp): Be more idempotent
-  changed_when: false
-  with_items: "{{ openstack_hosts_package_repos }}"
-  when:
-    - item.name in existing_yum_repos.stdout
