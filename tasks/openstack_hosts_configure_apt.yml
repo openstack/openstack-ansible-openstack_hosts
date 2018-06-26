@@ -23,7 +23,7 @@
 - name: Add/Remove repositories gpg keys manually
   apt_key:
     id: "{{ key.id | default(omit) }}"
-    data: "{{ key.data | default(omit) }}"            # use lookup('file','armored_content.asc')
+    data: "{{ key.data | default(omit) }}"
     keyserver: "{{ key.keyserver | default(omit) }}"
     url: "{{ key.url | default(omit) }}"
     state: "{{ key.state | default('present') }}"
@@ -72,7 +72,8 @@
 - name: Update Apt cache
   apt:
     update_cache: yes
-  when: _adding_apt_repo | changed
+  when:
+    - _adding_apt_repo is changed
   register: _update_apt_cache
   until: _update_apt_cache | success
   changed_when: false
