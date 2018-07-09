@@ -8,9 +8,9 @@
 {%
     for module in openstack_host_specific_kernel_modules if (
         groups[module.group] is defined and
-        inventory_hostname in module.group and
-        item.pattern + '=m' in (modules.content | b64decode)
+        inventory_hostname in groups[module.group] and
+        module.pattern + '=m' in (modules.content | b64decode)
     )
 %}
-{{ module }}
+{{ module.name }}
 {% endfor %}
