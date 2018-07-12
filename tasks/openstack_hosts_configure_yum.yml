@@ -67,7 +67,7 @@
   loop_control:
     loop_var: key
   register: _add_yum_keys
-  until: _add_yum_keys | success
+  until: _add_yum_keys  is success
   retries: 5
   delay: 2
 
@@ -92,6 +92,6 @@
   loop_control:
     loop_var: repo
   register: _adding_repo
-  until: _adding_repo | success
+  until: _adding_repo  is success
   retries: 5
   delay: 2

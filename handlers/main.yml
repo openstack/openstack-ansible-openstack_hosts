@@ -25,6 +25,6 @@
     state: restarted
     enabled: yes
   register: _restart
-  until: _restart | success
+  until: _restart  is success
   retries: 5
   delay: 2
