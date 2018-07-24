@@ -75,7 +75,6 @@ _openstack_host_metal_distro_packages:
   - irqbalance
   - libkmod-dev
   - libkmod2
-  - linux-image-extra-{{ ansible_kernel }}
   - lvm2
   - python-software-properties
   - python-dev
