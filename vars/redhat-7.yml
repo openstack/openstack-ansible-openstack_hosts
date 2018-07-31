@@ -22,8 +22,6 @@ openstack_host_module_file: /etc/modules-load.d/openstack-ansible.conf
 
 openstack_host_sysstat_cron_mode: '0600'
 
-openstack_host_use_distro_pip: false
-
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
   - name: 8021q
@@ -50,7 +48,9 @@ openstack_host_kernel_modules:
   - name: vhost_net
 
 ## Base packages
-_openstack_host_distro_packages: []
+_openstack_host_distro_packages:
+  - python-virtualenv
+  - python-pip
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
