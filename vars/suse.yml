@@ -58,10 +58,8 @@ openstack_host_kernel_modules:
 
 ## Base packages
 _openstack_host_distro_packages:
-  - python-pip
-  - python-setuptools
+  - python-setuptools # python-virtualenv does not work without this package
   - python-virtualenv
-  - python-wheel
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
