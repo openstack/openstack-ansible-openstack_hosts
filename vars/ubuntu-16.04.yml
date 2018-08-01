@@ -49,14 +49,8 @@ openstack_host_kernel_modules:
 
 ## Base packages
 _openstack_host_distro_packages:
-  - python-pip
-  - python3-pip
-  - python-setuptools
-  - python3-setuptools
-  - python-virtualenv
   - python3-virtualenv
-  - python-wheel
-  - python3-wheel
+  - python-virtualenv
   - virtualenv
 
 ## Bare metal base packages
