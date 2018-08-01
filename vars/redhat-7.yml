@@ -48,8 +48,7 @@ openstack_host_kernel_modules:
   - name: vhost_net
 
 ## Base packages
-_openstack_host_distro_packages:
-  - python-virtualenv
+_openstack_host_distro_packages: []
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
