@@ -93,8 +93,14 @@ _package_repos_keys: []
 #   url:
 #   state:
 
-# Bionic Rocky has no UCA
-_package_list: []
+_package_list:
+  - name: ubuntu-cloud-keyring
+    state: "{{ openstack_hosts_package_state }}"
 
-# Bionic Rocky has no UCA.
-_package_repos: []
+_package_repos:
+  # Implement the current UCA repo configuration
+  - repo: "{{ uca_repo }}"
+    state: present
+    filename: "uca"
+
+_uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/rocky main"
