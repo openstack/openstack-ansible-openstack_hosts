@@ -16,5 +16,5 @@
     templates:
       - openstack-ansible-role-jobs
       - check-requirements
-      - publish-openstack-sphinx-docs
-      - release-notes-jobs
+      - publish-openstack-docs-pti
+      - release-notes-jobs-python3
