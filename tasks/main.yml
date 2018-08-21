@@ -80,6 +80,17 @@
   retries: 5
   delay: 2
 
+- name: Install user defined extra distro packages
+  package:
+    name: "{{ openstack_host_extra_distro_packages }}"
+    state: "{{ openstack_hosts_package_state }}"
+  when:
+    - openstack_host_extra_distro_packages | length > 0
+  register: install_packages
+  until: install_packages is success
+  retries: 5
+  delay: 2
+
 - include_tasks: openstack_authorized_keys.yml
   tags:
     - openstack_hosts-config
