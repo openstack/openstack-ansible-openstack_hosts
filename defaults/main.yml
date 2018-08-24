@@ -138,8 +138,8 @@ openstack_host_sysstat_cron_mode: '0755'
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
 openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
 openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
-openstack_hosts_rdo_repo_url: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/current-passed-ci/"
-openstack_hosts_rdo_deps_url: "{{ openstack_hosts_rdo_mirror_url }}/centos7-master/deps/latest/"
+openstack_hosts_rdo_repo_url: "{{ openstack_hosts_rdo_mirror_url }}/centos7-rocky/current-passed-ci/"
+openstack_hosts_rdo_deps_url: "{{ openstack_hosts_rdo_mirror_url }}/centos7-rocky/deps/latest/"
 # Ubuntu cloud archive data
 uca_repo: "{{ _uca_repo }}"
 
