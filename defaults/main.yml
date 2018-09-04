@@ -149,7 +149,7 @@ opensuse_mirror_obs: "{{ opensuse_mirror }}"
 # If mirrored to a different folder, we need to keep this as overridable.
 opensuse_repo_oss_url: "{{ opensuse_mirror }}/distribution/leap/{{ ansible_distribution_version }}/repo/oss/"
 opensuse_repo_update_url: "{{ opensuse_mirror }}/update/leap/{{ ansible_distribution_version }}/oss/"
-opensuse_obs_cloud_repo_url: "http://download.opensuse.org/repositories/Cloud:/OpenStack:/Master/openSUSE_Leap_{{ ansible_distribution_version }}"
+opensuse_obs_cloud_repo_url: "{{ opensuse_mirror_obs }}/repositories/Cloud:/OpenStack:/Master/openSUSE_Leap_{{ ansible_distribution_version }}"
 
 # Keep a history of systemd journals on disk after reboots
 openstack_host_keep_journals: yes
