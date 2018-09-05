@@ -96,6 +96,8 @@ _package_repos_keys: []
 _package_list:
   - name: systemd-logger
     state: absent # conflicts with rsyslog
+  - name: gettext-runtime-mini
+    state: absent # conflicts with gettext-runtime
 
 ## full example:
 #_package_repos:
