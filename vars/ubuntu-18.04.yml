@@ -58,7 +58,6 @@ _openstack_host_metal_distro_packages:
   - apparmor-utils
   - apt-transport-https
   - bridge-utils
-  - build-essential
   - cgroup-lite
   - curl
   - dmeventd
@@ -67,10 +66,8 @@ _openstack_host_metal_distro_packages:
   - htop
   - iptables
   - irqbalance
-  - libkmod-dev
   - libkmod2
   - lvm2
-  - python-dev
   - rsync
   - rsyslog
   - software-properties-common
