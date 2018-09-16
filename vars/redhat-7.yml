@@ -58,7 +58,6 @@ _openstack_host_metal_distro_packages:
   - device-mapper-event
   - dstat
   - ebtables
-  - gcc
   - git
   - iptables
   - irqbalance
@@ -73,7 +72,6 @@ _openstack_host_metal_distro_packages:
   - sudo
   - time
   - wget
-  - yum-plugin-priorities
   - yum-plugin-rpm-warm-cache
   - yum-utils
 
