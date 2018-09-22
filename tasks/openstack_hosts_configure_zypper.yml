@@ -32,6 +32,24 @@
   when:
     - snapper_root_config.stat.exists
 
+# NOTE(nicolasbock) The gettext-runtime-mini package conflicts with
+# gettext-runtime. But removing it with zypper will also remove
+# grub2. We call `rpm` directly to remove _only_ gettext-runtime-mini.
+- name: Remove gettext-runtime-mini without removing grub2
+  shell: |
+    return_code=0
+    if rpm --query --info gettext-runtime-mini; then
+      rpm --erase --verbose --nodeps gettext-runtime-mini
+      return_code=2
+    fi
+    exit ${return_code}
+  args:
+    executable: /bin/bash
+    warn: false
+  register: _remove_gettext_runtime_mini
+  changed_when: _remove_gettext_runtime_mini.rc == 2
+  failed_when: _remove_gettext_runtime_mini.rc not in [0, 2]
+
 - name: Remove the blacklisted packages
   package:
     name: "{{ openstack_hosts_package_list | selectattr('state','equalto','absent') | map(attribute='name') | list }}"
