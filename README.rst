@@ -22,5 +22,8 @@ Documentation for the project can be found at:
 Release notes for the project can be found at:
   https://docs.openstack.org/releasenotes/openstack-ansible-openstack_hosts/
 
+The project source code repository is located at:
+  https://git.openstack.org/cgit/openstack/openstack-ansible-openstack_hosts/
+
 The project home is at:
   https://launchpad.net/openstack-ansible
