@@ -30,6 +30,9 @@ galaxy_info:
     - name: opensuse
       versions:
         - all
+    - name: gentoo
+      versions:
+        - all
   categories:
     - cloud
     - host

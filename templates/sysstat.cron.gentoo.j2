@@ -1,0 +1,9 @@
+# {{ ansible_managed }}
+
+#crontab for sysstat
+
+# Activity reports every 10 minutes everyday
+*/{{ openstack_host_sysstat_interval }} * * * * root [ -x /usr/lib64/sa/sa1 ] && exec /usr/lib64/sa/sa1 -S ALL 1 1
+
+# Update reports every 6 hours
+55 {{ openstack_host_sysstat_statistics_hour }} * * * root [ -x /usr/lib64/sa/sa2 ] && exec /usr/lib64/sa/sa2 -A
