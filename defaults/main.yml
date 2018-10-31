@@ -89,7 +89,7 @@ openstack_host_nf_conntrack_max: 262144
 
 # System control kernel tuning
 openstack_kernel_options:
-  - { key: 'fs.inotify.max_user_watches', value: 36864 }
+  - { key: 'fs.inotify.max_user_watches', value: 1048576 }
   - { key: 'net.ipv4.conf.all.rp_filter', value: 0 }
   - { key: 'net.ipv4.conf.default.rp_filter', value: 0 }
   - { key: 'net.ipv4.ip_forward', value: 1 }
