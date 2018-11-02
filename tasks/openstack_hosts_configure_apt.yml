@@ -15,11 +15,6 @@
 
 # APT configuration tasks that apply on all nodes.
 
-- name: Remove the blacklisted packages
-  package:
-    name: "{{ openstack_hosts_package_list | selectattr('state','equalto','absent') | map(attribute='name') | list }}"
-    state: absent
-
 - name: Add/Remove repositories gpg keys manually
   apt_key:
     id: "{{ key.id | default(omit) }}"
