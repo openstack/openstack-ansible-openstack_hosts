@@ -22,21 +22,6 @@
   when:
     - ansible_kernel | version_compare(openstack_host_required_kernel, '<')
 
-- name: Disable cache for apt update for hosts
-  copy:
-    content: |
-      Acquire::http::No-Cache true;
-    dest: "/etc/apt/apt.conf.d/00apt-no-cache"
-  tags:
-    openstack_hosts-config
-  when:
-    - ansible_pkg_mgr == 'apt'
-    - >
-      global_environment_variables.http_proxy is defined or
-      global_environment_variables.HTTP_PROXY is defined or
-      global_environment_variables.https_proxy is defined or
-      global_environment_variables.HTTPS_PROXY is defined
-
 - name: Install distro packages for bare metal nodes
   package:
     name: "{{ openstack_host_metal_distro_packages }}"
