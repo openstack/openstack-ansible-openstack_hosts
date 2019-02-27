@@ -119,3 +119,13 @@ _package_repos:
     repo: "{{ opensuse_obs_cloud_repo_url }}"
     auto_import_keys: yes
     autorefresh: yes
+
+_package_vendors:
+## https://en.opensuse.org/SDB:Vendor_change_update#Allowing_Vendor_change_for_selected_repositories
+#  - suse
+#  - opensuse
+#  - obs://build.suse.deb
+#  - Packman
+#  - http://packman.links2linux.de
+  - openSUSE
+  - obs://build.opensuse.org/Cloud:OpenStack

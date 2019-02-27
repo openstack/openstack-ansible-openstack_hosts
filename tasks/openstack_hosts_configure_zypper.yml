@@ -74,6 +74,14 @@
   retries: 5
   delay: 2
 
+- name: Add/Remove/Update acceptable repository vendors
+  template:
+    src: osa.vendors.j2
+    dest: /etc/zypp/vendors.d/osa.vendors
+    owner: root
+    group: root
+    mode: 0644
+
 - name: Add requirement packages (repositories gpg keys, toolkits...)
   zypper:
     name: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list }}"

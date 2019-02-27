@@ -59,6 +59,11 @@ openstack_hosts_package_list: "{{ _package_list + (user_package_list | default([
 # named user_external_repo_lists and the standard defaults _package_repos
 openstack_hosts_package_repos: "{{ _package_repos + (user_external_repos_list | default([])) }}"
 
+# Overridable package vendors is composed of the old override named
+# user_external_vendors_lists and the standard defaults
+# _package_vendors
+openstack_hosts_package_vendors: "{{ (_package_vendors | default([])) + (user_external_vendors_list | default([])) }}"
+
 # Overridable package repo gpg is composed of the old override
 # named user_external_repo_keys_list and the standard defaults _package_repos_keys
 openstack_hosts_package_repos_keys: "{{ _package_repos_keys + (user_external_repo_keys_list | default([])) }}"
