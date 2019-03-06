@@ -167,3 +167,12 @@ openstack_host_keep_journals: yes
 
 # Enable/Disable the yum fastestmirror plugin
 openstack_hosts_enable_yum_fastestmirror: yes
+
+#user supplied list of CA certificates to copy to hosts from the deploy host
+# example:
+# - name: SnakeOilCorp.crt                             #the filename created on the target host (must be .crt on Ubuntu)
+#    src: /etc/ssl/certs/snake-oil-cert-latest.pem     #the source file on the deploy host
+openstack_host_ca_certificates: []
+
+# target directory for user supplied CA certificates
+openstack_host_ca_location: "{{ _openstack_host_ca_location }}"

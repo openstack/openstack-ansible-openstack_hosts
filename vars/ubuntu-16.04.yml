@@ -95,3 +95,5 @@ _package_repos:
     filename: "uca"
 
 _uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/queens main"
+
+_openstack_host_ca_location: /usr/local/share/ca-certificates/

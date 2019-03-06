@@ -18,7 +18,7 @@
   hosts: localhost
   connection: local
   become: true
-  gather_facts: false
+  gather_facts: true
   pre_tasks:
     # NOTE(mhayden): We skip this task when we're running the final
     # idempotence check because this task will always mess with the hosts
@@ -42,6 +42,18 @@
       with_items:
         - "{{ extra_host_package }}"
         - "{{ extra_metal_package }}"
+      when:
+        - "'idempotence' not in lookup('env', 'ANSIBLE_LOG_PATH')"
+
+# Create certificate authority and test server cert
+- name: Playbook for test setup
+  hosts: localhost
+  become: true
+  gather_facts: true
+  pre_tasks:
+  tasks:
+    - name: Create test CA
+      include_tasks: test-create-ca.yml
       when:
         - "'idempotence' not in lookup('env', 'ANSIBLE_LOG_PATH')"
 
@@ -112,6 +124,10 @@
         name: "{{ extra_metal_package }}"
         state: present
       register: extra_metal_distro_package_host
+
+    - name: Validate server certificate against system trust store
+      command: certtool --verify --infile "{{ test_cert_dir }}/server.pem"
+      changed_when: false
 
     - name: Check role functions
       assert:

@@ -129,3 +129,5 @@ _package_vendors:
 #  - http://packman.links2linux.de
   - openSUSE
   - obs://build.opensuse.org/Cloud:OpenStack
+
+_openstack_host_ca_location: /etc/pki/trust/anchors/

@@ -9,6 +9,12 @@ openstack_host_extra_distro_packages:
 openstack_host_extra_metal_distro_packages:
   - "{{ extra_metal_package }}"
 
+test_cert_dir: "/tmp/test-ca"
+
+openstack_host_ca_certificates:
+  - name: "TestCA.crt"
+    src: "{{ test_cert_dir }}/ca.pem"
+
 openstack_host_specific_kernel_modules:
   - name: "ebtables"
     pattern: "CONFIG_BRIDGE_NF_EBTABLES"

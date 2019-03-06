@@ -99,3 +99,7 @@
 - import_tasks: openstack_authorized_keys.yml
   tags:
     - openstack_hosts-config
+
+- include_tasks: openstack_hosts_ca_certificates.yml
+  tags:
+    - openstack_hosts-config
