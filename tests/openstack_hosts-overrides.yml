@@ -1,4 +1,14 @@
 ---
+
+extra_host_package: iotop
+extra_metal_package: lshw
+
+openstack_host_extra_distro_packages:
+  - "{{ extra_host_package }}"
+
+openstack_host_extra_metal_distro_packages:
+  - "{{ extra_metal_package }}"
+
 openstack_host_specific_kernel_modules:
   - name: "ebtables"
     pattern: "CONFIG_BRIDGE_NF_EBTABLES"

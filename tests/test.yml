@@ -35,6 +35,16 @@
       when:
         - "'idempotence' not in lookup('env', 'ANSIBLE_LOG_PATH')"
 
+    - name: Ensure extra host packages are not present
+      package:
+        name: "{{ item }}"
+        state: absent
+      with_items:
+        - "{{ extra_host_package }}"
+        - "{{ extra_metal_package }}"
+      when:
+        - "'idempotence' not in lookup('env', 'ANSIBLE_LOG_PATH')"
+
 # Prepare the user ssh keys
 - import_playbook: common/test-prepare-keys.yml
 
@@ -53,36 +63,56 @@
       slurp:
         src: "{{ openstack_host_module_file }}"
       register: modules_file
+
     - name: Open sysctl file
       slurp:
         src: /etc/sysctl.conf
       register: sysctl_file
+
     - name: Open hosts file
       slurp:
         src: /etc/hosts
       register: hosts_file
+
     - name: Open /etc/environment file
       slurp:
         src: /etc/environment
       register: environment_file
+
     - name: Read files
       set_fact:
         modules_content: "{{ modules_file.content | b64decode }}"
         sysctl_content: "{{ sysctl_file.content | b64decode }}"
         hosts_content: "{{ hosts_file.content | b64decode }}"
         environment_content: "{{ environment_file.content | b64decode }}"
+
     - name: Check for release file
       stat:
         path: /etc/openstack-release
       register: release_file
+
     - name: Check for systat file
       stat:
         path: "{{ openstack_host_sysstat_file }}"
       register: systat_file
+
     - name: Check for ssh dir
       stat:
         path: "{{ ansible_env.HOME}}/.ssh"
       register: ssh_dir
+
+    - name: Check for extra host package present on host
+      package:
+        name: "{{ extra_host_package }}"
+        state: present
+      register: extra_distro_package_host
+
+    - name: Check for extra metal package present on host
+      package:
+        name: "{{ extra_metal_package }}"
+        state: present
+      register: extra_metal_distro_package_host
+
     - name: Check role functions
       assert:
         that:
@@ -99,3 +129,6 @@
           - "systat_file.stat.exists"
           - "'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' in environment_content"
           - "ssh_dir.stat.isdir"
+          - extra_distro_package_host.changed == false
+          - extra_metal_distro_package_host.changed == false
+
