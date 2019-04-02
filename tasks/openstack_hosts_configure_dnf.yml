@@ -36,12 +36,6 @@
     mode: "0440"
     src: sudoers.j2
 
-# yum configuration tasks that apply on all nodes.
-- name: Remove the blacklisted packages
-  package:
-    name: "{{ openstack_hosts_package_list | selectattr('state','equalto','absent') | map(attribute='name') | list }}"
-    state: absent
-
 # Copy all factored-in GPG keys.
 # KeyID 764429E6 from https://raw.githubusercontent.com/rdo-infra/centos-release-openstack/ocata-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
 # KeyID 61E8806C from keyserver for rdo-qemu-ev

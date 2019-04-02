@@ -50,11 +50,6 @@
   changed_when: _remove_gettext_runtime_mini.rc == 2
   failed_when: _remove_gettext_runtime_mini.rc not in [0, 2]
 
-- name: Remove the blacklisted packages
-  package:
-    name: "{{ openstack_hosts_package_list | selectattr('state','equalto','absent') | map(attribute='name') | list }}"
-    state: absent
-
 - name: If a keyfile is provided, copy the gpg keyfile to the key location
   copy:
     src: "{{ item.keyfile }}"
