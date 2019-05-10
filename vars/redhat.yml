@@ -40,8 +40,8 @@ openstack_host_kernel_modules:
   - name: ip_vs
   - name: iscsi_tcp
   - name: nf_conntrack
-  - name: nf_conntrack_ipv4
-  - name: nf_conntrack_ipv6
+  - name: "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.19', '<=') %}nf_conntrack_ipv4{% endif %}"
+  - name: "{% if hostvars[inventory_hostname]['ansible_kernel'] | version_compare('4.19', '<=') %}nf_conntrack_ipv6{% endif %}"
   - name: nf_defrag_ipv4
   - name: nf_nat
   - name: nf_nat_ipv4
@@ -54,6 +54,7 @@ _openstack_host_distro_packages:
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
   - bridge-utils
+  - cronie
   - curl
   - device-mapper-event
   - dstat
@@ -100,11 +101,6 @@ _package_list:
     state: absent
 
 _package_repos:
-  - name: extras
-    file: CentOS-Base
-    description: "CentOS-$releasever - Extras"
-    baseurl: "{{ openstack_hosts_centos_mirror_url }}/7/extras/$basearch/"
-    gpgcheck: yes
   - name: rdo-qemu-ev
     file: rdo
     description: "RDO CentOS-$releasever - QEMU EV"
