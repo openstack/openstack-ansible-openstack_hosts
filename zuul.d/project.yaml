@@ -16,6 +16,8 @@
 - project:
     templates:
       - openstack-ansible-role-jobs
+      - openstack-ansible-deploy-aio_metal-jobs
+      - openstack-ansible-deploy-aio_distro_metal-jobs
       - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
