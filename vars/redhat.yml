@@ -116,3 +116,5 @@ _package_repos:
     description: rdo-deps
     baseurl: "{{ openstack_hosts_rdo_deps_url }}"
     gpgcheck: no
+
+_openstack_host_ca_location: /etc/pki/ca-trust/source/anchors/
