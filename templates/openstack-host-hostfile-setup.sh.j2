@@ -34,15 +34,6 @@ function host_update {
     fi
 }
 
-{% raw -%}
-{% set host_rfc_1034_1035_name = inventory_hostname|replace('_', '-') %}
-host_update "{{ ansible_hostname|default(host_rfc_1034_1035_name) }}" \
-            "{{ host_rfc_1034_1035_name }}" \
-            "{{ inventory_hostname }}" \
-            "127.0.1.1" \
-            "{{ openstack_domain }}"
-{% endraw %}
-
 {% for item in groups['all'] %}
 {% set target_rfc_1034_1035_name = item|replace('_', '-') %}
 host_update "{{ hostvars[item]['ansible_hostname']|default(target_rfc_1034_1035_name) }}" \
