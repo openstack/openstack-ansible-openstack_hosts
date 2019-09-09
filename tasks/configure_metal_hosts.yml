@@ -20,7 +20,7 @@
       [ {{ ansible_kernel }} < {{ openstack_host_required_kernel }} ]
       Resolve this issue before continuing.
   when:
-    - ansible_kernel is version_compare(openstack_host_required_kernel, '<')
+    - ansible_kernel is version(openstack_host_required_kernel, '<')
 
 - name: Install distro packages for bare metal nodes
   package:
