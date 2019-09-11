@@ -61,6 +61,7 @@ _openstack_host_distro_packages:
   - python-setuptools # python-virtualenv does not work without this package
   - python-virtualenv
   - "{{ (ansible_distribution_version is version ('42', '>=')) | ternary('python-virtualenv', 'system-user-nobody') }}" # system-user-nobody only exists in Leap 15 onwards
+  - python3-systemd   # this can be removed once the oslo.log package has a dependancy on python3-systemd
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
