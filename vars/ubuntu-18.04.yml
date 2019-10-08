@@ -39,8 +39,9 @@ openstack_host_kernel_modules:
   - name: iscsi_tcp
   - name: nbd
   - name: nf_conntrack
-  - name: nf_conntrack_ipv4
-  - name: nf_conntrack_ipv6
+  #NOTE: 4.19 kernel merged nf_conntrack_ipv{4,6} into nf_conntrack
+  - name: "{{ (hostvars[inventory_hostname]['ansible_kernel'] is version('4.19.0', '<=')) | ternary('nf_conntrack_ipv4', '') }}"
+  - name: "{{ (hostvars[inventory_hostname]['ansible_kernel'] is version('4.19.0', '<=')) | ternary('nf_conntrack_ipv6', '') }}"
   - name: nf_defrag_ipv4
   - name: nf_nat
   - name: nf_nat_ipv4
