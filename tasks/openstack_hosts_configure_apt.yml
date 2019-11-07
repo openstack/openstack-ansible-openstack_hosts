@@ -52,7 +52,7 @@
 # does not update the cache, resulting in a changed
 # repo config, but no updated cache. To work around
 # this bug we implement the change of repo config
-# and the cache update as two seperate tasks.
+# and the cache update as two separate tasks.
 - name: Add/Remove/Update standard and user defined repositories
   apt_repository:
     repo: "{{ repo.repo }}"
