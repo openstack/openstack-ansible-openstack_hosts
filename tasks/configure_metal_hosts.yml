@@ -105,3 +105,11 @@
     - Restart systemd-journald
   tags:
     - skip_ansible_lint
+
+- name: Configure legacy alternative for ebtables on Debian
+  alternatives:
+    name: ebtables
+    path: /usr/sbin/ebtables-legacy
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_distribution_major_version == '10'
