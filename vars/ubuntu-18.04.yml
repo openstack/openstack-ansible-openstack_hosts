@@ -44,7 +44,7 @@ openstack_host_kernel_modules:
   - name: "{{ (hostvars[inventory_hostname]['ansible_kernel'] is version('4.19.0', '<=')) | ternary('nf_conntrack_ipv6', '') }}"
   - name: nf_defrag_ipv4
   - name: nf_nat
-  - name: nf_nat_ipv4
+  - name: "{{ (hostvars[inventory_hostname]['ansible_kernel'] is version('5.0.0', '<=')) | ternary('nf_nat_ipv4', '') }}"
   - name: vhost_net
   - name: x_tables
 
