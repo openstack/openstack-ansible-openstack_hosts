@@ -21,7 +21,10 @@
   delegate_to: localhost
   run_once: true
   vars:
-    ansible_python_interpreter: "/usr/bin/python"
+    ansible_python_interpreter: >-
+      "{{ (hostvars['localhost']['ansible_distribution'] == 'CentOS' and
+             hostvars['localhost']['ansible_distribution_major_version'] is version('7', '<='))
+          | ternary('/usr/bin/python', '/usr/bin/python3') }}"
 
 - name: Copy templated hosts file entries script
   template:
