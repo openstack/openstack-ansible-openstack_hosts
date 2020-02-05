@@ -15,6 +15,15 @@
 
 # APT configuration tasks that apply on all nodes.
 
+- name: Install gpg tooling for key management
+  apt:
+    name: gnupg
+    state: "{{ openstack_hosts_package_state }}"
+  register: _install_gpg
+  until: _install_gpg  is success
+  retries: 5
+  delay: 2
+
 - name: Add/Remove repositories gpg keys manually
   apt_key:
     id: "{{ key.id | default(omit) }}"
