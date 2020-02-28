@@ -78,8 +78,19 @@ _openstack_host_metal_distro_packages:
   - vlan
   - wget
 
-_package_repos_keys: []
+_package_repos_keys:
+  - id: 0FB8E8DD19498FEC90B25E5E56056AB2FEE4EECB
+    url: "http://osbpo.debian.net/osbpo/dists/pubkey.gpg"
+    state: present
+
 _package_list: []
-_package_repos: []
+
+_package_repos:
+  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_distribution_release ~ '-train-backports main') }}"
+    state: present
+    filename: "osbpo"
+  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_distribution_release ~ '-train-backports-nochange main') }}"
+    state: present
+    filename: "osbpo"
 
 _openstack_host_ca_location: /usr/local/share/ca-certificates/

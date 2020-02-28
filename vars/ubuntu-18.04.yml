@@ -92,10 +92,8 @@ _package_list:
 
 _package_repos:
   # Implement the current UCA repo configuration
-  - repo: "{{ uca_repo }}"
+  - repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/ussuri main"
     state: present
     filename: "uca"
-
-_uca_repo: "deb {{ uca_apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_lsb.codename }}-updates/ussuri main"
 
 _openstack_host_ca_location: /usr/local/share/ca-certificates/
