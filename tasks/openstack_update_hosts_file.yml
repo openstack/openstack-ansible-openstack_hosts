@@ -13,31 +13,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Drop hosts file entries script locally
-  template:
-    src: "openstack-host-hostfile-setup.sh.j2"
-    dest: "/var/tmp/openstack-host-hostfile-setup.sh"
-    mode: "0755"
-  delegate_to: localhost
+- name: Generate hosts file records
   run_once: true
-  vars:
-    ansible_python_interpreter: >-
-      "{{ (hostvars['localhost']['ansible_distribution'] == 'CentOS' and
-             hostvars['localhost']['ansible_distribution_major_version'] is version('7', '<='))
-          | ternary('/usr/bin/python', '/usr/bin/python3') }}"
-
-- name: Copy templated hosts file entries script
-  template:
-    src: "/var/tmp/openstack-host-hostfile-setup.sh"
-    dest: "/usr/local/bin/openstack-host-hostfile-setup.sh"
-    mode: "0755"
-
-- name: Stat host file
-  stat:
-    path: /etc/hosts
-  register: stat_hosts
+  set_fact:
+    _etc_hosts_content: |-
+      {% set records = [] %}
+      {% for item in groups['all'] %}
+      {%   set record = [] %}
+      {%   set _target_rfc_name = item|replace('_', '-') %}
+      {%   set _ans_hostname = hostvars[item]['ansible_hostname'] | default(_target_rfc_name) %}
+      {%   set _ = record.append(hostvars[item]['ansible_host'] | default('127.0.0.1')) %}
+      {%   set _ = record.append(_ans_hostname ~ '.' ~ openstack_domain) %}
+      {%   set _ = record.append(_target_rfc_name) %}
+      {%   if (_ans_hostname != _target_rfc_name) and (_target_rfc_name != item) %}
+      {%     set _ = record.append(item) %}
+      {%     set _ = record.append(_ans_hostname) %}
+      {%   elif (_ans_hostname != _target_rfc_name) and (_target_rfc_name == item) %}
+      {%     set _ = record.append(_ans_hostname) %}
+      {%   elif (_ans_hostname == _target_rfc_name) and (_target_rfc_name != item) %}
+      {%     set _ = record.append(item) %}
+      {%   endif %}
+      {%   set _ = records.append(record | join(' ')) %}
+      {% endfor %}
+      {{ records }}
 
 - name: Update hosts file
-  command: "/usr/local/bin/openstack-host-hostfile-setup.sh"
-  register: update_hosts
-  changed_when: not stat_hosts.stat.exists or stat_hosts.stat.checksum | string != update_hosts.stdout | string
+  blockinfile:
+    dest: /etc/hosts
+    block: "{{ _etc_hosts_content | join('\n') }}"
+    marker: "### {mark} OPENSTACK-ANSIBLE MANAGED BLOCK ###"
