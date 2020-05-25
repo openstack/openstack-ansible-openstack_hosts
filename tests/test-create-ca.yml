@@ -29,7 +29,7 @@
       - gnutls-utils
     state: present
   when:
-    - ansible_pkg_mgr == 'yum'
+    - ansible_distribution == "CentOS"
 
 - name: Install ssl packages (ubuntu)
   package:
