@@ -88,7 +88,7 @@ _package_list:
   - name: ubuntu-cloud-keyring
     state: "{{ openstack_hosts_package_state }}"
 
-_package_repos:
+_package_repos: []
   # Implement the current UCA repo configuration
   # NOTE(jrosser) there is no UCA for focal, so disable it for now.
   #- repo: "{{ uca_repo }}"
