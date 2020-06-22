@@ -101,3 +101,11 @@
   when:
     - ansible_os_family | lower == 'redhat'
     - ansible_distribution_major_version is version('8', '=')
+
+- name: Enable PowerTools repository
+  command: yum-config-manager --enable PowerTools
+  changed_when: false
+  when:
+    - ansible_os_family | lower == 'redhat'
+    - ansible_distribution_major_version is version('8', '=')
+    - install_method == 'distro'
