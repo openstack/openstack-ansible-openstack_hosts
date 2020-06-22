@@ -15,3 +15,5 @@
 
 global_environment_variables:
   PATH: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+install_method: source
