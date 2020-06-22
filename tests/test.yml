@@ -50,7 +50,6 @@
   hosts: localhost
   become: true
   gather_facts: true
-  pre_tasks:
   tasks:
     - name: Create test CA
       include_tasks: test-create-ca.yml

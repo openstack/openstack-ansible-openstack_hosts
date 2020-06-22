@@ -19,10 +19,6 @@
 # is to another host, we assume that it is accessible by the
 # system python instead.
 
-- name: Install pyOpenSSL
-  pip:
-    name: pyOpenSSL
-
 - name: Install ssl packages (centos)
   package:
     name:
@@ -71,11 +67,10 @@
 
 # Create certificate authority key and cert
 - name: Create the CA private key
-  openssl_privatekey:
-    path: "{{ test_cert_dir }}/cakey.pem"
-    passphrase: "secrete"
-    cipher: 'aes256'
-    size: 4096
+  command: openssl genrsa -aes256 -passout pass:'secrete' -out {{ test_cert_dir }}/cakey.pem 4096
+  args:
+    chdir: "{{ test_cert_dir }}"
+    creates: "{{ test_cert_dir }}/cakey.pem"
 
 # ansible's openssl_certificate can't create X509 extensions
 # but you need CA: true in Basic Constraints to have a CA cert
@@ -91,20 +86,15 @@
     creates: "{{ test_cert_dir }}/ca.pem"
 
 # Create server key and certificate
-- name: Create server cert private key
-  openssl_privatekey:
-    path: "{{ test_cert_dir }}/server.key"
-    size: 4096
-
-- name: Create server cert CSR
-  openssl_csr:
-    path: "{{ test_cert_dir }}/server.csr"
-    common_name: "www.example.com"
-    country_name: "US"
-    state_or_province_name: "Denial"
-    locality_name: "Nowhere"
-    organization_name: "Dis"
-    privatekey_path: "{{ test_cert_dir }}/server.key"
+- name: Create server cert RSA and CSR
+  command: >
+    openssl req -new -newkey rsa:4096 -nodes \
+    -keyout {{ test_cert_dir }}/server.key \
+    -out {{ test_cert_dir }}/server.csr \
+    -subj "/C=US/ST=Denial/L=Nowhere/O=Dis/CN=www.example.com"
+  args:
+    chdir: "{{ test_cert_dir }}"
+    creates: "{{ test_cert_dir }}/server.csr"
 
 - name: Create server certificate
   command: >
