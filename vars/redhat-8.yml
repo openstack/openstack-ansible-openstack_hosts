@@ -51,6 +51,7 @@ openstack_host_kernel_modules:
 _openstack_host_distro_packages:
   - python3-virtualenv
   - python3-devel
+  - python3-six
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
@@ -96,5 +97,12 @@ _package_repos:
     description: rdo-deps
     baseurl: "{{ openstack_hosts_rdo_deps_url }}"
     gpgcheck: no
+    module_hotfixes: yes
+  - name: advanced-virtualization
+    file: virt
+    description: Advanced Virtualization mirror
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/8/virt/$basearch/advanced-virtualization/"
+    gpgcheck: no
+    module_hotfixes: yes
 
 _openstack_host_ca_location: /etc/pki/ca-trust/source/anchors/
