@@ -73,7 +73,6 @@ _openstack_host_metal_distro_packages:
   - sudo
   - time
   - wget
-  - yum-utils
 
 _package_repos_keys:
   - name: openstack-queens
@@ -84,6 +83,8 @@ _package_repos_keys:
     keyfile: "gpg/61E8806C"
 
 _package_list:
+  - name: dnf-plugins-core
+    state: present
   - name: epel-release
     state: absent
   - name: "centos-openstack-release-*"

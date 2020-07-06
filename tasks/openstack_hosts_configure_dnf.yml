@@ -102,10 +102,10 @@
     - install_method == 'distro'
 
 - name: Enable PowerTools repository
-  command: yum-config-manager --enable PowerTools
+  command: dnf config-manager --set-enabled PowerTools
   changed_when: false
   when:
-    - install_method == 'distro'
+    - openstack_hosts_power_tool_enable | bool
 
 - name: Enable/Disable module_hotfixes
   lineinfile:
