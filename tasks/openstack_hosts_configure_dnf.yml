@@ -99,7 +99,7 @@
   retries: 5
   delay: 2
   when:
-    - install_method == 'distro'
+    - (install_method | default('source')) == 'distro'
 
 - name: Enable PowerTools repository
   command: dnf config-manager --set-enabled PowerTools
