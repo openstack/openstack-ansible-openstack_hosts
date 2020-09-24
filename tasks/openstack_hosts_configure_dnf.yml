@@ -116,3 +116,23 @@
   when:
     - ('module_hotfixes' in item)
   with_items: "{{ openstack_hosts_package_repos }}"
+
+- name: Create SSL certificate and key directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: "{{ item.owner|default(root) }}"
+    group: "{{ item.group|default(root) }}"
+    mode: "{{ item.mode|default('0755') }}"
+  with_items:
+    - { path: "/etc/pki/tls/certs", owner: "root", group: "root" }
+    - { path: "/etc/pki/tls/private", owner: "root", group: "root" }
+
+- name: Create SSL certificate and key directory symlinks
+  file:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    state: "link"
+  with_items:
+    - { src: "/etc/pki/tls/certs", dest: "/etc/ssl/certs" }
+    - { src: "/etc/pki/tls/private", dest: "/etc/ssl/private" }
