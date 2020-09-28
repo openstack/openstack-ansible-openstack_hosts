@@ -30,7 +30,7 @@ openstack_host_kernel_modules:
   - name: ip6table_filter
   - name: ip6_tables
   - name: ip_tables
-  - name: ipt_MASQUERADE
+  - name: xt_MASQUERADE
   - name: ipt_REJECT
   - name: iptable_filter
   - name: iptable_mangle
