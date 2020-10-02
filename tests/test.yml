@@ -109,7 +109,7 @@
 
     - name: Check for ssh dir
       stat:
-        path: "{{ ansible_env.HOME}}/.ssh"
+        path: "{{ ansible_env.HOME }}/.ssh"
       register: ssh_dir
 
     - name: Check for extra host package present on host
@@ -143,6 +143,6 @@
           - "systat_file.stat.exists"
           - "'PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin' in environment_content"
           - "ssh_dir.stat.isdir"
-          - extra_distro_package_host.changed == false
-          - extra_metal_distro_package_host.changed == false
+          - extra_distro_package_host is not changed
+          - extra_metal_distro_package_host is not changed
 
