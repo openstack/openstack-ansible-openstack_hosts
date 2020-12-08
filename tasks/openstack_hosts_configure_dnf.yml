@@ -102,7 +102,7 @@
     - (install_method | default('source')) == 'distro'
 
 - name: Enable PowerTools repository
-  command: dnf config-manager --set-enabled PowerTools
+  command: dnf config-manager --set-enabled powertools
   changed_when: false
   when:
     - openstack_hosts_power_tool_enable | bool
