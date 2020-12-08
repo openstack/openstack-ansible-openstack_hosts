@@ -1,5 +1,5 @@
 ---
-# Copyright 2017, Rackspace US, Inc.
+# Copyright 2020, BBC R&D
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,19 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- project:
-    templates:
-      - openstack-ansible-role-jobs
-      - openstack-ansible-deploy-aio_metal-jobs
-      - openstack-ansible-deploy-aio_distro_metal-jobs
-      - check-requirements
-      - publish-openstack-docs-pti
-      - release-notes-jobs-python3
-    check:
-      jobs:
-        - openstack-ansible-deploy-aio_metal-centos-8:
-            voting: false
-    gate:
-      jobs:
-        - openstack-ansible-deploy-aio_metal-centos-8:
-            voting: false
+- name: Pull systemd version
+  command: "rpm -q systemd"
+  changed_when: false
+  register: systemd_version
+  tags:
+    - skip_ansible_lint
+    - always
+
+- name: Update environment file
+  lineinfile:
+    path: /etc/environment
+    line: "LIBSYSTEMD_VERSION={{ systemd_version.stdout_lines[0].split('-')[1] }}"
