@@ -103,3 +103,8 @@
 - import_tasks: openstack_hosts_ca_certificates.yml
   tags:
     - openstack_hosts-config
+
+- import_tasks: openstack_update_environment.yml
+  tags:
+    - openstack_hosts-config
+  when: ansible_distribution == 'CentOS'
