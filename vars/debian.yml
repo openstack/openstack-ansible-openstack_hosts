@@ -86,10 +86,10 @@ _package_repos_keys:
 _package_list: []
 
 _package_repos:
-  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_distribution_release ~ '-train-backports main') }}"
+  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_distribution_release ~ '-ussuri-backports main') }}"
     state: present
     filename: "osbpo"
-  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_distribution_release ~ '-train-backports-nochange main') }}"
+  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_distribution_release ~ '-ussuri-backports-nochange main') }}"
     state: present
     filename: "osbpo"
 
