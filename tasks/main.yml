@@ -50,10 +50,10 @@
 # Configure host files should apply to all nodes
 - name: Configure etc hosts files
   import_tasks: openstack_update_hosts_file.yml
-  when:
-    - openstack_host_manage_hosts_file | bool
   tags:
     - openstack_hosts-config
+  when:
+    - (openstack_host_manage_hosts_file | bool) or (openstack_host_manage_deploy_hosts_file | bool)
 
 - name: Remove the blacklisted packages
   package:
