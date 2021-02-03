@@ -42,3 +42,16 @@
     dest: /etc/hosts
     block: "{{ _etc_hosts_content | join('\n') }}"
     marker: "### {mark} OPENSTACK-ANSIBLE MANAGED BLOCK ###"
+  when:
+    - openstack_host_manage_hosts_file | bool
+
+- name: Update hosts file on deploy host
+  blockinfile:
+    dest: /etc/hosts
+    block: "{{ _etc_hosts_content | join('\n') }}"
+    marker: "### {mark} OPENSTACK-ANSIBLE {{ lookup('env', 'OSA_CONFIG_DIR') }} MANAGED BLOCK ###"
+  run_once: True
+  delegate_to: localhost
+  become: True
+  when:
+    - openstack_host_manage_deploy_hosts_file | bool

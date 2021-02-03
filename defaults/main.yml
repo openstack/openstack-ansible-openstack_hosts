@@ -34,10 +34,12 @@ openstack_host_sysstat_statistics_hour: 23
 # Options are 'present' and 'latest'
 openstack_hosts_package_state: "latest"
 
-## Enable/disable /etc/hosts file management
+## Enable/disable /etc/hosts file management on OSA managed hosts
 ## You should make other arrangements for name resolution
-## of OSA containers and hosts if disabling this
+## of OSA containers and hosts if disabling these
 openstack_host_manage_hosts_file: true
+## Enable/disable /etc/hosts file management on OSA deploy host
+openstack_host_manage_deploy_hosts_file: true
 
 ## kernel modules for specific group hosts
 openstack_host_specific_kernel_modules: []
