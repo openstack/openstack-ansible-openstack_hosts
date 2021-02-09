@@ -15,9 +15,10 @@
 
 - project:
     templates:
-      - openstack-ansible-role-jobs
-      - openstack-ansible-deploy-aio_metal-jobs
-      - openstack-ansible-deploy-aio_distro_metal-jobs
+      - openstack-ansible-deploy-hosts_metal-jobs
+      - openstack-ansible-deploy-hosts_distro_lxc-jobs
+      - openstack-ansible-upgrade-infra_lxc-jobs
       - check-requirements
       - publish-openstack-docs-pti
       - release-notes-jobs-python3
+      - openstack-ansible-linters-jobs
