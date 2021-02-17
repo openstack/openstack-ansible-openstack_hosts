@@ -40,11 +40,8 @@ openstack_host_kernel_modules:
   - name: ip_vs
   - name: iscsi_tcp
   - name: nf_conntrack
-  - name: "{{ ansible_facts['distribution_version'] is version('8.3', '<') | ternary('nf_conntrack_ipv4', '') }}"
-  - name: "{{ ansible_facts['distribution_version'] is version('8.3', '<') | ternary('nf_conntrack_ipv6', '') }}"
   - name: nf_defrag_ipv4
   - name: nf_nat
-  - name: "{{ ansible_facts['distribution_version'] is version('8.3', '<') | ternary('nf_nat_ipv4', '') }}"
   - name: vhost_net
 
 ## Base packages
