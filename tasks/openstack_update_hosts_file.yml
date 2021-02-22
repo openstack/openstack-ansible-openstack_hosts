@@ -21,7 +21,7 @@
       {% for item in groups['all'] %}
       {%   set record = [] %}
       {%   set _target_rfc_name = item|replace('_', '-') %}
-      {%   set _ans_hostname = hostvars[item]['ansible_hostname'] | default(_target_rfc_name) %}
+      {%   set _ans_hostname = hostvars[item]['ansible_facts']['hostname'] | default(_target_rfc_name) %}
       {%   set _ = record.append(hostvars[item]['ansible_host'] | default('127.0.0.1')) %}
       {%   set _ = record.append(_ans_hostname ~ '.' ~ openstack_domain) %}
       {%   set _ = record.append(_target_rfc_name) %}

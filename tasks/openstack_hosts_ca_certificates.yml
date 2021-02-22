@@ -23,11 +23,11 @@
 - name: Update CA store - Ubuntu/OpenSUSE
   command: update-ca-certificates
   when:
-    - (ansible_pkg_mgr == 'apt') or (ansible_pkg_mgr == 'zypper') or (ansible_pkg_mgr == 'portage')
+    - ansible_facts['pkg_mgr'] == 'apt'
     - openstack_host_ca_cert_copy is changed
 
 - name: Update CA store - Centos
   command: update-ca-trust
   when:
-    - ansible_pkg_mgr == 'yum'
+    - ansible_facts['pkg_mgr'] == 'yum'
     - openstack_host_ca_cert_copy is changed

@@ -17,10 +17,10 @@
   fail:
     msg: >
       Wrong kernel Version found
-      [ {{ ansible_kernel }} < {{ openstack_host_required_kernel }} ]
+      [ {{ ansible_facts['kernel'] }} < {{ openstack_host_required_kernel }} ]
       Resolve this issue before continuing.
   when:
-    - ansible_kernel is version(openstack_host_required_kernel, '<')
+    - ansible_facts['kernel'] is version(openstack_host_required_kernel, '<')
 
 - name: Install distro packages for bare metal nodes
   package:
@@ -44,7 +44,7 @@
 
 - name: check how kernel modules are implemented (statically builtin, dynamic, not set)
   slurp:
-    src: "/boot/config-{{ ansible_kernel }}"
+    src: "/boot/config-{{ ansible_facts['kernel'] }}"
   register: modules
   when:
     - openstack_host_specific_kernel_modules | length > 0
@@ -111,5 +111,5 @@
     name: ebtables
     path: /usr/sbin/ebtables-legacy
   when:
-    - ansible_distribution == 'Debian'
-    - ansible_distribution_major_version == '10'
+    - ansible_facts['distribution'] == 'Debian'
+    - ansible_facts['distribution_major_version'] == '10'

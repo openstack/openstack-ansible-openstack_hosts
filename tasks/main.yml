@@ -16,11 +16,11 @@
 - name: Gather variables for each operating system
   include_vars: "{{ item }}"
   with_first_found:
-    - "{{ ansible_distribution | lower }}-{{ ansible_distribution_version | lower }}.yml"
-    - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
-    - "{{ ansible_os_family | lower }}-{{ ansible_distribution_major_version | lower }}.yml"
-    - "{{ ansible_distribution | lower }}.yml"
-    - "{{ ansible_os_family | lower }}.yml"
+    - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_version'] | lower }}.yml"
+    - "{{ ansible_facts['distribution'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+    - "{{ ansible_facts['os_family'] | lower }}-{{ ansible_facts['distribution_major_version'] | lower }}.yml"
+    - "{{ ansible_facts['distribution'] | lower }}.yml"
+    - "{{ ansible_facts['os_family'] | lower }}.yml"
   tags:
     - always
 
@@ -65,7 +65,7 @@
 # It is also used for installing common packages to
 # all nodes
 - name: Apply package management distro specific configuration
-  include_tasks: "openstack_hosts_configure_{{ ansible_pkg_mgr | lower }}.yml"
+  include_tasks: "openstack_hosts_configure_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
 
 # Configure bare metal nodes: Kernel, sysctl, sysstat, hosts files, metal packages
 - import_tasks: configure_metal_hosts.yml
@@ -107,4 +107,4 @@
 - import_tasks: openstack_update_environment.yml
   tags:
     - openstack_hosts-config
-  when: ansible_distribution == 'CentOS'
+  when: ansible_facts['distribution'] == 'CentOS'

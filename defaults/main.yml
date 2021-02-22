@@ -24,7 +24,7 @@ openstack_distrib_description: "OpenStack-Ansible"
 openstack_distrib_file: yes
 openstack_distrib_file_path: "/etc/openstack-release"
 
-is_container: "{{ ansible_virtualization_type in ['lxc', 'systemd-nspawn'] }}"
+is_container: "{{ ansible_facts['virtualization_type'] in ['lxc', 'systemd-nspawn'] }}"
 
 openstack_host_sysstat_enabled: true
 openstack_host_sysstat_interval: 1
@@ -72,7 +72,7 @@ openstack_hosts_package_repos_keys: "{{ _package_repos_keys + (user_external_rep
 #  Used for setting the net.ipv4/6.neigh.default.gc_thresh* values. This assumes that facts were
 #  gathered to obtain the total amount of memory available on a given host. If no facts are gathered
 #  the default set will be 1024 unless its defined by the user.
-gc_val: "{{ ansible_memtotal_mb | default(1024) | bit_length_power_of_2 }}"
+gc_val: "{{ ansible_facts['memtotal_mb'] | default(1024) | bit_length_power_of_2 }}"
 # The ste value has a Max allowable value of 8192 unless set by the user.
 set_gc_val: "{{ gc_val if (gc_val | int <= 8192) else 8192 }}"
 
@@ -154,8 +154,8 @@ openstack_host_sysstat_cron_mode: '0755'
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
 openstack_hosts_centos_mirror_url: 'http://mirror.centos.org/centos'
 openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
-openstack_hosts_rdo_repo_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_distribution_major_version }}-master/current-passed-ci/"
-openstack_hosts_rdo_deps_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_distribution_major_version }}-master/deps/latest/"
+openstack_hosts_rdo_repo_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_facts['distribution_major_version'] }}-master/current-passed-ci/"
+openstack_hosts_rdo_deps_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_facts['distribution_major_version'] }}-master/deps/latest/"
 openstack_hosts_power_tool_enable: "{{ ('manila_all' in groups or 'gnocchi_all' in groups or install_method | default('source') == 'distro') }}"
 
 # Keep a history of systemd journals on disk after reboots

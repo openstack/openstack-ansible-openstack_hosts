@@ -109,7 +109,7 @@
 
     - name: Check for ssh dir
       stat:
-        path: "{{ ansible_env.HOME }}/.ssh"
+        path: "{{ ansible_facts['env']['HOME'] }}/.ssh"
       register: ssh_dir
 
     - name: Check for extra host package present on host
@@ -129,15 +129,17 @@
       changed_when: false
 
     - name: Check role functions
+      vars:
+        ans_hostname: "{{ ansible_facts['hostname'] }}"
       assert:
         that:
           - "'dm_multipath' in modules_content"
           - "'ebtables' in modules_content"
           - "'vm.swappiness' in sysctl_content"
-          - "'127.0.0.1 {{ ansible_hostname }}.openstack.local localhost {{ ansible_hostname }}' in hosts_content"
-          - "'127.111.111.101 {{ ansible_hostname }}.openstack.local test1 {{ ansible_hostname }}' in hosts_content"
-          - "'127.111.111.102 {{ ansible_hostname }}.openstack.local test2 {{ ansible_hostname }}' in hosts_content"
-          - "'127.111.111.103 {{ ansible_hostname }}.openstack.local test3 {{ ansible_hostname }}' in hosts_content"
+          - "'127.0.0.1 {{ ans_hostname }}.openstack.local localhost {{ ans_hostname }}' in hosts_content"
+          - "'127.111.111.101 {{ ans_hostname }}.openstack.local test1 {{ ans_hostname }}' in hosts_content"
+          - "'127.111.111.102 {{ ans_hostname }}.openstack.local test2 {{ ans_hostname }}' in hosts_content"
+          - "'127.111.111.103 {{ ans_hostname }}.openstack.local test3 {{ ans_hostname }}' in hosts_content"
           - "'127.111.111.103 test3.additional' not in hosts_content"
           - "release_file.stat.exists"
           - "systat_file.stat.exists"

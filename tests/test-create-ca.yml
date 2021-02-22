@@ -25,7 +25,7 @@
       - gnutls-utils
     state: present
   when:
-    - ansible_distribution == "CentOS"
+    - ansible_facts['distribution'] == "CentOS"
 
 - name: Install ssl packages (ubuntu)
   package:
@@ -33,7 +33,7 @@
       - gnutls-bin
     state: present
   when:
-    - ansible_pkg_mgr == 'apt'
+    - ansible_facts['pkg_mgr'] == 'apt'
 
 - name: Create certificate directories
   file:
