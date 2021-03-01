@@ -74,6 +74,15 @@
   tags:
     - openstack_hosts-install
 
+- name: Decreasing tcp_retries2 sysctl
+  sysctl:
+    name: "net.ipv4.tcp_retries2"
+    value: "{{ keepalived_sysctl_tcp_retries | default(8) }}"
+    sysctl_set: yes
+    state: "{{ (keepalived_sysctl_tcp_retries | default(8) > 0) | ternary('present', 'absent') }}"
+    reload: yes
+  failed_when: false
+
 - name: Install distro packages
   package:
     name: "{{ openstack_host_distro_packages }}"
