@@ -20,7 +20,7 @@
   register: openstack_host_ca_cert_copy
   loop: "{{ openstack_host_ca_certificates | flatten(levels=1) }}"
 
-- name: Update CA store - Ubuntu/OpenSUSE
+- name: Update CA store - Ubuntu
   command: update-ca-certificates
   when:
     - ansible_facts['pkg_mgr'] == 'apt'
@@ -29,5 +29,5 @@
 - name: Update CA store - Centos
   command: update-ca-trust
   when:
-    - ansible_facts['pkg_mgr'] == 'yum'
+    - ansible_facts['pkg_mgr'] == 'dnf'
     - openstack_host_ca_cert_copy is changed
