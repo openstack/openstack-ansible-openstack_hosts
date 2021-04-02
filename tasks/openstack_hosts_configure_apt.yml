@@ -73,6 +73,13 @@
     loop_var: repo
   register: _adding_apt_repo
 
+- name: Add apt extra conf
+  copy:
+    content: "{{ openstack_hosts_package_manager_extra_conf }}"
+    dest: /etc/apt/apt.conf.d/99openstack-ansible
+  when:
+    - openstack_hosts_package_manager_extra_conf | length > 0
+
 - name: Update Apt cache
   apt:
     update_cache: yes
