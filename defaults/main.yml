@@ -172,3 +172,6 @@ openstack_host_ca_certificates: []
 
 # target directory for user supplied CA certificates
 openstack_host_ca_location: "{{ _openstack_host_ca_location }}"
+
+# extra configuration for OS package manager
+openstack_hosts_package_manager_extra_conf: ''
