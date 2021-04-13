@@ -49,11 +49,15 @@
 
 # Configure host files should apply to all nodes
 - name: Configure etc hosts files
-  import_tasks: openstack_update_hosts_file.yml
-  tags:
-    - openstack_hosts-config
+  include_tasks: openstack_update_hosts_file.yml
+  args:
+    apply:
+      tags:
+        - openstack_hosts-config
   when:
     - (openstack_host_manage_hosts_file | bool) or (openstack_host_manage_deploy_hosts_file | bool)
+  tags:
+    - always
 
 - name: Remove the blacklisted packages
   package:
@@ -68,11 +72,15 @@
   include_tasks: "openstack_hosts_configure_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
 
 # Configure bare metal nodes: Kernel, sysctl, sysstat, hosts files, metal packages
-- import_tasks: configure_metal_hosts.yml
+- include_tasks: configure_metal_hosts.yml
+  args:
+    apply:
+      tags:
+        - openstack_hosts-install
   when:
-    - not is_container
+    - is_metal
   tags:
-    - openstack_hosts-install
+    - always
 
 - name: Decreasing tcp_retries2 sysctl
   sysctl:
@@ -109,11 +117,20 @@
   tags:
     - openstack_hosts-config
 
-- import_tasks: openstack_hosts_ca_certificates.yml
+- include_tasks: openstack_hosts_ca_certificates.yml
+  args:
+    apply:
+      tags:
+        - openstack_hosts-config
+  when: openstack_host_ca_certificates | length > 0
   tags:
-    - openstack_hosts-config
+    - always
 
-- import_tasks: openstack_update_environment.yml
-  tags:
-    - openstack_hosts-config
+- include_tasks: openstack_update_environment.yml
+  args:
+    apply:
+      tags:
+        - openstack_hosts-config
   when: ansible_facts['distribution'] == 'CentOS'
+  tags:
+    - always
