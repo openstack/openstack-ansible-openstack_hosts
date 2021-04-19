@@ -103,3 +103,10 @@
 - import_tasks: openstack_hosts_ca_certificates.yml
   tags:
     - openstack_hosts-config
+
+- include_tasks: openstack_gitconfig.yml
+  args:
+    apply:
+      tags:
+        - openstack_hosts-config
+  when: ansible_facts['hostname'] != 'aio1'
