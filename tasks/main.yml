@@ -108,3 +108,10 @@
   tags:
     - openstack_hosts-config
   when: ansible_distribution == 'CentOS'
+
+- include_tasks: openstack_gitconfig.yml
+  args:
+    apply:
+      tags:
+        - openstack_hosts-config
+  when: ansible_facts['hostname'] != 'aio1'
