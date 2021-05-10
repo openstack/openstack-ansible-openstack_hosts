@@ -117,12 +117,12 @@
   tags:
     - openstack_hosts-config
 
-- include_tasks: openstack_hosts_ca_certificates.yml
-  args:
-    apply:
-      tags:
-        - openstack_hosts-config
-  when: openstack_host_ca_certificates | length > 0
+- include_role:
+    name: pki
+    tasks_from: main_ca_install.yml
+  vars:
+    pki_dir: "{{ openstack_pki_dir }}"
+    pki_install_ca: "{{ openstack_pki_install_ca + openstack_host_ca_certificates }}"
   tags:
     - always
 
