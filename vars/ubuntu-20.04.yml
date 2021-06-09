@@ -95,6 +95,6 @@ _package_repos: []
   #  state: present
   #  filename: "uca"
 
-_uca_repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_facts['lsb']['codename'] }}-updates/victoria main"
+_uca_repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_facts['lsb']['codename'] }}-updates/{{ openstack_distrib_code_name | lower }} main"
 
 _openstack_host_ca_location: /usr/local/share/ca-certificates/
