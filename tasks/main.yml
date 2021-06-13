@@ -122,7 +122,7 @@
     tasks_from: main_ca_install.yml
   vars:
     pki_dir: "{{ openstack_pki_dir }}"
-    pki_install_ca: "{{ openstack_pki_install_ca + openstack_host_ca_certificates }}"
+    pki_install_ca: "{{ openstack_pki_install_ca | default([]) + openstack_host_ca_certificates }}"
   tags:
     - always
 
