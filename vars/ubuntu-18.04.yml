@@ -96,4 +96,4 @@ _package_repos:
     state: present
     filename: "uca"
 
-_openstack_host_ca_location: /usr/local/share/ca-certificates/
+_openstack_ca_bundle_path: /etc/ssl/certs/ca-certificates.crt

@@ -47,6 +47,33 @@
   tags:
     - openstack_hosts-config
 
+- name: Ensure environement is applied during sudo
+  lineinfile:
+    path: /etc/pam.d/sudo
+    line: "session    required   pam_env.so readenv=1 user_readenv=0"
+    regexp: 'session\s+required\s+pam_env\.so'
+    insertbefore: '^@include'
+  when: ansible_facts['distribution'] | lower == 'debian'
+
+- name: Create systemd global directory
+  file:
+    path: /etc/systemd/system.conf.d/
+    state: directory
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: Add DefaultEnvironment to systemd
+  config_template:
+    src: systemd-environment.j2
+    dest: /etc/systemd/system.conf.d/osa-default-environment.conf
+    owner: "root"
+    group: "root"
+    mode: "0644"
+    config_overrides: "{{ openstack_systemd_global_overrides }}"
+    config_type: ini
+  notify: Systemd daemon reload
+
 # Configure host files should apply to all nodes
 - name: Configure etc hosts files
   include_tasks: openstack_update_hosts_file.yml

@@ -88,6 +88,10 @@ openstack_host_environment_path:
   - /usr/games
   - /usr/local/games
 
+# Allows the ability to override or add extra parameters to the systemd global config
+# that will be applied by default to all units
+openstack_systemd_global_overrides: {}
+
 # Set the level of reverse path filtering to use
 openstack_host_rp_filter_all: 0
 openstack_host_rp_filter_default: 0
@@ -170,8 +174,8 @@ openstack_hosts_enable_yum_fastestmirror: yes
 #    src: /etc/ssl/certs/snake-oil-cert-latest.pem     #the source file on the deploy host
 openstack_host_ca_certificates: []
 
-# target directory for user supplied CA certificates
-openstack_host_ca_location: "{{ _openstack_host_ca_location }}"
+# Path to the file with trusted CA that will be used by python requests module
+openstack_ca_bundle_path: "{{ _openstack_ca_bundle_path }}"
 
 # extra configuration for OS package manager
 openstack_hosts_package_manager_extra_conf: ''

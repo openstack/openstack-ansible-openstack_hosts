@@ -1,8 +1,7 @@
 PATH="{{ openstack_host_environment_path | join(':') }}"
-{% if global_environment_variables is defined %}
-{%   for key, value in global_environment_variables.items() %}
-{%     if value %}
+REQUESTS_CA_BUNDLE="{{ openstack_ca_bundle_path }}"
+{% for key, value in global_environment_variables.items() %}
+{%   if value %}
 {{ key }}={{ value }}
-{%     endif %}
-{%   endfor %}
-{% endif %}
+{%   endif %}
+{% endfor %}

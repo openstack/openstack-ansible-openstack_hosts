@@ -104,4 +104,4 @@ _package_repos:
     gpgcheck: no
     module_hotfixes: yes
 
-_openstack_host_ca_location: /etc/pki/ca-trust/source/anchors/
+_openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
