@@ -153,15 +153,6 @@
   tags:
     - always
 
-- include_tasks: openstack_update_environment.yml
-  args:
-    apply:
-      tags:
-        - openstack_hosts-config
-  when: ansible_facts['distribution'] == 'CentOS'
-  tags:
-    - always
-
 - include_tasks: openstack_gitconfig.yml
   args:
     apply:
