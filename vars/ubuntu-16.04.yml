@@ -87,6 +87,8 @@ _package_repos_keys: []
 _package_list:
   - name: ubuntu-cloud-keyring
     state: "{{ openstack_hosts_package_state }}"
+  - name: ca-certificates
+    state: latest
 
 _package_repos:
   # Implement the current UCA repo configuration

@@ -91,6 +91,8 @@ _package_list:
     state: absent
   - name: centos-release-storage-common
     state: absent
+  - name: ca-certificates
+    state: latest
 
 _openstack_hosts_rdo_branch: ussuri
 
