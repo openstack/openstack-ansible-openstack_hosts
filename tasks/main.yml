@@ -64,7 +64,7 @@
     mode: "0644"
 
 - name: Add DefaultEnvironment to systemd
-  config_template:
+  openstack.config_template.config_template:
     src: systemd-environment.j2
     dest: /etc/systemd/system.conf.d/osa-default-environment.conf
     owner: "root"
