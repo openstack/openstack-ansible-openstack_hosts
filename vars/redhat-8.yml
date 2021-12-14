@@ -87,8 +87,6 @@ _package_list:
     state: present
   - name: epel-release
     state: absent
-  - name: "centos-openstack-release-*"
-    state: absent
   - name: centos-release-storage-common
     state: absent
   - name: ca-certificates
