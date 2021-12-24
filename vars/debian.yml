@@ -50,9 +50,7 @@ openstack_host_kernel_modules:
   - name: x_tables
 
 ## Base packages
-_openstack_host_distro_packages:
-  - python3-virtualenv
-  - virtualenv
+_openstack_host_distro_packages: []
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:

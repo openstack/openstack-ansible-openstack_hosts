@@ -46,7 +46,6 @@ openstack_host_kernel_modules:
 
 ## Base packages
 _openstack_host_distro_packages:
-  - python3-virtualenv
   - python3-devel
   - python3-six
 
