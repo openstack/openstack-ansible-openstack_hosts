@@ -98,11 +98,5 @@ _package_repos:
     baseurl: "{{ openstack_hosts_rdo_deps_url }}"
     gpgcheck: no
     module_hotfixes: yes
-  - name: advanced-virtualization
-    file: virt
-    description: Advanced Virtualization mirror
-    baseurl: "{{ openstack_hosts_centos_mirror_url }}/8/virt/$basearch/advanced-virtualization/"
-    gpgcheck: no
-    module_hotfixes: yes
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
