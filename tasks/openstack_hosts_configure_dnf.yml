@@ -82,6 +82,7 @@
     enabled: "{{ repo.enabled | default('yes') }}"
     exclude: "{{ repo.exclude | default(omit) }}"
     priority: "{{ repo.priority | default(99) }}"
+    state: "{{ repo.state | default(omit) }}"
   with_items: "{{ openstack_hosts_package_repos  }}"
   loop_control:
     loop_var: repo
@@ -124,6 +125,7 @@
     insertafter: '^\[{{ item.name }}\]$'
   when:
     - ('module_hotfixes' in item)
+    - (item.state|default('present') == 'present')
   with_items: "{{ openstack_hosts_package_repos }}"
 
 - name: Create SSL certificate and key directories
