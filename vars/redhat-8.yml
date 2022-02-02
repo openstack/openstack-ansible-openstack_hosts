@@ -98,5 +98,14 @@ _package_repos:
     baseurl: "{{ openstack_hosts_rdo_deps_url }}"
     gpgcheck: no
     module_hotfixes: yes
+  # NOTE(jrosser) Remove the advanced-virtualisation repo in the Y cycle
+  # this task disables a legacy (non-stream) centos-8 repo
+  - name: advanced-virtualization
+    file: virt
+    description: Advanced Virtualization mirror
+    baseurl: "{{ openstack_hosts_centos_mirror_url }}/8/virt/$basearch/advanced-virtualization/"
+    gpgcheck: no
+    module_hotfixes: yes
+    state: absent
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
