@@ -160,7 +160,7 @@ openstack_hosts_centos_mirror_url: "{{ centos_mirror_url | default('http://mirro
 openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
 openstack_hosts_rdo_repo_url: "{{ _openstack_hosts_rdo_repo_url }}"
 openstack_hosts_rdo_deps_url: "{{ _openstack_hosts_rdo_deps_url }}"
-openstack_hosts_power_tool_enable: "{{ ('manila_all' in groups or 'gnocchi_all' in groups or install_method | default('source') == 'distro') }}"
+openstack_hosts_power_tool_enable: "{{ ('repo_all' in groups or 'manila_all' in groups or 'gnocchi_all' in groups or install_method | default('source') == 'distro') }}"
 
 # Keep a history of systemd journals on disk after reboots
 openstack_host_keep_journals: yes
