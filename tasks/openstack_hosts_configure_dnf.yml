@@ -83,6 +83,7 @@
     exclude: "{{ repo.exclude | default(omit) }}"
     priority: "{{ repo.priority | default(99) }}"
     state: "{{ repo.state | default(omit) }}"
+    module_hotfixes: "{{ repo.module_hotfixes | default(omit) }}"
   with_items: "{{ openstack_hosts_package_repos  }}"
   loop_control:
     loop_var: repo
@@ -116,17 +117,6 @@
   changed_when: false
   when:
     - openstack_hosts_power_tool_enable | bool
-
-- name: Enable/Disable module_hotfixes
-  lineinfile:
-    dest: "/etc/yum.repos.d/{{ item.file }}.repo"
-    line: "module_hotfixes={{ (item.module_hotfixes | bool) | ternary(1, 0) }}"
-    regexp: "^module_hotfixes"
-    insertafter: '^\[{{ item.name }}\]$'
-  when:
-    - ('module_hotfixes' in item)
-    - (item.state|default('present') == 'present')
-  with_items: "{{ openstack_hosts_package_repos }}"
 
 - name: Create SSL certificate and key directories
   file:
