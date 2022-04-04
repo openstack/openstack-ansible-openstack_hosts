@@ -61,7 +61,7 @@
     state: directory
     owner: "root"
     group: "root"
-    mode: "0644"
+    mode: "0755"
 
 - name: Add DefaultEnvironment to systemd
   openstack.config_template.config_template:
