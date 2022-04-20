@@ -179,3 +179,10 @@ openstack_ca_bundle_path: "{{ _openstack_ca_bundle_path }}"
 
 # extra configuration for OS package manager
 openstack_hosts_package_manager_extra_conf: ''
+
+# apt pins to apply to all hosts in the deployment
+# the default is to make ceph packages from UCA lower priority than those from the ubuntu distro repo
+openstack_hosts_apt_pinned_packages:
+  - package: "src:ceph"
+    origin: "ubuntu-cloud.archive.canonical.com"
+    priority: 400

@@ -37,5 +37,7 @@ galaxy_info:
     - openstack
 dependencies:
   - role: apt_package_pinning
+    apt_pinned_packages: "{{ openstack_hosts_apt_pinned_packages }}"
+    apt_package_pinning_file_name: "openstack_hosts_pin.pref"
     when:
       - ansible_facts['pkg_mgr'] == 'apt'
