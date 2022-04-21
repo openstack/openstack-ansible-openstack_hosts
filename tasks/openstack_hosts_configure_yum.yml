@@ -92,9 +92,9 @@
 
 - name: Add yum extra conf
   blockinfile:
-    block: "{{ openstack_hosts_package_manager_extra_conf }}"
+    block: "{{ openstack_hosts_package_manager_default_conf + openstack_hosts_package_manager_extra_conf }}"
     path: /etc/yum.conf
     marker: "# {mark} OPENSTACK-ANSIBLE-OPENSTACK_HOSTS MANAGED BLOCK"
     create: yes
   when:
-    - openstack_hosts_package_manager_extra_conf | length > 0
+    - openstack_hosts_package_manager_extra_conf | length > 0 or openstack_hosts_package_manager_default_conf | length > 0

@@ -178,6 +178,7 @@ openstack_host_ca_certificates: []
 openstack_ca_bundle_path: "{{ _openstack_ca_bundle_path }}"
 
 # extra configuration for OS package manager
+openstack_hosts_package_manager_default_conf: "{{ _openstack_hosts_package_manager_default_conf | default('') }}"
 openstack_hosts_package_manager_extra_conf: ''
 
 # apt pins to apply to all hosts in the deployment
