@@ -87,6 +87,8 @@ _package_list:
     state: absent
   - name: ca-certificates
     state: latest
+  - name: centos-release-nfv-openvswitch
+    state: "{{ (service_install_method | default('source') == 'distro') | ternary('present', 'absent') }}"
 
 _openstack_hosts_rdo_repo_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_facts['distribution_major_version'] }}-{{ openstack_distrib_code_name | lower }}/current/"
 _openstack_hosts_rdo_deps_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_facts['distribution_major_version'] }}-{{ openstack_distrib_code_name | lower }}/deps/latest/"
