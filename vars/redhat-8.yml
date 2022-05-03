@@ -63,6 +63,7 @@ _openstack_host_metal_distro_packages:
   - kmod
   - libselinux-python3
   - lvm2
+  - passwd
   - rsync
   - rsyslog
   - sysstat
