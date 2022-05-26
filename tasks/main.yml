@@ -52,6 +52,14 @@
   tags:
     - openstack_hosts-config
 
+- name: Ensure environement is applied during sudo
+  lineinfile:
+    path: /etc/pam.d/sudo
+    line: "session    required   pam_env.so readenv=1 user_readenv=0"
+    regexp: 'session\s+required\s+pam_env\.so'
+    insertbefore: '^@include'
+  when: ansible_facts['distribution'] | lower == 'debian'
+
 # NOTE(jrosser) Remove this task when https://access.redhat.com/errata/RHBA-2022:4082
 # has a fix merged to Centos-9 as well as RHEL.
 - name: Ensure environement is applied during su
