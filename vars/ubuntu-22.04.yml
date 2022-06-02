@@ -92,3 +92,6 @@ _package_repos: []
 #    filename: "uca"
 
 _openstack_ca_bundle_path: /etc/ssl/certs/ca-certificates.crt
+
+_openstack_hosts_package_manager_default_conf: |
+  APT::Install-Recommends "false";
