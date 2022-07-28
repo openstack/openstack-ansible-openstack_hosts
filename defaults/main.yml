@@ -38,6 +38,12 @@ openstack_hosts_package_state: "latest"
 openstack_host_manage_hosts_file: true
 ## Enable/disable /etc/hosts file management on OSA deploy host
 openstack_host_manage_deploy_hosts_file: true
+## Provide extra records to /etc/hosts file that would be added
+## to all hosts, if openstack_host_manage_hosts_file is true
+## Example:
+## openstack_host_custom_hosts_records:
+##   - '192.168.1.1 my.fqdn'
+openstack_host_custom_hosts_records: []
 
 ## kernel modules for specific group hosts
 openstack_host_specific_kernel_modules: []
