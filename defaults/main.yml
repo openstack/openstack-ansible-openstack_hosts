@@ -30,7 +30,7 @@ openstack_host_sysstat_statistics_hour: 23
 
 # Set the package install state for distribution packages
 # Options are 'present' and 'latest'
-openstack_hosts_package_state: "latest"
+openstack_hosts_package_state: "{{ package_state | default('present') }}"
 
 ## Enable/disable /etc/hosts file management on OSA managed hosts
 ## You should make other arrangements for name resolution
