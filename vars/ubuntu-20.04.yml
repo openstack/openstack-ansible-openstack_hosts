@@ -86,7 +86,7 @@ _package_list:
     state: latest
 
 _package_repos:
-  - repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_facts['lsb']['codename'] }}-updates/{{ openstack_distrib_code_name | lower }} main"
+  - repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_facts['lsb']['codename'] }}-updates/yoga main"
     state: present
     filename: "uca"
 

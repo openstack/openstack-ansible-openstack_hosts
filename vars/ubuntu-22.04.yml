@@ -85,11 +85,10 @@ _package_list:
   - name: ca-certificates
     state: latest
 
-# NOTE(jrosser) there is no UCA repository for Jammy, so disable installation of UCA until one exists
-_package_repos: []
-#  - repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_facts['lsb']['codename'] }}-updates/{{ openstack_distrib_code_name | lower }} main"
-#    state: present
-#    filename: "uca"
+_package_repos:
+  - repo: "deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }} {{ ansible_facts['lsb']['codename'] }}-updates/{{ openstack_distrib_code_name | lower }} main"
+    state: present
+    filename: "uca"
 
 _openstack_ca_bundle_path: /etc/ssl/certs/ca-certificates.crt
 
