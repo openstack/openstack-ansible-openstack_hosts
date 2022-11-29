@@ -59,22 +59,6 @@
     insertbefore: '^@include'
   when: ansible_facts['distribution'] | lower == 'debian'
 
-# NOTE(jrosser) Remove this task when https://access.redhat.com/errata/RHBA-2022:4082
-# has a fix merged to Centos-9 as well as RHEL.
-- name: Ensure environement is applied during su
-  community.general.pamd:
-    name: su
-    type: auth
-    control: sufficient
-    module_path: pam_rootok.so
-    new_type: auth
-    new_control: required
-    new_module_path: pam_env.so
-    state: before
-  when:
-    - ansible_facts['distribution'] == 'CentOS'
-    - ansible_facts['distribution_version'] == '9'
-
 - name: Create systemd global directory
   file:
     path: /etc/systemd/system.conf.d/
