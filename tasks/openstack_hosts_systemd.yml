@@ -1,0 +1,44 @@
+---
+# Copyright 2022, Cleura AB.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+- name: Run the systemd-networkd role
+  include_role:
+    name: systemd_networkd
+  vars:
+    systemd_networkd_prefix: "{{ openstack_hosts_systemd_networkd_prefix }}"
+    systemd_run_networkd: true
+    systemd_netdevs: "{{ openstack_hosts_systemd_networkd_devices }}"
+    systemd_networks: "{{ openstack_hosts_systemd_networkd_networks }}"
+  when:
+    - openstack_hosts_systemd_networkd_devices
+    - openstack_hosts_systemd_networkd_networks
+    - is_metal
+
+- name: Run the systemd-service role
+  include_role:
+    name: systemd_service
+  vars:
+    systemd_slice_name: "{{ openstack_hosts_systemd_slice }}"
+    systemd_services: "{{ openstack_hosts_systemd_services }}"
+  when:
+    - openstack_hosts_systemd_services
+
+- name: Run the systemd mount role
+  include_role:
+    name: systemd_mount
+  vars:
+    systemd_mounts: "{{ openstack_hosts_systemd_mounts }}"
+  when:
+    - openstack_hosts_systemd_mounts
