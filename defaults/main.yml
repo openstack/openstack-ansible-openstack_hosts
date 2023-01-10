@@ -193,3 +193,13 @@ openstack_hosts_apt_pinned_packages:
   - package: "src:ceph"
     origin: "ubuntu-cloud.archive.canonical.com"
     priority: 400
+
+# Define extra systemd services/networks/mounts
+openstack_hosts_systemd_mounts: []
+# Systemd networks can be configured only on bare metal hosts
+# systemd-networkd role won't run inside containers.
+openstack_hosts_systemd_networkd_devices: []
+openstack_hosts_systemd_networkd_networks: []
+openstack_hosts_systemd_networkd_prefix: openstack-net
+openstack_hosts_systemd_services: []
+openstack_hosts_systemd_slice: "openstack-hosts"
