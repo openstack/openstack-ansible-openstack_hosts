@@ -45,7 +45,8 @@ openstack_host_kernel_modules:
   - name: x_tables
 
 ## Base packages
-_openstack_host_distro_packages: []
+_openstack_host_distro_packages:
+  - acl
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:

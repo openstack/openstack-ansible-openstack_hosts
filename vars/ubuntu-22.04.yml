@@ -46,6 +46,7 @@ openstack_host_kernel_modules:
 
 ## Base packages
 _openstack_host_distro_packages:
+  - acl
   - apt-utils
 
 ## Bare metal base packages
