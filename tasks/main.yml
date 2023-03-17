@@ -85,6 +85,7 @@
     apply:
       tags:
         - openstack_hosts-config
+        - openstack_hosts-file
   when:
     - (openstack_host_manage_hosts_file | bool) or (openstack_host_manage_deploy_hosts_file | bool)
   tags:
