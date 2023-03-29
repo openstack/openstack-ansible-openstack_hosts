@@ -99,5 +99,8 @@ _package_repos:
     baseurl: "{{ openstack_hosts_rdo_deps_url }}"
     gpgcheck: no
     module_hotfixes: yes
+    exclude:
+      - '*rdo-openvswitch*3.1*'
+      - '*rdo-ovn*3.1*'
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
