@@ -101,7 +101,7 @@
   when:
     - openstack_hosts_package_manager_extra_conf | length > 0 or openstack_hosts_package_manager_default_conf | length > 0
 
-- name: Add rdo repositories via url
+- name: Add rdo repositories via url for trunk based installation
   get_url:
     url: "{{ openstack_hosts_rdo_repo_url }}/delorean.repo"
     dest: /etc/yum.repos.d/rdo.repo
@@ -111,6 +111,15 @@
   delay: 2
   when:
     - (install_method | default('source')) == 'distro'
+    - openstack_hosts_rdo_repo_type == 'trunk'
+
+- name: Install centos-release-openstack package for cloudsig based installation
+  package:
+    name:
+      - centos-release-openstack-{{ openstack_distrib_code_name }}
+  when:
+    - (install_method | default('source')) == 'distro'
+    - openstack_hosts_rdo_repo_type == 'cloudsig'
 
 - name: Enable PowerTools repository
   command: dnf config-manager --set-enabled "[Pp]ower[Tt]ools"

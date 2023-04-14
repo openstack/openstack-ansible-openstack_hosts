@@ -163,6 +163,8 @@ openstack_host_sysstat_cron_mode: '0755'
 # Set default mirror for CentOS repositories
 # NOTE(mhayden): Ensure that the full path to the 'centos' directory is used.
 openstack_hosts_centos_mirror_url: "{{ centos_mirror_url | default('http://mirror.centos.org/centos') }}"
+# openstack_hosts_rdo_repo_type can be trunk or cloudsig
+openstack_hosts_rdo_repo_type: trunk
 openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
 openstack_hosts_rdo_repo_url: "{{ _openstack_hosts_rdo_repo_url }}"
 openstack_hosts_rdo_deps_url: "{{ _openstack_hosts_rdo_deps_url }}"

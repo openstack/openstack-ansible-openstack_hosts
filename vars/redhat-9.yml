@@ -92,7 +92,7 @@ _package_list:
 _openstack_hosts_rdo_repo_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_facts['distribution_major_version'] }}-{{ openstack_distrib_code_name | lower }}/current/"
 _openstack_hosts_rdo_deps_url: "{{ openstack_hosts_rdo_mirror_url }}/centos{{ ansible_facts['distribution_major_version'] }}-{{ openstack_distrib_code_name | lower }}/deps/latest/"
 
-_package_repos:
+_package_repos_trunk:
   - name: rdo-deps
     file: rdo-deps
     description: rdo-deps
@@ -100,5 +100,12 @@ _package_repos:
     gpgcheck: no
     module_hotfixes: yes
     exclude: "{{ (ansible_facts['distribution'] == 'Rocky') | ternary(['*rdo-openvswitch*3.1*', '*rdo-ovn*3.1*'], omit) }}"
+
+_package_repos: |-
+  {% if openstack_hosts_rdo_repo_type == 'trunk' %}
+  {{ _package_repos_trunk }}
+  {% else %}
+  []
+  {% endif %}
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
