@@ -99,6 +99,5 @@ _package_repos:
     baseurl: "{{ openstack_hosts_rdo_deps_url }}"
     gpgcheck: no
     module_hotfixes: yes
-    exclude: "{{ (ansible_facts['distribution'] == 'Rocky') | ternary(['*rdo-openvswitch*3.1*', '*rdo-ovn*3.1*'], omit) }}"
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
