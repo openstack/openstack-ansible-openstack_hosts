@@ -49,9 +49,9 @@ openstack_host_custom_hosts_records: []
 openstack_host_specific_kernel_modules: []
 # If you want to include some specific modules per group
 # of hosts, override this with a group/host var, like below:
-#openstack_host_specific_kernel_modules:
-#  - name: "ebtables"
-#    pattern: "CONFIG_BRIDGE_NF_EBTABLES"
+# openstack_host_specific_kernel_modules:
+#   - name: "ebtables"
+#     pattern: "CONFIG_BRIDGE_NF_EBTABLES"
 ## Where:
 ## :param name: name of the kernel module
 ## :param pattern: pattern to grep for in /boot/config-$kernel_version to check how module is configured inside kernel
@@ -168,7 +168,8 @@ openstack_hosts_rdo_repo_type: trunk
 openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
 openstack_hosts_rdo_repo_url: "{{ _openstack_hosts_rdo_repo_url }}"
 openstack_hosts_rdo_deps_url: "{{ _openstack_hosts_rdo_deps_url }}"
-openstack_hosts_power_tool_enable: "{{ ('repo_all' in groups or 'manila_all' in groups or 'gnocchi_all' in groups or install_method | default('source') == 'distro') }}"
+openstack_hosts_power_tool_enable: >-
+  {{ ('repo_all' in groups or 'manila_all' in groups or 'gnocchi_all' in groups or install_method | default('source') == 'distro') }}
 
 # Keep a history of systemd journals on disk after reboots
 openstack_host_keep_journals: yes
@@ -176,7 +177,7 @@ openstack_host_keep_journals: yes
 # Enable/Disable the yum fastestmirror plugin
 openstack_hosts_enable_yum_fastestmirror: yes
 
-#user supplied list of CA certificates to copy to hosts from the deploy host
+# user supplied list of CA certificates to copy to hosts from the deploy host
 # example:
 # - name: SnakeOilCorp.crt                             #the filename created on the target host (must be .crt on Ubuntu)
 #    src: /etc/ssl/certs/snake-oil-cert-latest.pem     #the source file on the deploy host

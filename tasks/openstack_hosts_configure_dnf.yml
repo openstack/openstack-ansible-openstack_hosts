@@ -25,6 +25,7 @@
     option: enabled
     value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('1', '0') }}"
     no_extra_spaces: yes
+    mode: "0644"
   when:
     - fastestmirror_plugin_check.stat.exists
 
@@ -44,7 +45,7 @@
     src: "{{ item.keyfile }}"
     dest: "{{ item.key }}"
     mode: '0644'
-  with_items: "{{ openstack_hosts_package_repos_keys | selectattr('keyfile','defined') | list }}"
+  with_items: "{{ openstack_hosts_package_repos_keys | selectattr('keyfile', 'defined') | list }}"
 
 - name: Ensure GPG keys have the correct SELinux contexts applied
   command: restorecon -Rv /etc/pki/rpm-gpg/
@@ -67,7 +68,7 @@
 
 - name: Add requirement packages (repositories gpg keys packages, toolkits...)
   package:
-    name: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list }}"
+    name: "{{ openstack_hosts_package_list | rejectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
     state: "{{ openstack_hosts_package_state }}"
 
 - name: Add yum repositories if they do not exist
@@ -84,7 +85,7 @@
     priority: "{{ repo.priority | default(99) }}"
     state: "{{ repo.state | default(omit) }}"
     module_hotfixes: "{{ repo.module_hotfixes | default(omit) }}"
-  with_items: "{{ openstack_hosts_package_repos  }}"
+  with_items: "{{ openstack_hosts_package_repos }}"
   loop_control:
     loop_var: repo
   register: _adding_repo
@@ -98,6 +99,7 @@
     path: /etc/dnf/dnf.conf
     marker: "# {mark} OPENSTACK-ANSIBLE-OPENSTACK_HOSTS MANAGED BLOCK"
     create: yes
+    mode: "0644"
   when:
     - openstack_hosts_package_manager_extra_conf | length > 0 or openstack_hosts_package_manager_default_conf | length > 0
 
@@ -105,6 +107,7 @@
   get_url:
     url: "{{ openstack_hosts_rdo_repo_url }}/delorean.repo"
     dest: /etc/yum.repos.d/rdo.repo
+    mode: "0640"
   register: _get_repo
   until: _get_repo  is success
   retries: 5
@@ -139,9 +142,9 @@
   file:
     path: "{{ item.path }}"
     state: directory
-    owner: "{{ item.owner|default(root) }}"
-    group: "{{ item.group|default(root) }}"
-    mode: "{{ item.mode|default('0755') }}"
+    owner: "{{ item.owner | default(root) }}"
+    group: "{{ item.group | default(root) }}"
+    mode: "{{ item.mode | default('0755') }}"
   with_items:
     - { path: "/etc/pki/tls/certs", owner: "root", group: "root" }
     - { path: "/etc/pki/tls/private", owner: "root", group: "root" }

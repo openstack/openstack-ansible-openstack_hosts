@@ -19,6 +19,7 @@
     dest: "{{ openstack_distrib_file_path }}"
     owner: "root"
     group: "root"
+    mode: "0644"
   when:
     - openstack_distrib_file | bool
 

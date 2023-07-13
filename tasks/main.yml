@@ -32,11 +32,13 @@
   file:
     path: /etc/ansible/facts.d/
     state: directory
+    mode: "0755"
   tags:
     - openstack_hosts-install
 
 # Deploy the release file everywhere
-- import_tasks: openstack_release.yml
+- name: Importing openstack_release tasks
+  import_tasks: openstack_release.yml
   tags:
     - openstack_hosts-install
 
@@ -93,7 +95,7 @@
 
 - name: Remove the blacklisted packages
   package:
-    name: "{{ openstack_hosts_package_list | selectattr('state','equalto','absent') | map(attribute='name') | list }}"
+    name: "{{ openstack_hosts_package_list | selectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
     state: absent
 
 # This allows to include this role to get all the distro
@@ -104,7 +106,8 @@
   include_tasks: "openstack_hosts_configure_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
 
 # Configure bare metal nodes: Kernel, sysctl, sysstat, hosts files, metal packages
-- include_tasks: configure_metal_hosts.yml
+- name: Including configure_metal_hosts tasks
+  include_tasks: configure_metal_hosts.yml
   args:
     apply:
       tags:
@@ -145,11 +148,13 @@
   retries: 5
   delay: 2
 
-- import_tasks: openstack_authorized_keys.yml
+- name: Importing openstack_authorized_keys tasks
+  import_tasks: openstack_authorized_keys.yml
   tags:
     - openstack_hosts-config
 
-- include_role:
+- name: Including PKI role
+  include_role:
     name: pki
     tasks_from: main_ca_install.yml
   vars:
@@ -158,19 +163,25 @@
   tags:
     - always
 
-- include_tasks: openstack_gitconfig.yml
+- name: Including openstack_gitconfig tasks
+  include_tasks: openstack_gitconfig.yml
   args:
     apply:
       tags:
         - openstack_hosts-config
   when: ansible_facts['hostname'] != 'aio1'
 
-- include_tasks: openstack_hosts_systemd.yml
+- name: Including openstack_hosts_systemd tasks
+  include_tasks: openstack_hosts_systemd.yml
   args:
     apply:
       tags:
         - openstack_hosts-config
         - openstack_hosts-systemd
-  when: openstack_hosts_systemd_networkd_devices or openstack_hosts_systemd_networkd_networks or openstack_hosts_systemd_services or openstack_hosts_systemd_mounts
+  when:
+    - openstack_hosts_systemd_networkd_devices or
+      openstack_hosts_systemd_networkd_networks or
+      openstack_hosts_systemd_services or
+      openstack_hosts_systemd_mounts
   tags:
     - always

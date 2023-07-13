@@ -18,19 +18,21 @@ galaxy_info:
   description: Base host setup for a OpenStack Private Cloud host
   company: Rackspace
   license: Apache2
-  min_ansible_version: 2.9
+  role_name: openstack_hosts
+  namespace: openstack
+  min_ansible_version: "2.10"
   platforms:
     - name: Debian
       versions:
-        - buster
+        - bullseye
     - name: Ubuntu
       versions:
-        - bionic
         - focal
+        - jammy
     - name: EL
       versions:
-        - 8
-  categories:
+        - "9"
+  galaxy_tags:
     - cloud
     - host
     - development

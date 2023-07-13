@@ -41,7 +41,7 @@
 
 - name: Add requirement packages (repositories gpg keys, toolkits...)
   apt:
-    name: "{{ openstack_hosts_package_list | rejectattr('state','equalto','absent') | map(attribute='name') | list }}"
+    name: "{{ openstack_hosts_package_list | rejectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
     state: "{{ openstack_hosts_package_state }}"
     update_cache: yes
     cache_valid_time: "{{ cache_timeout }}"
@@ -77,6 +77,7 @@
   copy:
     content: "{{ openstack_hosts_package_manager_default_conf + openstack_hosts_package_manager_extra_conf }}"
     dest: /etc/apt/apt.conf.d/99openstack-ansible
+    mode: "0644"
   when:
     - openstack_hosts_package_manager_extra_conf | length > 0 or openstack_hosts_package_manager_default_conf | length > 0
 

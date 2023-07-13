@@ -83,10 +83,14 @@ _package_list:
 _osbpo_release: "zed"
 
 _package_repos:
-  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_facts['distribution_release'] ~ '-' ~ _osbpo_release ~ '-backports main') }}"
+  - repo: >-
+      deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_facts['distribution_release'] ~ '-' ~ _osbpo_release ~ '-backports main') }}
     state: present
     filename: "osbpo"
-  - repo: "deb {{ apt_repo_url | default('http://osbpo.debian.net/osbpo/ ' ~ ansible_facts['distribution_release'] ~ '-' ~ _osbpo_release ~ '-backports-nochange main') }}"
+  - repo: >-
+      deb {{ apt_repo_url | default(
+        'http://osbpo.debian.net/osbpo/ ' ~ ansible_facts['distribution_release'] ~ '-' ~ _osbpo_release ~ '-backports-nochange main'
+      ) }}
     state: present
     filename: "osbpo"
 

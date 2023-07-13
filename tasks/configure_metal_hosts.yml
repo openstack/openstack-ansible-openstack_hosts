@@ -42,7 +42,7 @@
   retries: 5
   delay: 2
 
-- name: check how kernel modules are implemented (statically builtin, dynamic, not set)
+- name: Check how kernel modules are implemented (statically builtin, dynamic, not set)
   slurp:
     src: "/boot/config-{{ ansible_facts['kernel'] }}"
   register: modules
@@ -52,7 +52,7 @@
 - name: Fail fast if we can't load a module
   fail:
     msg: "{{ item.pattern }} is not set"
-  with_items: "{{ openstack_host_specific_kernel_modules  }}"
+  with_items: "{{ openstack_host_specific_kernel_modules }}"
   when:
     - item.pattern is defined
     - (modules.content | b64decode).find(item.pattern + ' is not set') != -1
@@ -69,13 +69,14 @@
   template:
     src: modprobe.conf.j2
     dest: "{{ openstack_host_module_file }}"
+    mode: "0644"
 
 - name: Adding new system tuning
   sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
-    sysctl_set: "{{ item.set|default('yes') }}"
-    state: "{{ item.state|default('present') }}"
+    sysctl_set: "{{ item.set | default('yes') }}"
+    state: "{{ item.state | default('present') }}"
     reload: no
   with_items: "{{ openstack_kernel_options + openstack_user_kernel_options }}"
   failed_when: false
@@ -89,6 +90,9 @@
   file:
     path: /var/log/journal
     state: directory
+    owner: root
+    group: systemd-journal
+    mode: "2755"
   register: journald_directory
   when:
     - openstack_host_keep_journals | bool
