@@ -79,7 +79,7 @@ _package_repos_keys:
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO
     keyfile: "gpg/61E8806C"
 
-_package_list:
+_openstack_hosts_package_list:
   - name: dnf-plugins-core
     state: present
   - name: epel-release
