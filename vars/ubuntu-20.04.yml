@@ -79,7 +79,7 @@ _package_repos_keys: []
 #   url:
 #   state:
 
-_package_list:
+_openstack_hosts_package_list:
   - name: ubuntu-cloud-keyring
     state: "{{ openstack_hosts_package_state }}"
   - name: ca-certificates

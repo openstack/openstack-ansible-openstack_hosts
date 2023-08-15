@@ -58,8 +58,8 @@ openstack_host_specific_kernel_modules: []
 ## Our default overrides will be combined with your overrides.
 
 # Overridable package list is composed of the old override
-# named user_package_list and the standard defaults _package_list
-openstack_hosts_package_list: "{{ _package_list + (user_package_list | default([])) }}"
+# named user_package_list and the standard defaults _openstack_hosts_package_list
+openstack_hosts_package_list: "{{ _openstack_hosts_package_list + (user_package_list | default([])) }}"
 
 # Overridable package repo is composed of the old override
 # named user_external_repo_lists and the standard defaults _package_repos

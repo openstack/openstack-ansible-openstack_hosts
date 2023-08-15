@@ -75,7 +75,7 @@ _package_repos_keys:
     url: "http://osbpo.debian.net/osbpo/dists/pubkey.gpg"
     state: present
 
-_package_list:
+_openstack_hosts_package_list:
   - name: ca-certificates
     state: latest
 
