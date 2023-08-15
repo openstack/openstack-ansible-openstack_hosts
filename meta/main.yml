@@ -27,7 +27,6 @@ galaxy_info:
         - bullseye
     - name: Ubuntu
       versions:
-        - focal
         - jammy
     - name: EL
       versions:
