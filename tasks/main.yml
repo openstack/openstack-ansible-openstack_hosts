@@ -182,6 +182,7 @@
     - openstack_hosts_systemd_networkd_devices or
       openstack_hosts_systemd_networkd_networks or
       openstack_hosts_systemd_services or
-      openstack_hosts_systemd_mounts
+      openstack_hosts_systemd_mounts or
+      openstack_hosts_journald_config
   tags:
     - always

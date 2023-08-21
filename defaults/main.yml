@@ -173,6 +173,8 @@ openstack_hosts_power_tool_enable: >-
 
 # Keep a history of systemd journals on disk after reboots
 openstack_host_keep_journals: yes
+# Define arbitrary configration for systemd-journald
+openstack_hosts_journald_config: {}
 
 # Enable/Disable the yum fastestmirror plugin
 openstack_hosts_enable_yum_fastestmirror: yes
