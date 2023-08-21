@@ -171,6 +171,11 @@
       tags:
         - openstack_hosts-config
         - openstack_hosts-systemd
-  when: openstack_hosts_systemd_networkd_devices or openstack_hosts_systemd_networkd_networks or openstack_hosts_systemd_services or openstack_hosts_systemd_mounts
+  when:
+    - openstack_hosts_systemd_networkd_devices or
+      openstack_hosts_systemd_networkd_networks or
+      openstack_hosts_systemd_services or
+      openstack_hosts_systemd_mounts or
+      openstack_hosts_journald_config
   tags:
     - always

@@ -42,3 +42,25 @@
     systemd_mounts: "{{ openstack_hosts_systemd_mounts }}"
   when:
     - openstack_hosts_systemd_mounts
+
+- name: Configure systemd-journald
+  when: openstack_hosts_journald_config
+  block:
+    - name: Create /etc/systemd/journald.conf.d directory
+      file:
+        path: /etc/systemd/journald.conf.d
+        state: directory
+        owner: root
+        group: systemd-journal
+        mode: "0755"
+
+    - name: Define journald configuration
+      copy:
+        content: |-
+          [Journal]
+          {% for key, value in openstack_hosts_journald_config.items() %}
+          {{ key }}={{ value }}
+          {% endfor %}
+        dest: /etc/systemd/journald.conf.d/99-osa-journal.conf
+      notify:
+        - Restart systemd-journald
