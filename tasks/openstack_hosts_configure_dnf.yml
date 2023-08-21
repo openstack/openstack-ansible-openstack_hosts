@@ -124,13 +124,6 @@
     - (install_method | default('source')) == 'distro'
     - openstack_hosts_rdo_repo_type == 'cloudsig'
 
-- name: Enable PowerTools repository
-  command: dnf config-manager --set-enabled "[Pp]ower[Tt]ools"
-  changed_when: false
-  when:
-    - openstack_hosts_power_tool_enable | bool
-    - ansible_facts['distribution_major_version'] == "8"
-
 - name: Enable CodeReadyBuilder repository
   command: dnf config-manager --set-enabled "crb"
   changed_when: false
