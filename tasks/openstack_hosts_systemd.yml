@@ -62,5 +62,6 @@
           {{ key }}={{ value }}
           {% endfor %}
         dest: /etc/systemd/journald.conf.d/99-osa-journal.conf
+        mode: "0644"
       notify:
         - Restart systemd-journald
