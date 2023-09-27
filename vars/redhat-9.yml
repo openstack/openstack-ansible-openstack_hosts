@@ -65,7 +65,6 @@ _openstack_host_metal_distro_packages:
   - libselinux-python3
   - lvm2
   - rsync
-  - rsyslog
   - sysstat
   - sudo
   - time
