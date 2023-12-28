@@ -52,7 +52,6 @@ _openstack_host_distro_packages:
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
   - cronie
-  - /usr/bin/curl
   - device-mapper-event
   - dstat
   - ebtables
