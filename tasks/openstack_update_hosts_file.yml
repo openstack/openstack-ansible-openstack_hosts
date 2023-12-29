@@ -18,7 +18,9 @@
   set_fact:
     _etc_hosts_content: |-
       {% set records = openstack_host_custom_hosts_records %}
-      {% for item in groups['all'] %}
+      {% set _groups = groups['all'] %}
+      {% set _ = _groups.remove('localhost') %}
+      {% for item in _groups %}
       {%   set record = [] %}
       {%   set _target_rfc_name = item|replace('_', '-') %}
       {%   set _ans_hostname = hostvars[item]['ansible_facts']['hostname'] | default(_target_rfc_name) %}
