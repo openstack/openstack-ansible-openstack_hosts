@@ -72,26 +72,22 @@ _openstack_host_metal_distro_packages:
   - vlan
   - wget
 
-_package_repos_keys: []
-## example:
-# - id:
-#   file:
-#   keyserver:
-#   url:
-#   state:
-
 _openstack_hosts_package_list:
+  - name: python3-debian
+    state: present
   - name: ubuntu-cloud-keyring
     state: "{{ openstack_hosts_package_state }}"
   - name: ca-certificates
     state: latest
 
 _package_repos:
-  - repo: >-
-      deb {{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }}
-      {{ ansible_facts['lsb']['codename'] }}-updates/{{ openstack_distrib_code_name | lower }} main
+  - name: "uca"
+    suites: "{{ ansible_facts['distribution_release'] ~ '-updates/' ~ openstack_distrib_code_name | lower }}"
+    uris: "{{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }}"
+    signed_by: /usr/share/keyrings/ubuntu-cloud-keyring.gpg
+    components: main
+    architectures: "{{ ansible_facts['architecture'] }}"
     state: present
-    filename: "uca"
 
 _openstack_ca_bundle_path: /etc/ssl/certs/ca-certificates.crt
 

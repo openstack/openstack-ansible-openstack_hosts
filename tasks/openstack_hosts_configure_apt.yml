@@ -15,29 +15,24 @@
 
 # APT configuration tasks that apply on all nodes.
 
-- name: Install gpg tooling for key management
-  apt:
-    name: gnupg
-    state: "{{ openstack_hosts_package_state }}"
-  register: _install_gpg
-  until: _install_gpg  is success
-  retries: 5
-  delay: 2
+- name: Validate repo config is deb822 format
+  vars:
+    _repo_check: "{{ openstack_hosts_package_repos | selectattr('repo', 'defined') | map(attribute='repo') }}"
+  ansible.builtin.assert:
+    that: _repo_check | length == 0
+    fail_msg: "The following repository definitions must be updated to deb822 format {{ _repo_check }}"
 
-- name: Add/Remove repositories gpg keys manually
-  apt_key:
-    id: "{{ key.id | default(omit) }}"
-    data: "{{ key.data | default(omit) }}"
-    keyserver: "{{ key.keyserver | default(omit) }}"
-    url: "{{ key.url | default(omit) }}"
-    state: "{{ key.state | default('present') }}"
-  with_items: "{{ openstack_hosts_package_repos_keys }}"
-  loop_control:
-    loop_var: key
-  register: _add_apt_keys
-  until: _add_apt_keys  is success
-  retries: 5
-  delay: 2
+# NOTE(jrosser) remove this task for the 2025.2 release
+- name: Clean up legacy repository config not in deb822 format
+  vars:
+    openstack_hosts_apt_repo_cleanup:
+      - uca.list
+      - osbpo.list
+  file:
+    path: "/etc/apt/sources.list.d/{{ item }}"
+    state: absent
+  register: _cleanup_apt_repositories
+  with_items: "{{ openstack_hosts_apt_repo_cleanup }}"
 
 - name: Add requirement packages (repositories gpg keys, toolkits...)
   apt:
@@ -50,23 +45,36 @@
   retries: 5
   delay: 2
 
-# When updating the cache in the apt_repository
-# task, and the update fails, a retry does not
-# detect a change the second attempt and therefore
-# does not update the cache, resulting in a changed
-# repo config, but no updated cache. To work around
-# this bug we implement the change of repo config
-# and the cache update as two separate tasks.
-- name: Add/Remove/Update standard and user defined repositories
-  apt_repository:
-    repo: "{{ repo.repo }}"
-    state: "{{ repo.state | default('present') }}"
-    filename: "{{ repo.filename | default(omit) }}"
-    update_cache: no
+- name: Manage apt repositories
+  vars:
+    # map x86_64 to amd64 handling both a single string and list of architectures
+    _a: "{{ item.architectures }}"
+    _architecture_fixup: "{{ ((_a | d([])) is iterable and (_a | d([])) is not string) | ternary(_a, [_a]) | map('replace', 'x86_64', 'amd64') }}"
+  ansible.builtin.deb822_repository:
+    allow_downgrade_to_insecure: "{{ item.allow_downgrade_to_insecure | default(omit) }}"
+    allow_insecure: "{{ item.allow_insecure | default(omit) }}"
+    allow_weak: "{{ item.allow_weak | default(omit) }}"
+    architectures: "{{ (_architecture_fixup | length > 0) | ternary(_architecture_fixup, omit) }}"
+    by_hash: "{{ item.by_hash | default(omit) }}"
+    check_date: "{{ item.check_date | default(omit) }}"
+    check_valid_until: "{{ item.check_valid_until | default(omit) }}"
+    components: "{{ item.components | default(omit) }}"
+    date_max_future: "{{ item.date_max_future | default(omit) }}"
+    enabled: "{{ item.enabled | default(omit) }}"
+    inrelease_path: "{{ item.inrelease_path | default(omit) }}"
+    languages: "{{ item.languages | default(omit) }}"
+    mode: "{{ item.mode | default(omit) }}"
+    name: "{{ item.name }}"
+    pdiffs: "{{ item.pdiffs | default(omit) }}"
+    signed_by: "{{ item.signed_by | default(omit) }}"
+    state: "{{ item.state | default(omit) }}"
+    suites: "{{ item.suites | default(omit) }}"
+    targets: "{{ item.targets | default(omit) }}"
+    trusted: "{{ item.trusted | default(omit) }}"
+    types: "{{ item.types | default(omit) }}"
+    uris: "{{ item.uris | default(omit) }}"
   with_items: "{{ openstack_hosts_package_repos }}"
-  loop_control:
-    loop_var: repo
-  register: _adding_apt_repo
+  register: _manage_apt_repositories
 
 - name: Add apt extra conf
   copy:
@@ -80,7 +88,7 @@
   apt:
     update_cache: yes
   when:
-    - _adding_apt_repo is changed
+    - (_manage_apt_repositories is changed) or (_cleanup_apt_repositories is changed)
   register: _update_apt_cache
   until: _update_apt_cache  is success
   changed_when: false
