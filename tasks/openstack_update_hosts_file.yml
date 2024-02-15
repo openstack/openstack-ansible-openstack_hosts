@@ -17,7 +17,7 @@
   run_once: true
   set_fact:
     _etc_hosts_content: |-
-      {% set records = openstack_host_custom_hosts_records %}
+      {% set records = [] %}
       {% set _groups = groups['all'] %}
       {% set _ = _groups.remove('localhost') %}
       {% for item in _groups %}
@@ -42,7 +42,7 @@
 - name: Update hosts file
   blockinfile:
     dest: /etc/hosts
-    block: "{{ _etc_hosts_content | join('\n') }}"
+    block: "{{ (_etc_hosts_content + openstack_host_custom_hosts_records) | join('\n') }}"
     marker: "### {mark} OPENSTACK-ANSIBLE MANAGED BLOCK ###"
   when:
     - openstack_host_manage_hosts_file | bool
@@ -50,7 +50,7 @@
 - name: Update hosts file on deploy host
   blockinfile:
     dest: /etc/hosts
-    block: "{{ _etc_hosts_content | join('\n') }}"
+    block: "{{ (_etc_hosts_content + openstack_host_custom_hosts_records) | join('\n') }}"
     marker: "### {mark} OPENSTACK-ANSIBLE {{ lookup('env', 'OSA_CONFIG_DIR') }} MANAGED BLOCK ###"
   run_once: True
   delegate_to: localhost
