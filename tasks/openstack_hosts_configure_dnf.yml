@@ -119,7 +119,7 @@
 - name: Install centos-release-openstack package for cloudsig based installation
   package:
     name:
-      - centos-release-openstack-{{ openstack_distrib_code_name }}
+      - centos-release-openstack-{{ openstack_distrib_code_name | lower }}
   when:
     - (install_method | default('source')) == 'distro'
     - openstack_hosts_rdo_repo_type == 'cloudsig'
