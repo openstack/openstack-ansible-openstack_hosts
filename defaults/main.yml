@@ -198,6 +198,10 @@ openstack_hosts_apt_pinned_packages:
   - package: "src:ceph"
     origin: "ubuntu-cloud.archive.canonical.com"
     priority: 400
+  # NOTE(noonedeadpunk): Remove once https://bugs.launchpad.net/cloud-archive/+bug/2064798 sorted out
+  - package: "python3-pluggy"
+    release: Canonical,n={{ ansible_facts['lsb']['codename'] }}-updates/{{ openstack_distrib_code_name | lower }}
+    priority: 400
 
 # Define extra systemd services/networks/mounts
 openstack_hosts_systemd_mounts: []
