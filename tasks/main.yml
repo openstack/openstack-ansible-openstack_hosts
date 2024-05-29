@@ -163,7 +163,6 @@
     apply:
       tags:
         - openstack_hosts-config
-  when: ansible_facts['hostname'] != 'aio1'
 
 - include_tasks: openstack_hosts_systemd.yml
   args:
