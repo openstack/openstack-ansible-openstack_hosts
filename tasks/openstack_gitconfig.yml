@@ -29,6 +29,16 @@
     value: "{{ 'git/' ~ _git_version.stdout.split(' ')[2] ~ ' (osa/' ~ lookup('env', 'OSA_VERSION') ~ '/' ~ component | default('undefined') ~ ')' }}"
   when: _git_version.rc == 0
 
+- name: Configure git safe directories
+  git_config:
+    scope: system
+    name: safe.directory
+    value: "{{ item }}"
+  with_items: "{{ openstack_hosts_git_safe_directories }}"
+  when:
+    - _git_version.rc == 0
+    - openstack_hosts_git_safe_directories is defined
+
 - name: Write git config when git is not installed
   template:
     src: gitconfig.j2

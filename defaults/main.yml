@@ -193,3 +193,6 @@ openstack_hosts_apt_pinned_packages:
   - package: "src:ceph"
     origin: "ubuntu-cloud.archive.canonical.com"
     priority: 400
+
+openstack_hosts_git_safe_directories:
+  - "*"

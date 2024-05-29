@@ -31,6 +31,10 @@
             voting: false
         - openstack-ansible-deploy-hosts_distro_lxc-centos-9-stream:
             voting: false
+        - openstack-ansible-upgrade-infra_lxc-rockylinux-9:
+            voting: false
+        - openstack-ansible-upgrade-infra_lxc-ubuntu-focal:
+            voting: false
     gate:
       jobs:
         - openstack-ansible-deploy-hosts_metal-centos-9-stream:
@@ -38,4 +42,8 @@
         - openstack-ansible-deploy-hosts_metal-rockylinux-9:
             voting: false
         - openstack-ansible-deploy-hosts_distro_lxc-centos-9-stream:
+            voting: false
+        - openstack-ansible-upgrade-infra_lxc-rockylinux-9:
+            voting: false
+        - openstack-ansible-upgrade-infra_lxc-ubuntu-focal:
             voting: false
