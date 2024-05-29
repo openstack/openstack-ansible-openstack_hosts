@@ -163,4 +163,3 @@
     apply:
       tags:
         - openstack_hosts-config
-  when: ansible_facts['hostname'] != 'aio1'
