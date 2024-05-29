@@ -208,3 +208,6 @@ openstack_hosts_systemd_networkd_networks: []
 openstack_hosts_systemd_networkd_prefix: openstack-net
 openstack_hosts_systemd_services: []
 openstack_hosts_systemd_slice: "openstack-hosts"
+
+openstack_hosts_git_safe_directories:
+  - "*"
