@@ -4,6 +4,6 @@
 {% if openstack_hosts_git_safe_directories is defined %}
 [safe]
 {% for dir in openstack_hosts_git_safe_directories %}
-       directory {{ dir }}
+       directory = {{ dir }}
 {% endfor %}
 {% endif %}
