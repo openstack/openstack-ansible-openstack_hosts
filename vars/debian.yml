@@ -47,6 +47,7 @@ openstack_host_kernel_modules:
 ## Base packages
 _openstack_host_distro_packages:
   - acl
+  - python3-packaging
 
 ## Bare metal base packages
 _openstack_host_metal_distro_packages:
