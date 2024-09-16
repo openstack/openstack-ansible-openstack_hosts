@@ -48,6 +48,7 @@ openstack_host_kernel_modules:
 _openstack_host_distro_packages:
   - python3-devel
   - python3-six
+  - libselinux-python3
   - python3-packaging
   - acl
 
