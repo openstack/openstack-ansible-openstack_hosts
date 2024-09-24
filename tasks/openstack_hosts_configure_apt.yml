@@ -15,6 +15,14 @@
 
 # APT configuration tasks that apply on all nodes.
 
+- name: Ensure /etc/apt/sources.list.d exists
+  file:
+    path: /etc/apt/sources.list.d
+    state: directory
+    owner: root
+    group: root
+    mode: '0755'
+
 - name: Validate repo config is deb822 format
   vars:
     _repo_check: "{{ openstack_hosts_package_repos | selectattr('repo', 'defined') | map(attribute='repo') }}"
