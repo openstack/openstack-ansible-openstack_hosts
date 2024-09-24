@@ -74,6 +74,14 @@ openstack_hosts_package_vendors: "{{ (_package_vendors | default([])) + (user_ex
 # named user_external_repo_keys_list and the standard defaults _package_repos_keys
 openstack_hosts_package_repos_keys: "{{ _package_repos_keys + (user_external_repo_keys_list | default([])) }}"
 
+# Mappings from Ansible reported architecture to distro release architecture
+openstack_architecture_mapping:
+  x86_64: amd64
+  ppc64le: ppc64el
+  s390x: s390x
+  armv7l: armhf
+  aarch64: arm64
+
 # The following garbage collection values are set to better support lots of neutron networks/routers.
 #  Used for setting the net.ipv4/6.neigh.default.gc_thresh* values. This assumes that facts were
 #  gathered to obtain the total amount of memory available on a given host. If no facts are gathered

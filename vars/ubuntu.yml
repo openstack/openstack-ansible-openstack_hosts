@@ -90,7 +90,7 @@ _package_repos:
     uris: "{{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }}"
     signed_by: /usr/share/keyrings/ubuntu-cloud-keyring.gpg
     components: main
-    architectures: "{{ ansible_facts['architecture'] }}"
+    architectures: "{{ openstack_architecture_mapping.get(ansible_facts['architecture']) }}"
     state: present
 
 _openstack_ca_bundle_path: /etc/ssl/certs/ca-certificates.crt
