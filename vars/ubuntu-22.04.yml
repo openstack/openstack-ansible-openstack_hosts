@@ -82,7 +82,7 @@ _openstack_hosts_package_list:
 
 _package_repos:
   - name: "uca"
-    suites: "{{ ansible_facts['distribution_release'] ~ '-updates/' ~ openstack_distrib_code_name | lower }}"
+    suites: "{{ ansible_facts['distribution_release'] ~ '-updates/caracal' }}"
     uris: "{{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }}"
     signed_by: /usr/share/keyrings/ubuntu-cloud-keyring.gpg
     components: main
