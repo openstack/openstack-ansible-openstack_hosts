@@ -85,7 +85,7 @@ _package_repos:
       - "{{ ansible_facts['distribution_release'] ~ '-' ~ _osbpo_release ~ '-backports-nochange' }}"
       - "{{ ansible_facts['distribution_release'] ~ '-' ~ _osbpo_release ~ '-backports' }}"
     uris: "{{ apt_repo_url | default('http://osbpo.debian.net/osbpo') }}"
-    signed_by: http://osbpo.debian.net/osbpo/dists/pubkey.gpg
+    signed_by: "{{ lookup('file', 'gpg/FEE4EECB') }}"
     components: main
     architectures: "{{ ansible_facts['architecture'] }}"
     state: present
