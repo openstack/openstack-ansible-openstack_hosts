@@ -75,8 +75,6 @@ _openstack_host_metal_distro_packages:
 _openstack_hosts_package_list:
   - name: python3-debian
     state: present
-  - name: ubuntu-cloud-keyring
-    state: "{{ openstack_hosts_package_state }}"
   - name: ca-certificates
     state: latest
 
@@ -88,7 +86,7 @@ _package_repos:
           (ansible_facts['distribution_version'] is version('22.04', '>')) | ternary(openstack_distrib_code_name | lower, 'caracal')
       }}
     uris: "{{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }}"
-    signed_by: /usr/share/keyrings/ubuntu-cloud-keyring.gpg
+    signed_by: "{{ lookup('file', 'gpg/EC4926EA') }}"
     components: main
     architectures: "{{ openstack_architecture_mapping.get(ansible_facts['architecture']) }}"
     state: present
