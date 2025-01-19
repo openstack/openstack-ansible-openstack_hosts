@@ -227,3 +227,5 @@ openstack_hosts_systemd_slice: "openstack-hosts"
 # and referenced using the file:// method.
 # openstack_hosts_git_safe_directories:
 #   - "*"
+
+openstack_hosts_sysctl_file: "{{ openstack_sysctl_file | default('/etc/sysctl.conf') }}"

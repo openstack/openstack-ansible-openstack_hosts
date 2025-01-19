@@ -122,6 +122,7 @@
     name: "net.ipv4.tcp_retries2"
     value: "{{ keepalived_sysctl_tcp_retries | default(8) }}"
     sysctl_set: yes
+    sysctl_file: "{{ openstack_hosts_sysctl_file }}"
     state: "{{ (keepalived_sysctl_tcp_retries | default(8) > 0) | ternary('present', 'absent') }}"
     reload: yes
   failed_when: false
