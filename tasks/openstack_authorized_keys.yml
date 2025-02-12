@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Ensure ssh directory
-  file:
+  ansible.builtin.file:
     path: "{{ ansible_facts['env']['HOME'] }}/.ssh"
     state: "directory"
     group: "{{ ansible_facts['user_id'] }}"
@@ -22,7 +22,7 @@
     mode: "0700"
 
 - name: Update SSH keys
-  authorized_key:
+  ansible.posix.authorized_key:
     user: "{{ ansible_facts['user'] }}"
     state: present
     key: "{{ item }}"

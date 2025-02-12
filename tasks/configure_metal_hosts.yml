@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Check Kernel Version
-  fail:
+  ansible.builtin.fail:
     msg: >
       Wrong kernel Version found
       [ {{ ansible_facts['kernel'] }} < {{ openstack_host_required_kernel }} ]
@@ -23,7 +23,7 @@
     - ansible_facts['kernel'] is version(openstack_host_required_kernel, '<')
 
 - name: Install distro packages for bare metal nodes
-  package:
+  ansible.builtin.package:
     name: "{{ openstack_host_metal_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
   register: install_packages
@@ -32,7 +32,7 @@
   delay: 2
 
 - name: Install user defined extra distro packages for bare metal nodes
-  package:
+  ansible.builtin.package:
     name: "{{ openstack_host_extra_metal_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
   when:
@@ -43,14 +43,14 @@
   delay: 2
 
 - name: Check how kernel modules are implemented (statically builtin, dynamic, not set)
-  slurp:
+  ansible.builtin.slurp:
     src: "/boot/config-{{ ansible_facts['kernel'] }}"
   register: modules
   when:
     - openstack_host_specific_kernel_modules | length > 0
 
 - name: Fail fast if we can't load a module
-  fail:
+  ansible.builtin.fail:
     msg: "{{ item.pattern }} is not set"
   with_items: "{{ openstack_host_specific_kernel_modules }}"
   when:
@@ -58,7 +58,7 @@
     - (modules.content | b64decode).find(item.pattern + ' is not set') != -1
 
 - name: "Load kernel module(s)"
-  modprobe:
+  community.general.modprobe:
     name: "{{ item.name }}"
   with_items: "{{ openstack_host_kernel_modules + openstack_host_specific_kernel_modules }}"
   when:
@@ -66,13 +66,13 @@
     - item.pattern is undefined or (item.pattern is defined and (modules.content | b64decode).find(item.pattern + '=m') != -1)
 
 - name: Write list of modules to load at boot
-  template:
+  ansible.builtin.template:
     src: modprobe.conf.j2
     dest: "{{ openstack_host_module_file }}"
     mode: "0644"
 
 - name: Adding new system tuning
-  sysctl:
+  ansible.posix.sysctl:
     name: "{{ item.key }}"
     value: "{{ item.value }}"
     sysctl_set: "{{ item.set | default('yes') }}"
@@ -83,12 +83,12 @@
   failed_when: false
 
 - name: Configure sysstat
-  include_tasks: openstack_sysstat.yml
+  ansible.builtin.include_tasks: openstack_sysstat.yml
   when:
     - openstack_host_sysstat_enabled | bool
 
 - name: Create a directory to hold systemd journals on disk
-  file:
+  ansible.builtin.file:
     path: /var/log/journal
     state: directory
     owner: root

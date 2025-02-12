@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Gather variables for each operating system
-  include_vars: "{{ lookup('first_found', params) }}"
+  ansible.builtin.include_vars: "{{ lookup('first_found', params) }}"
   vars:
     params:
       files:
@@ -29,7 +29,7 @@
     - always
 
 - name: Allow the usage of local facts
-  file:
+  ansible.builtin.file:
     path: /etc/ansible/facts.d/
     state: directory
     mode: "0755"
@@ -38,13 +38,13 @@
 
 # Deploy the release file everywhere
 - name: Importing openstack_release tasks
-  import_tasks: openstack_release.yml
+  ansible.builtin.import_tasks: openstack_release.yml
   tags:
     - openstack_hosts-install
 
 # Proxy configuration applies to all nodes
 - name: Add global_environment_variables to environment file
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: "/etc/environment"
     state: present
     marker: "# {mark} Managed by OpenStack-Ansible"
@@ -54,7 +54,7 @@
     - openstack_hosts-config
 
 - name: Ensure environement is applied during sudo
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/pam.d/sudo
     line: "session    required   pam_env.so readenv=1 user_readenv=0"
     regexp: "session\\s+required\\s+pam_env\\.so"
@@ -62,7 +62,7 @@
   when: ansible_facts['distribution'] | lower == 'debian'
 
 - name: Create systemd global directory
-  file:
+  ansible.builtin.file:
     path: /etc/systemd/system.conf.d/
     state: directory
     owner: "root"
@@ -82,7 +82,7 @@
 
 # Configure host files should apply to all nodes
 - name: Configure etc hosts files
-  include_tasks: openstack_update_hosts_file.yml
+  ansible.builtin.include_tasks: openstack_update_hosts_file.yml
   args:
     apply:
       tags:
@@ -94,7 +94,7 @@
     - always
 
 - name: Remove the blacklisted packages
-  package:
+  ansible.builtin.package:
     name: "{{ openstack_hosts_package_list | selectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
     state: absent
 
@@ -103,11 +103,11 @@
 # It is also used for installing common packages to
 # all nodes
 - name: Apply package management distro specific configuration
-  include_tasks: "openstack_hosts_configure_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
+  ansible.builtin.include_tasks: "openstack_hosts_configure_{{ ansible_facts['pkg_mgr'] | lower }}.yml"
 
 # Configure bare metal nodes: Kernel, sysctl, sysstat, hosts files, metal packages
 - name: Including configure_metal_hosts tasks
-  include_tasks: configure_metal_hosts.yml
+  ansible.builtin.include_tasks: configure_metal_hosts.yml
   args:
     apply:
       tags:
@@ -118,7 +118,7 @@
     - always
 
 - name: Decreasing tcp_retries2 sysctl
-  sysctl:
+  ansible.posix.sysctl:
     name: "net.ipv4.tcp_retries2"
     value: "{{ keepalived_sysctl_tcp_retries | default(8) }}"
     sysctl_set: true
@@ -128,7 +128,7 @@
   failed_when: false
 
 - name: Install distro packages
-  package:
+  ansible.builtin.package:
     name: "{{ openstack_host_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
   when:
@@ -139,7 +139,7 @@
   delay: 2
 
 - name: Install user defined extra distro packages
-  package:
+  ansible.builtin.package:
     name: "{{ openstack_host_extra_distro_packages }}"
     state: "{{ openstack_hosts_package_state }}"
   when:
@@ -150,12 +150,12 @@
   delay: 2
 
 - name: Importing openstack_authorized_keys tasks
-  import_tasks: openstack_authorized_keys.yml
+  ansible.builtin.import_tasks: openstack_authorized_keys.yml
   tags:
     - openstack_hosts-config
 
 - name: Including PKI role
-  include_role:
+  ansible.builtin.include_role:
     name: pki
     tasks_from: main_ca_install.yml
   vars:
@@ -165,14 +165,14 @@
     - always
 
 - name: Including openstack_gitconfig tasks
-  include_tasks: openstack_gitconfig.yml
+  ansible.builtin.include_tasks: openstack_gitconfig.yml
   args:
     apply:
       tags:
         - openstack_hosts-config
 
 - name: Including openstack_hosts_systemd tasks
-  include_tasks: openstack_hosts_systemd.yml
+  ansible.builtin.include_tasks: openstack_hosts_systemd.yml
   args:
     apply:
       tags:
