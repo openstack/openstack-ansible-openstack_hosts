@@ -21,7 +21,7 @@ openstack_distrib_id: "OSA"
 openstack_distrib_release: "{{ openstack_release | default('master') }}"
 openstack_distrib_code_name: "Dalmatian"
 openstack_distrib_description: "OpenStack-Ansible"
-openstack_distrib_file: yes
+openstack_distrib_file: true
 openstack_distrib_file_path: "/etc/openstack-release"
 
 openstack_host_sysstat_enabled: true
@@ -115,32 +115,32 @@ openstack_host_nf_conntrack_max: 262144
 
 # System control kernel tuning
 openstack_kernel_options:
-  - { key: 'fs.inotify.max_user_watches', value: 1048576 }
-  - { key: 'net.ipv4.conf.all.rp_filter', value: "{{ openstack_host_rp_filter_all }}" }
-  - { key: 'net.ipv4.conf.default.rp_filter', value: "{{ openstack_host_rp_filter_default }}" }
-  - { key: 'net.ipv4.ip_forward', value: 1 }
-  - { key: 'net.netfilter.nf_conntrack_max', value: "{{ openstack_host_nf_conntrack_max }}" }
-  - { key: 'vm.dirty_background_ratio', value: 5 }
-  - { key: 'vm.dirty_ratio', value: 10 }
-  - { key: 'vm.swappiness', value: 5 }
-  - { key: 'net.bridge.bridge-nf-call-ip6tables', value: 1 }
-  - { key: 'net.bridge.bridge-nf-call-iptables', value: 1 }
-  - { key: 'net.bridge.bridge-nf-call-arptables', value: 1 }
-  - { key: 'net.ipv4.igmp_max_memberships', value: 1024 }
-  - { key: 'net.ipv4.neigh.default.gc_thresh1', value: "{{ set_gc_val | int // 2 }}" }
-  - { key: 'net.ipv4.neigh.default.gc_thresh2', value: "{{ set_gc_val | int }}" }
-  - { key: 'net.ipv4.neigh.default.gc_thresh3', value: "{{ set_gc_val | int * 2 }}" }
-  - { key: 'net.ipv4.route.gc_thresh', value: "{{ set_gc_val | int * 2 }}" }
-  - { key: 'net.ipv4.neigh.default.gc_interval', value: 60 }
-  - { key: 'net.ipv4.neigh.default.gc_stale_time', value: 120 }
-  - { key: 'net.ipv6.neigh.default.gc_thresh1', value: "{{ set_gc_val | int // 2 }}" }
-  - { key: 'net.ipv6.neigh.default.gc_thresh2', value: "{{ set_gc_val | int }}" }
-  - { key: 'net.ipv6.neigh.default.gc_thresh3', value: "{{ set_gc_val | int * 2 }}" }
-  - { key: 'net.ipv6.route.gc_thresh', value: "{{ set_gc_val | int * 2 }}" }
-  - { key: 'net.ipv6.neigh.default.gc_interval', value: 60 }
-  - { key: 'net.ipv6.neigh.default.gc_stale_time', value: 120 }
-  - { key: 'net.ipv6.conf.lo.disable_ipv6', value: 0 }
-  - { key: 'fs.aio-max-nr', value: 131072 }
+  - { key: "fs.inotify.max_user_watches", value: 1048576 }
+  - { key: "net.ipv4.conf.all.rp_filter", value: "{{ openstack_host_rp_filter_all }}" }
+  - { key: "net.ipv4.conf.default.rp_filter", value: "{{ openstack_host_rp_filter_default }}" }
+  - { key: "net.ipv4.ip_forward", value: 1 }
+  - { key: "net.netfilter.nf_conntrack_max", value: "{{ openstack_host_nf_conntrack_max }}" }
+  - { key: "vm.dirty_background_ratio", value: 5 }
+  - { key: "vm.dirty_ratio", value: 10 }
+  - { key: "vm.swappiness", value: 5 }
+  - { key: "net.bridge.bridge-nf-call-ip6tables", value: 1 }
+  - { key: "net.bridge.bridge-nf-call-iptables", value: 1 }
+  - { key: "net.bridge.bridge-nf-call-arptables", value: 1 }
+  - { key: "net.ipv4.igmp_max_memberships", value: 1024 }
+  - { key: "net.ipv4.neigh.default.gc_thresh1", value: "{{ set_gc_val | int // 2 }}" }
+  - { key: "net.ipv4.neigh.default.gc_thresh2", value: "{{ set_gc_val | int }}" }
+  - { key: "net.ipv4.neigh.default.gc_thresh3", value: "{{ set_gc_val | int * 2 }}" }
+  - { key: "net.ipv4.route.gc_thresh", value: "{{ set_gc_val | int * 2 }}" }
+  - { key: "net.ipv4.neigh.default.gc_interval", value: 60 }
+  - { key: "net.ipv4.neigh.default.gc_stale_time", value: 120 }
+  - { key: "net.ipv6.neigh.default.gc_thresh1", value: "{{ set_gc_val | int // 2 }}" }
+  - { key: "net.ipv6.neigh.default.gc_thresh2", value: "{{ set_gc_val | int }}" }
+  - { key: "net.ipv6.neigh.default.gc_thresh3", value: "{{ set_gc_val | int * 2 }}" }
+  - { key: "net.ipv6.route.gc_thresh", value: "{{ set_gc_val | int * 2 }}" }
+  - { key: "net.ipv6.neigh.default.gc_interval", value: 60 }
+  - { key: "net.ipv6.neigh.default.gc_stale_time", value: 120 }
+  - { key: "net.ipv6.conf.lo.disable_ipv6", value: 0 }
+  - { key: "fs.aio-max-nr", value: 131072 }
 
 # Optional user defined list of sysctl options in the same dict item format as
 # above.
@@ -165,7 +165,7 @@ openstack_domain: openstack.local
 global_environment_variables: {}
 
 # Set the default mode for the /etc/cron.d/sysstat file
-openstack_host_sysstat_cron_mode: '0755'
+openstack_host_sysstat_cron_mode: "0755"
 
 ## Default repositories data
 # Set default mirror for CentOS repositories
@@ -173,19 +173,18 @@ openstack_host_sysstat_cron_mode: '0755'
 openstack_hosts_centos_mirror_url: "{{ centos_mirror_url | default('http://mirror.centos.org/centos') }}"
 # openstack_hosts_rdo_repo_type can be trunk or cloudsig
 openstack_hosts_rdo_repo_type: trunk
-openstack_hosts_rdo_mirror_url: 'https://trunk.rdoproject.org'
+openstack_hosts_rdo_mirror_url: "https://trunk.rdoproject.org"
 openstack_hosts_rdo_repo_url: "{{ _openstack_hosts_rdo_repo_url }}"
 openstack_hosts_rdo_deps_url: "{{ _openstack_hosts_rdo_deps_url }}"
 openstack_hosts_power_tool_enable: >-
   {{ ('repo_all' in groups or 'manila_all' in groups or 'gnocchi_all' in groups or install_method | default('source') == 'distro') }}
 
 # Keep a history of systemd journals on disk after reboots
-openstack_host_keep_journals: yes
+openstack_host_keep_journals: true
 # Define arbitrary configration for systemd-journald
 openstack_hosts_journald_config: {}
-
 # Enable/Disable the yum fastestmirror plugin
-openstack_hosts_enable_yum_fastestmirror: yes
+openstack_hosts_enable_yum_fastestmirror: true
 
 # user supplied list of CA certificates to copy to hosts from the deploy host
 # example:
@@ -198,7 +197,7 @@ openstack_ca_bundle_path: "{{ _openstack_ca_bundle_path }}"
 
 # extra configuration for OS package manager
 openstack_hosts_package_manager_default_conf: "{{ _openstack_hosts_package_manager_default_conf | default('') }}"
-openstack_hosts_package_manager_extra_conf: ''
+openstack_hosts_package_manager_extra_conf: ""
 
 # apt pins to apply to all hosts in the deployment
 # the default is to make ceph packages from UCA lower priority than those from the ubuntu distro repo

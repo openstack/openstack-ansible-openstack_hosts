@@ -52,8 +52,8 @@
     dest: /etc/hosts
     block: "{{ (_etc_hosts_content + openstack_host_custom_hosts_records) | join('\n') }}"
     marker: "### {mark} OPENSTACK-ANSIBLE {{ lookup('env', 'OSA_CONFIG_DIR') }} MANAGED BLOCK ###"
-  run_once: True
+  run_once: true
   delegate_to: localhost
-  become: True
+  become: true
   when:
     - openstack_host_manage_deploy_hosts_file | bool

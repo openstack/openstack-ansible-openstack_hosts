@@ -23,7 +23,7 @@
   service:
     name: systemd-journald
     state: restarted
-    enabled: yes
+    enabled: true
   register: _restart
   until: _restart  is success
   retries: 5
@@ -31,4 +31,4 @@
 
 - name: Systemd daemon reload
   systemd:
-    daemon_reload: yes
+    daemon_reload: true

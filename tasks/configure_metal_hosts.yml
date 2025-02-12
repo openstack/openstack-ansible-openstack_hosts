@@ -78,7 +78,7 @@
     sysctl_set: "{{ item.set | default('yes') }}"
     sysctl_file: "{{ openstack_hosts_sysctl_file }}"
     state: "{{ item.state | default('present') }}"
-    reload: no
+    reload: false
   with_items: "{{ openstack_kernel_options + openstack_user_kernel_options }}"
   failed_when: false
 
