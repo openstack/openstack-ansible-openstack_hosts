@@ -57,8 +57,8 @@
   lineinfile:
     path: /etc/pam.d/sudo
     line: "session    required   pam_env.so readenv=1 user_readenv=0"
-    regexp: 'session\s+required\s+pam_env\.so'
-    insertbefore: '^@include'
+    regexp: "session\\s+required\\s+pam_env\\.so"
+    insertbefore: "^@include"
   when: ansible_facts['distribution'] | lower == 'debian'
 
 - name: Create systemd global directory
@@ -121,10 +121,10 @@
   sysctl:
     name: "net.ipv4.tcp_retries2"
     value: "{{ keepalived_sysctl_tcp_retries | default(8) }}"
-    sysctl_set: yes
+    sysctl_set: true
     sysctl_file: "{{ openstack_hosts_sysctl_file }}"
     state: "{{ (keepalived_sysctl_tcp_retries | default(8) > 0) | ternary('present', 'absent') }}"
-    reload: yes
+    reload: true
   failed_when: false
 
 - name: Install distro packages

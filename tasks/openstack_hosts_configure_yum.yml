@@ -24,7 +24,7 @@
     section: main
     option: enabled
     value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('1', '0') }}"
-    no_extra_spaces: yes
+    no_extra_spaces: true
     mode: "0644"
   when:
     - fastestmirror_plugin_check.stat.exists
@@ -44,7 +44,7 @@
   copy:
     src: "{{ item.keyfile }}"
     dest: "{{ item.key }}"
-    mode: '0644'
+    mode: "0644"
   with_items: "{{ openstack_hosts_package_repos_keys | selectattr('keyfile', 'defined') | list }}"
 
 - name: Ensure GPG keys have the correct SELinux contexts applied
@@ -96,7 +96,7 @@
     block: "{{ openstack_hosts_package_manager_default_conf + openstack_hosts_package_manager_extra_conf }}"
     path: /etc/yum.conf
     marker: "# {mark} OPENSTACK-ANSIBLE-OPENSTACK_HOSTS MANAGED BLOCK"
-    create: yes
+    create: true
     mode: "0644"
   when:
     - openstack_hosts_package_manager_extra_conf | length > 0 or openstack_hosts_package_manager_default_conf | length > 0
