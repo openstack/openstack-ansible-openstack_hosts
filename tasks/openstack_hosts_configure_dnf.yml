@@ -14,12 +14,12 @@
 # limitations under the License.
 
 - name: Check to see if yum's fastestmirror plugin is present
-  stat:
+  ansible.builtin.stat:
     path: /etc/yum/pluginconf.d/fastestmirror.conf
   register: fastestmirror_plugin_check
 
 - name: Configure yum's fastestmirror plugin
-  ini_file:
+  community.general.ini_file:
     path: /etc/yum/pluginconf.d/fastestmirror.conf
     section: main
     option: enabled
@@ -30,7 +30,7 @@
     - fastestmirror_plugin_check.stat.exists
 
 - name: Disable requiretty for root sudo on centos
-  template:
+  ansible.builtin.template:
     dest: /etc/sudoers.d/openstack-ansible
     owner: root
     group: root
@@ -41,20 +41,19 @@
 # KeyID 764429E6 from https://raw.githubusercontent.com/rdo-infra/centos-release-openstack/ocata-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
 # KeyID 61E8806C from keyserver for rdo-qemu-ev
 - name: If a keyfile is provided, copy the gpg keyfile to the key location
-  copy:
+  ansible.builtin.copy:
     src: "{{ item.keyfile }}"
     dest: "{{ item.key }}"
     mode: "0644"
   with_items: "{{ openstack_hosts_package_repos_keys | selectattr('keyfile', 'defined') | list }}"
 
 - name: Ensure GPG keys have the correct SELinux contexts applied
-  command: restorecon -Rv /etc/pki/rpm-gpg/
-  # TODO(evrardjp): Be more idempotent
+  ansible.builtin.command: restorecon -Rv /etc/pki/rpm-gpg/
   changed_when: false
 
 # Handle gpg keys manually
 - name: Install gpg keys
-  rpm_key:
+  ansible.builtin.rpm_key:
     key: "{{ key.key }}"
     validate_certs: "{{ key.validate_certs | default(omit) }}"
     state: "{{ key.state | default('present') }}"
@@ -67,12 +66,12 @@
   delay: 2
 
 - name: Add requirement packages (repositories gpg keys packages, toolkits...)
-  package:
+  ansible.builtin.package:
     name: "{{ openstack_hosts_package_list | rejectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
     state: "{{ openstack_hosts_package_state }}"
 
 - name: Add yum repositories if they do not exist
-  yum_repository:
+  ansible.builtin.yum_repository:
     name: "{{ repo.name }}"
     file: "{{ repo.file | default(omit) }}"
     description: "{{ repo.description | default(omit) }}"
@@ -94,7 +93,7 @@
   delay: 2
 
 - name: Add dnf extra conf
-  blockinfile:
+  ansible.builtin.blockinfile:
     block: "{{ openstack_hosts_package_manager_default_conf + openstack_hosts_package_manager_extra_conf }}"
     path: /etc/dnf/dnf.conf
     marker: "# {mark} OPENSTACK-ANSIBLE-OPENSTACK_HOSTS MANAGED BLOCK"
@@ -104,7 +103,7 @@
     - openstack_hosts_package_manager_extra_conf | length > 0 or openstack_hosts_package_manager_default_conf | length > 0
 
 - name: Add rdo repositories via url for trunk based installation
-  get_url:
+  ansible.builtin.get_url:
     url: "{{ openstack_hosts_rdo_repo_url }}/delorean.repo"
     dest: /etc/yum.repos.d/rdo.repo
     mode: "0640"
@@ -117,7 +116,7 @@
     - openstack_hosts_rdo_repo_type == 'trunk'
 
 - name: Install centos-release-openstack package for cloudsig based installation
-  package:
+  ansible.builtin.package:
     name:
       - centos-release-openstack-{{ openstack_distrib_code_name | lower }}
   when:
@@ -125,14 +124,14 @@
     - openstack_hosts_rdo_repo_type == 'cloudsig'
 
 - name: Enable CodeReadyBuilder repository
-  command: dnf config-manager --set-enabled "crb"
+  ansible.builtin.command: dnf config-manager --set-enabled "crb"
   changed_when: false
   when:
     - openstack_hosts_power_tool_enable | bool
     - ansible_facts['distribution_major_version'] == "9"
 
 - name: Create SSL certificate and key directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.path }}"
     state: directory
     owner: "{{ item.owner | default(root) }}"
@@ -143,7 +142,7 @@
     - { path: "/etc/pki/tls/private", owner: "root", group: "root" }
 
 - name: Create SSL certificate and key directory symlinks
-  file:
+  ansible.builtin.file:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     state: "link"

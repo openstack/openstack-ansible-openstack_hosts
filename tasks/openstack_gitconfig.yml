@@ -23,14 +23,14 @@
     - skip_ansible_lint
 
 - name: Write git config when git is installed
-  git_config:
+  community.general.git_config:
     scope: system
     name: http.https://opendev.org/.userAgent
     value: "{{ 'git/' ~ _git_version.stdout.split(' ')[2] ~ ' (osa/' ~ lookup('env', 'OSA_VERSION') ~ '/' ~ component | default('undefined') ~ ')' }}"
   when: _git_version.rc == 0
 
 - name: Configure git safe directories
-  git_config:
+  community.general.git_config:
     scope: system
     name: safe.directory
     value: "{{ item }}"
@@ -40,7 +40,7 @@
     - openstack_hosts_git_safe_directories is defined
 
 - name: Write git config when git is not installed
-  template:
+  ansible.builtin.template:
     src: gitconfig.j2
     dest: /etc/gitconfig
     mode: "0644"

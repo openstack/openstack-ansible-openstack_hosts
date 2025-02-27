@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Drop openstack release file
-  template:
+  ansible.builtin.template:
     src: "openstack-release.j2"
     dest: "{{ openstack_distrib_file_path }}"
     owner: "root"
@@ -24,7 +24,7 @@
     - openstack_distrib_file | bool
 
 - name: Remove legacy openstack release file
-  file:
+  ansible.builtin.file:
     path: "{{ openstack_distrib_file_path }}"
     state: absent
   when:

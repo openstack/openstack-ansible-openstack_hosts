@@ -14,7 +14,7 @@
 # limitations under the License.
 
 - name: Run the systemd-networkd role
-  include_role:
+  ansible.builtin.include_role:
     name: systemd_networkd
   vars:
     systemd_networkd_prefix: "{{ openstack_hosts_systemd_networkd_prefix }}"
@@ -27,7 +27,7 @@
     - is_metal
 
 - name: Run the systemd-service role
-  include_role:
+  ansible.builtin.include_role:
     name: systemd_service
   vars:
     systemd_slice_name: "{{ openstack_hosts_systemd_slice }}"
@@ -36,7 +36,7 @@
     - openstack_hosts_systemd_services
 
 - name: Run the systemd mount role
-  include_role:
+  ansible.builtin.include_role:
     name: systemd_mount
   vars:
     systemd_mounts: "{{ openstack_hosts_systemd_mounts }}"
@@ -47,7 +47,7 @@
   when: openstack_hosts_journald_config
   block:
     - name: Create /etc/systemd/journald.conf.d directory
-      file:
+      ansible.builtin.file:
         path: /etc/systemd/journald.conf.d
         state: directory
         owner: root
@@ -55,7 +55,7 @@
         mode: "0755"
 
     - name: Define journald configuration
-      copy:
+      ansible.builtin.copy:
         content: |-
           [Journal]
           {% for key, value in openstack_hosts_journald_config.items() %}

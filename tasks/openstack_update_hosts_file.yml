@@ -15,7 +15,7 @@
 
 - name: Generate hosts file records
   run_once: true
-  set_fact:
+  ansible.builtin.set_fact:
     _etc_hosts_content: |-
       {% set records = [] %}
       {% set _groups = groups['all'] %}
@@ -40,7 +40,7 @@
       {{ records }}
 
 - name: Update hosts file
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: /etc/hosts
     block: "{{ (_etc_hosts_content + openstack_host_custom_hosts_records) | join('\n') }}"
     marker: "### {mark} OPENSTACK-ANSIBLE MANAGED BLOCK ###"
@@ -48,7 +48,7 @@
     - openstack_host_manage_hosts_file | bool
 
 - name: Update hosts file on deploy host
-  blockinfile:
+  ansible.builtin.blockinfile:
     dest: /etc/hosts
     block: "{{ (_etc_hosts_content + openstack_host_custom_hosts_records) | join('\n') }}"
     marker: "### {mark} OPENSTACK-ANSIBLE {{ lookup('env', 'OSA_CONFIG_DIR') }} MANAGED BLOCK ###"
