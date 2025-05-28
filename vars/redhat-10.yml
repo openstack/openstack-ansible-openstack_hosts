@@ -14,7 +14,7 @@
 # limitations under the License.
 
 ## Defined required kernel
-openstack_host_required_kernel: 4.18.0
+openstack_host_required_kernel: 6.12.0
 openstack_host_sysstat_file: /etc/sysconfig/sysstat
 openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.redhat.j2
@@ -58,8 +58,10 @@ _openstack_host_metal_distro_packages:
   - dstat
   - ebtables
   - git-core
+  - gnupg2
   - iptables
   - irqbalance
+  - "kernel-modules-extra-{{ ansible_facts['kernel'] }}" # required by iptables/ebtables to avoid kernel upgrade
   - kmod-libs
   - kmod
   - lvm2
@@ -71,10 +73,10 @@ _openstack_host_metal_distro_packages:
   - wget
 
 _package_repos_keys:
-  - name: openstack-queens
+  - name: cloud-sig
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
     keyfile: "gpg/764429E6"
-  - name: rdo-qemu-ev
+  - name: virtualization-sig
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Virtualization-RDO
     keyfile: "gpg/61E8806C"
 
@@ -101,11 +103,6 @@ _package_repos_trunk:
     gpgcheck: false
     module_hotfixes: true
 
-_package_repos: |-
-  {% if openstack_hosts_rdo_repo_type == 'trunk' %}
-  {{ _package_repos_trunk }}
-  {% else %}
-  []
-  {% endif %}
+_package_repos: []
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt
