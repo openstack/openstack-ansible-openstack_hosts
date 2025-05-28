@@ -64,6 +64,7 @@
   when:
     - item.name | length > 0
     - item.pattern is undefined or (item.pattern is defined and (modules.content | b64decode).find(item.pattern + '=m') != -1)
+    - item.condition | default(true)
 
 - name: Write list of modules to load at boot
   ansible.builtin.template:
