@@ -57,7 +57,7 @@ _openstack_host_metal_distro_packages:
   - device-mapper-event
   - dstat
   - ebtables
-  - git
+  - git-core
   - iptables
   - irqbalance
   - kmod-libs

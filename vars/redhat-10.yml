@@ -25,8 +25,18 @@ openstack_host_sysstat_cron_mode: "0600"
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
   - name: 8021q
+  - name: br_netfilter
   - name: dm_multipath
   - name: dm_snapshot
+  - name: ebtables
+  - name: ip6table_filter
+  - name: ip6_tables
+  - name: ip_tables
+  - name: ipt_MASQUERADE
+  - name: ipt_REJECT
+  - name: iptable_filter
+  - name: iptable_mangle
+  - name: iptable_nat
   - name: ip_vs
   - name: iscsi_tcp
   - name: nf_conntrack
@@ -51,6 +61,7 @@ _openstack_host_metal_distro_packages:
   - gnupg2
   - iptables
   - irqbalance
+  - "kernel-modules-extra-{{ ansible_facts['kernel'] }}" # required by iptables/ebtables to avoid kernel upgrade
   - kmod-libs
   - kmod
   - lvm2
