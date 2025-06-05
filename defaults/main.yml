@@ -52,6 +52,9 @@ openstack_host_specific_kernel_modules: []
 # openstack_host_specific_kernel_modules:
 #   - name: "ebtables"
 #     pattern: "CONFIG_BRIDGE_NF_EBTABLES"
+#   - name: vfio-pci
+#     condition: "{{ nova_device_spec is defined and nova_device_spec | length > 0 }}"
+#     params: "ids={% for spec in nova_device_spec | default([]) %}{{ spec.vendor_id }}:{{ spec.product_id }}{% if not loop.last %},{% endif %}{% endfor %}"
 ## Where:
 ## :param name: name of the kernel module
 ## :param pattern: pattern to grep for in /boot/config-$kernel_version to check how module is configured inside kernel

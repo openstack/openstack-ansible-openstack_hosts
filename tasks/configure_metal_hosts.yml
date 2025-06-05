@@ -58,19 +58,34 @@
     - (modules.content | b64decode).find(item.pattern + ' is not set') != -1
 
 - name: "Load kernel module(s)"
+  vars:
+    _kernel_module_state: "{{ (item.condition | default(true)) | ternary('present', 'absent') }}"
   community.general.modprobe:
     name: "{{ item.name }}"
+    state: "{{ _kernel_module_state }}"
+    persistent: "{{ _kernel_module_state }}"
+    params: "{{ item.params | default(omit) }}"
   with_items: "{{ openstack_host_kernel_modules + openstack_host_specific_kernel_modules }}"
   when:
     - item.name | length > 0
     - item.pattern is undefined or (item.pattern is defined and (modules.content | b64decode).find(item.pattern + '=m') != -1)
-    - item.condition | default(true)
 
-- name: Write list of modules to load at boot
-  ansible.builtin.template:
-    src: modprobe.conf.j2
-    dest: "{{ openstack_host_module_file }}"
-    mode: "0644"
+# TODO: Remove after 2026.1 release
+- name: Clean-up ex-default modules location
+  ansible.builtin.lineinfile:
+    path: /etc/modules
+    line: "{{ item.name }}"
+    state: absent
+  loop: "{{ openstack_host_kernel_modules + openstack_host_specific_kernel_modules }}"
+  when:
+    - ansible_facts['os_family'] | lower == 'debian'
+    - item.name | length > 0
+
+# TODO: Remove after 2026.1 release
+- name: Remove ex-default modules location
+  ansible.builtin.file:
+    path: /etc/modules-load.d/openstack-ansible.conf
+    state: absent
 
 - name: Adding new system tuning
   ansible.posix.sysctl:
