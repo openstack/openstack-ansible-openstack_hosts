@@ -18,6 +18,7 @@ openstack_host_required_kernel: 4.18.0
 openstack_host_sysstat_file: /etc/sysconfig/sysstat
 openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.redhat.j2
+_openstack_host_initramfs_command: /bin/dracut -f
 
 openstack_host_sysstat_cron_mode: "0600"
 

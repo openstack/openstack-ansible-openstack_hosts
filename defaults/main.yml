@@ -60,6 +60,12 @@ openstack_host_specific_kernel_modules: []
 ## :param pattern: pattern to grep for in /boot/config-$kernel_version to check how module is configured inside kernel
 ## Our default overrides will be combined with your overrides.
 
+## A simple list of kernel modules to blacklist
+openstack_host_blacklist_kernel_modules: []
+
+# Command to update initramfs
+openstack_host_initramfs_command: "{{ _openstack_host_initramfs_command | default('true') }}"
+
 # Overridable package list is composed of the old override
 # named user_package_list and the standard defaults _openstack_hosts_package_list
 openstack_hosts_package_list: "{{ _openstack_hosts_package_list + (user_package_list | default([])) }}"

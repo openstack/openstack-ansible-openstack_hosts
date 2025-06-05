@@ -13,6 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+- name: Update initramfs  # noqa: no-changed-when
+  ansible.builtin.command: "{{ openstack_host_initramfs_command }}"
+
 - name: Restart sysstat
   ansible.builtin.service:
     name: "sysstat"
