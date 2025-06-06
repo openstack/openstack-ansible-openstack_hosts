@@ -113,6 +113,11 @@
   with_items: "{{ openstack_kernel_options + openstack_user_kernel_options }}"
   failed_when: false
 
+- name: Configure GRUB
+  ansible.builtin.include_tasks: openstack_grub.yml
+  when:
+    - openstack_host_custom_grub_options | length > 0
+
 - name: Configure sysstat
   ansible.builtin.include_tasks: openstack_sysstat.yml
   when:

@@ -19,6 +19,7 @@ openstack_host_sysstat_file: /etc/sysconfig/sysstat
 openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.redhat.j2
 _openstack_host_initramfs_command: /bin/dracut -f
+_openstack_host_update_grub_command: grub2-mkconfig -o /boot/grub2/grub.cfg
 
 openstack_host_sysstat_cron_mode: "0600"
 
