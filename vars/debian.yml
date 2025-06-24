@@ -18,7 +18,6 @@ openstack_host_required_kernel: 4.9.0-0-amd64
 openstack_host_sysstat_file: /etc/default/sysstat
 openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.debian.j2
-openstack_host_module_file: /etc/modules
 
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:
