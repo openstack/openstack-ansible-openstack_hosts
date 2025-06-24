@@ -69,6 +69,21 @@
   when:
     - item.name | length > 0
     - item.pattern is undefined or (item.pattern is defined and (modules.content | b64decode).find(item.pattern + '=m') != -1)
+  notify:
+    - Update initramfs
+
+- name: Blacklist kernel modules
+  ansible.builtin.copy:
+    content: |-
+      {% for module in openstack_host_blacklist_kernel_modules %}
+      blacklist {{ module }}
+      {% endfor %}
+    dest: /etc/modprobe.d/blacklist-openstack-ansible.conf
+    mode: "0644"
+    owner: root
+    group: root
+  notify:
+    - Update initramfs
 
 # TODO: Remove after 2026.1 release
 - name: Clean-up ex-default modules location
