@@ -19,6 +19,7 @@ openstack_host_sysstat_file: /etc/default/sysstat
 openstack_host_sysstat_cron_file: /etc/cron.d/sysstat
 openstack_host_cron_template: sysstat.cron.debian.j2
 _openstack_host_initramfs_command: /usr/sbin/update-initramfs -u
+_openstack_host_update_grub_command: grub-mkconfig -o /boot/grub/grub.cfg
 
 ## Kernel modules loaded on hosts
 openstack_host_kernel_modules:

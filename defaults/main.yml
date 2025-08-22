@@ -66,6 +66,17 @@ openstack_host_blacklist_kernel_modules: []
 # Command to update initramfs
 openstack_host_initramfs_command: "{{ _openstack_host_initramfs_command | default('true') }}"
 
+# Custom options to define in GRUB_CMDLINE_LINUX_DEFAULT
+# openstack_host_custom_grub_options:
+#   - key: hugepagesz
+#     value: 2MB
+#   - key: nomodeset
+#   - key: gfxpayload
+#     value: text
+#     state: absent
+openstack_host_custom_grub_options: {}
+openstack_host_update_grub_command: "{{ _openstack_host_update_grub_command }}"
+
 # Overridable package list is composed of the old override
 # named user_package_list and the standard defaults _openstack_hosts_package_list
 openstack_hosts_package_list: "{{ _openstack_hosts_package_list + (user_package_list | default([])) }}"
