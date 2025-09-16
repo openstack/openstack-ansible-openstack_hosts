@@ -13,23 +13,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-- name: Check to see if yum's fastestmirror plugin is present
-  ansible.builtin.stat:
-    path: /etc/yum/pluginconf.d/fastestmirror.conf
-  register: fastestmirror_plugin_check
-
-- name: Configure yum's fastestmirror plugin
+- name: Configure dnf fastestmirror
   community.general.ini_file:
-    path: /etc/yum/pluginconf.d/fastestmirror.conf
+    path: /etc/dnf/dnf.conf
     section: main
-    option: enabled
-    value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('1', '0') }}"
+    option: fastestmirror
+    value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('True', 'False') }}"
     no_extra_spaces: true
     mode: "0644"
-  when:
-    - fastestmirror_plugin_check.stat.exists
 
-- name: Disable requiretty for root sudo on centos
+- name: Disable requiretty for root sudo on RHEL
   ansible.builtin.template:
     dest: /etc/sudoers.d/openstack-ansible
     owner: root
@@ -61,7 +54,7 @@
   loop_control:
     loop_var: key
   register: _add_yum_keys
-  until: _add_yum_keys  is success
+  until: _add_yum_keys is success
   retries: 5
   delay: 2
 
@@ -70,7 +63,7 @@
     name: "{{ openstack_hosts_package_list | rejectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
     state: "{{ openstack_hosts_package_state }}"
 
-- name: Add yum repositories if they do not exist
+- name: Add dnf repositories if they do not exist
   ansible.builtin.yum_repository:
     name: "{{ repo.name }}"
     file: "{{ repo.file | default(omit) }}"
@@ -88,7 +81,7 @@
   loop_control:
     loop_var: repo
   register: _adding_repo
-  until: _adding_repo  is success
+  until: _adding_repo is success
   retries: 5
   delay: 2
 
@@ -108,7 +101,7 @@
     dest: /etc/yum.repos.d/rdo.repo
     mode: "0640"
   register: _get_repo
-  until: _get_repo  is success
+  until: _get_repo is success
   retries: 5
   delay: 2
   when:
@@ -123,12 +116,12 @@
     - (install_method | default('source')) == 'distro'
     - openstack_hosts_rdo_repo_type == 'cloudsig'
 
-- name: Enable CodeReadyBuilder repository
+- name: Enable CodeReady Builder repository
   ansible.builtin.command: dnf config-manager --set-enabled "crb"
   changed_when: false
   when:
     - openstack_hosts_power_tool_enable | bool
-    - ansible_facts['distribution_major_version'] == "9"
+    - ansible_facts['distribution_major_version'] | int >= 9
 
 - name: Create SSL certificate and key directories
   ansible.builtin.file:
