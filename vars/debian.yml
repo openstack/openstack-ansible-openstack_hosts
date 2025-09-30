@@ -78,7 +78,7 @@ _openstack_hosts_package_list:
   - name: ca-certificates
     state: latest
 
-_osbpo_release: "{{ (ansible_facts['distribution_version'] is version('12', '<')) | ternary('zed', openstack_distrib_code_name | lower) }}"
+_osbpo_release: "{{ (ansible_facts['distribution_version'] is version('13', '<')) | ternary('epoxy', openstack_distrib_code_name | lower) }}"
 
 _package_repos:
   - name: "osbpo"

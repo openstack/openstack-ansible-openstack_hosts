@@ -19,7 +19,7 @@ cache_timeout: 600
 # /etc/openstack-release settings
 openstack_distrib_id: "OSA"
 openstack_distrib_release: "{{ openstack_release | default('master') }}"
-openstack_distrib_code_name: "Epoxy"
+openstack_distrib_code_name: "Flamingo"
 openstack_distrib_description: "OpenStack-Ansible"
 openstack_distrib_file: true
 openstack_distrib_file_path: "/etc/openstack-release"
