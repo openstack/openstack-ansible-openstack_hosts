@@ -65,7 +65,6 @@ _openstack_host_metal_distro_packages:
   - libkmod2
   - lvm2
   - rsync
-  - software-properties-common
   - sysstat
   - sudo
   - time
