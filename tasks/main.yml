@@ -162,6 +162,7 @@
       tags:
         - pki
   vars:
+    pki_authorities: "{{ openstack_pki_authorities | default([]) }}"
     pki_dir: "{{ openstack_pki_dir }}"
     pki_install_ca: "{{ openstack_pki_install_ca | default([]) + openstack_host_ca_certificates }}"
   tags:
