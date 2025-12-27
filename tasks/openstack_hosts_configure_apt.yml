@@ -30,18 +30,6 @@
     that: _repo_check | length == 0
     fail_msg: "The following repository definitions must be updated to deb822 format {{ _repo_check }}"
 
-# NOTE(jrosser) remove this task for the 2025.2 release
-- name: Clean up legacy repository config not in deb822 format
-  vars:
-    openstack_hosts_apt_repo_cleanup:
-      - uca.list
-      - osbpo.list
-  ansible.builtin.file:
-    path: "/etc/apt/sources.list.d/{{ item }}"
-    state: absent
-  register: _cleanup_apt_repositories
-  with_items: "{{ openstack_hosts_apt_repo_cleanup }}"
-
 - name: Add requirement packages (repositories gpg keys, toolkits...)
   ansible.builtin.apt:
     name: "{{ openstack_hosts_package_list | rejectattr('state', 'equalto', 'absent') | map(attribute='name') | list }}"
@@ -99,8 +87,7 @@
 - name: Update Apt cache
   ansible.builtin.apt:
     update_cache: true
-  when:
-    - (_manage_apt_repositories is changed) or (_cleanup_apt_repositories is changed)
+  when: _manage_apt_repositories is changed
   register: _update_apt_cache
   until: _update_apt_cache  is success
   changed_when: false
