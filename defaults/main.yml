@@ -167,6 +167,10 @@ openstack_kernel_options:
 openstack_user_kernel_options: []
 
 # User defined list of extra packages to install on all hosts and containers
+# Example:
+# openstack_host_extra_distro_packages:
+#   - nano
+#   - wget
 openstack_host_extra_distro_packages: []
 
 # Overridable set of packages to install on all hosts and containers.
