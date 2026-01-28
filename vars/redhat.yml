@@ -106,9 +106,10 @@ _package_repos_trunk:
 
 _package_repos: |-
   {% if openstack_hosts_rdo_repo_type == 'trunk' %}
-  {{ _package_repos_trunk }}
+  {%   set repos = _package_repos_trunk %}
   {% else %}
-  []
+  {%   set repos = [] %}
   {% endif %}
+  {{ repos }}
 
 _openstack_ca_bundle_path: /etc/pki/tls/certs/ca-bundle.crt

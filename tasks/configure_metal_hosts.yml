@@ -75,6 +75,7 @@
 - name: Blacklist kernel modules
   ansible.builtin.copy:
     content: |-
+      # Managed with OpenStack-Ansible
       {% for module in openstack_host_blacklist_kernel_modules %}
       blacklist {{ module }}
       {% endfor %}

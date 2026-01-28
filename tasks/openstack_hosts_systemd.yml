@@ -22,9 +22,9 @@
     systemd_netdevs: "{{ openstack_hosts_systemd_networkd_devices }}"
     systemd_networks: "{{ openstack_hosts_systemd_networkd_networks }}"
   when:
-    - openstack_hosts_systemd_networkd_devices
-    - openstack_hosts_systemd_networkd_networks
-    - is_metal
+    - openstack_hosts_systemd_networkd_devices | length > 0
+    - openstack_hosts_systemd_networkd_networks | length > 0
+    - is_metal | bool
 
 - name: Run the systemd-service role
   ansible.builtin.include_role:
@@ -33,7 +33,7 @@
     systemd_slice_name: "{{ openstack_hosts_systemd_slice }}"
     systemd_services: "{{ openstack_hosts_systemd_services }}"
   when:
-    - openstack_hosts_systemd_services
+    - openstack_hosts_systemd_services | length > 0
 
 - name: Run the systemd mount role
   ansible.builtin.include_role:
@@ -41,10 +41,10 @@
   vars:
     systemd_mounts: "{{ openstack_hosts_systemd_mounts }}"
   when:
-    - openstack_hosts_systemd_mounts
+    - openstack_hosts_systemd_mounts | length > 0
 
 - name: Configure systemd-journald
-  when: openstack_hosts_journald_config
+  when: openstack_hosts_journald_config | length > 0
   block:
     - name: Create /etc/systemd/journald.conf.d directory
       ansible.builtin.file:
