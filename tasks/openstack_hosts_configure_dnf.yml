@@ -30,6 +30,11 @@
     mode: "0440"
     src: sudoers.j2
 
+- name: Ensure gnupg2 is installed
+  ansible.builtin.package:
+    name: gnupg2
+    state: present
+
 # Copy all factored-in GPG keys.
 # KeyID 764429E6 from https://raw.githubusercontent.com/rdo-infra/centos-release-openstack/ocata-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
 # KeyID 61E8806C from keyserver for rdo-qemu-ev
