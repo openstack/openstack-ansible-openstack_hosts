@@ -18,7 +18,7 @@
     path: /etc/dnf/dnf.conf
     section: main
     option: fastestmirror
-    value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('True', 'False') }}"
+    value: "{{ (openstack_hosts_enable_yum_fastestmirror | bool) | ternary('true', 'false') }}"
     no_extra_spaces: true
     mode: "0644"
 
@@ -126,7 +126,6 @@
   changed_when: false
   when:
     - openstack_hosts_power_tool_enable | bool
-    - ansible_facts['distribution_major_version'] | int >= 9
 
 - name: Create SSL certificate and key directories
   ansible.builtin.file:
