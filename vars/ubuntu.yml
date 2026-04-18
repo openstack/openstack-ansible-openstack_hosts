@@ -82,14 +82,14 @@ _package_repos:
   - name: "uca"
     suites: >-
       {{
-        ansible_facts['distribution_release'] ~ '-updates/' ~
-          (ansible_facts['distribution_version'] is version('22.04', '>')) | ternary(openstack_distrib_code_name | lower, 'caracal')
+        ansible_facts['distribution_release'] ~ '-updates/' ~ openstack_distrib_code_name | lower
       }}
     uris: "{{ apt_repo_url | default('http://ubuntu-cloud.archive.canonical.com/ubuntu') }}"
     signed_by: "{{ lookup('file', 'gpg/EC4926EA') }}"
     components: main
     architectures: "{{ openstack_architecture_mapping.get(ansible_facts['architecture']) }}"
-    state: present
+    # NOTE: 26.04 contains OpenStack 2026.1 out of the box and UCA for 2026.1 won't be created
+    state: "{{ ansible_facts['distribution_version'] is version('26.04', '!=') | ternary('present', 'absent') }}"
 
 _openstack_ca_bundle_path: /etc/ssl/certs/ca-certificates.crt
 
