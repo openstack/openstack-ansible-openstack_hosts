@@ -42,6 +42,15 @@
   retries: 5
   delay: 2
 
+# NOTE: We unify the used tooling for consistency between distros
+- name: Use sudo.ws by default
+  community.general.alternatives:
+    name: sudo
+    path: /usr/bin/sudo.ws
+  when:
+    - ansible_facts['distribution'] | lower == 'ubuntu'
+    - ansible_facts['distribution_version'] is version('26.04', '>=')
+
 - name: Check how kernel modules are implemented (statically builtin, dynamic, not set)
   ansible.builtin.slurp:
     src: "/boot/config-{{ ansible_facts['kernel'] }}"
