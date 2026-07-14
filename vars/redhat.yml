@@ -72,6 +72,8 @@ _openstack_host_metal_distro_packages:
   - sudo
   - time
   - wget
+  - tar
+  - unzip
 
 _package_repos_keys:
   - name: cloud-sig
