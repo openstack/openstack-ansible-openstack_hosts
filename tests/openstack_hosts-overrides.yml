@@ -12,7 +12,7 @@ openstack_host_extra_metal_distro_packages:
 test_cert_dir: "/tmp/test-ca"
 
 openstack_host_ca_certificates:
-  - name: "TestCA.crt"
+  - name: "TestCA"
     src: "{{ test_cert_dir }}/ca.pem"
 
 openstack_host_specific_kernel_modules:
