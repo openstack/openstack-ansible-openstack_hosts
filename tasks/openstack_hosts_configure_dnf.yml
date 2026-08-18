@@ -35,6 +35,14 @@
     name: gnupg2
     state: present
 
+- name: Ensure Rocky Linux PQC GPG is absent  # noqa: command-instead-of-module
+  ansible.builtin.command: rpm -e gpg-pubkey-2ebba43f-6a7b0932
+  register: _rocky_pqc_gpg
+  failed_when: false
+  changed_when: _rocky_pqc_gpg.rc == 0
+  when:
+    - ansible_facts['distribution'] | lower == 'rocky'
+
 # Copy all factored-in GPG keys.
 # KeyID 764429E6 from https://raw.githubusercontent.com/rdo-infra/centos-release-openstack/ocata-rdo/RPM-GPG-KEY-CentOS-SIG-Cloud
 # KeyID 61E8806C from keyserver for rdo-qemu-ev
