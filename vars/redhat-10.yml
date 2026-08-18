@@ -75,6 +75,10 @@ _openstack_host_metal_distro_packages:
   - unzip
 
 _package_repos_keys:
+  - name: rocky-key
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-Rocky-10
+    keyfile: "gpg/682AE1A9"
+    state: "{{ (ansible_facts['distribution'] | lower == 'rocky') | ternary('present', 'absent') }}"
   - name: cloud-sig
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-SIG-Cloud
     keyfile: "gpg/764429E6"
