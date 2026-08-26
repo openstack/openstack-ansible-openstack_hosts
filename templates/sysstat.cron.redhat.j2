@@ -1,4 +1,4 @@
-# {{ ansible_managed }}
+# {{ openstack_ansible_managed | default('OpenStack-Ansible Managed') }}
 
 # Run system activity accounting tool every 10 minutes
 */{{ openstack_host_sysstat_interval }} * * * * root /usr/lib64/sa/sa1 1 1
